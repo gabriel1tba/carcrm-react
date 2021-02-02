@@ -1,4 +1,4 @@
-const theme = {
+const themeUiConfig = {
   palette: {
     primary: {
       main: '#2196f3',
@@ -19,4 +19,4 @@ const theme = {
 };
 
 // Export module
-export default theme;
+export default themeUiConfig;

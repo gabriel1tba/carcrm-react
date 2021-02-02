@@ -1,9 +1,10 @@
 // Dependencies
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Material-UI Theme Config
-import themeConfig from './styles/themeConfig';
-const theme = createMuiTheme(themeConfig);
+import themeUiConfig from './styles/themeUiConfig';
+const theme = createMuiTheme(themeUiConfig);
 
 // Component
 function App() {
