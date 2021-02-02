@@ -1,5 +1,9 @@
+import { Provider } from 'react-redux';
+
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+import { store } from './store/store';
 
 import Routes from './routes/routes';
 
@@ -8,9 +12,11 @@ const theme = createMuiTheme(themeUiConfig);
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <Routes />
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <Routes />
+      </ThemeProvider>
+    </Provider>
   );
 }
 
