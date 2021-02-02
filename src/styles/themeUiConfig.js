@@ -18,5 +18,4 @@ const themeUiConfig = {
   },
 };
 
-// Export module
 export default themeUiConfig;

@@ -1,12 +1,9 @@
-// Dependencies
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-// Material-UI Theme Config
 import themeUiConfig from './styles/themeUiConfig';
 const theme = createMuiTheme(themeUiConfig);
 
-// Component
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -15,5 +12,4 @@ function App() {
   );
 }
 
-// Export module
 export default App;
