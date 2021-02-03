@@ -1,3 +1,4 @@
 import Loading from './Loading';
+import Notify from './Notify';
 
-export { Loading };
+export { Loading, Notify };
