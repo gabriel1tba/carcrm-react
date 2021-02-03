@@ -7,7 +7,7 @@ import { store } from './store/store';
 
 import Routes from './routes/routes';
 
-import { Loading, Notify, Alert, Confirm } from './components';
+import { Loading, Notify, Alert } from './components';
 
 import themeUiConfig from './styles/themeUiConfig';
 const theme = createMuiTheme(themeUiConfig);
@@ -19,11 +19,7 @@ function App() {
         <Loading />
         <Notify />
         <Alert />
-        <Confirm
-          open={true}
-          onClose={() => console.log('close')}
-          onConfirm={() => console.log('confirm')}
-        />
+
         <Routes />
       </ThemeProvider>
     </Provider>
