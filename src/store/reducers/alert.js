@@ -1,7 +1,7 @@
 import { actionTypes } from '../actions/alert';
 
 const initialState = {
-  open: true,
+  open: false,
   class: 'success',
   time: 3000,
   msg: 'Dados atualizados',

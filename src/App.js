@@ -7,7 +7,7 @@ import { store } from './store/store';
 
 import Routes from './routes/routes';
 
-import { Loading, Notify } from './components';
+import { Loading, Notify, Alert } from './components';
 
 import themeUiConfig from './styles/themeUiConfig';
 const theme = createMuiTheme(themeUiConfig);
@@ -18,6 +18,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <Loading />
         <Notify />
+        <Alert />
         <Routes />
       </ThemeProvider>
     </Provider>
