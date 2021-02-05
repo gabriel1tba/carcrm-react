@@ -1,13 +1,16 @@
 import { actionsTypes } from '../actions/auth';
 
 const initialState = {
-  credentials: {},
+  credentials: {
+    email: '',
+    password: '',
+  },
   success: false,
 };
 
 function authReducer(state = initialState, { type, payload }) {
   switch (type) {
-    case actionsTypes.CLEAR:
+    case actionsTypes.EDIT:
       return {
         ...state,
         credentials: {

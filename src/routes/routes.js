@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import { CircularProgress } from '@material-ui/core';
 
+import Auth from '../auth';
+
 function Routes() {
   return (
     <Router>
@@ -14,7 +16,9 @@ function Routes() {
         }
       >
         <Switch>
-          <Route path="/" exact component={() => <h1>Home</h1>} />
+          <Route exact path="/" component={Auth} />
+          <Route path="/login" component={Auth} />
+          <Route path="/vehicles" component={() => <h1>Veículos</h1>} />
         </Switch>
       </Suspense>
     </Router>

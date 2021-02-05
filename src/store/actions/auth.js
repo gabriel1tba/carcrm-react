@@ -3,12 +3,12 @@ import { showLoading } from '../actions/loading';
 import { showNotify } from '../actions/notify';
 
 export const actionsTypes = {
-  CLEAR: 'AUTH_CLEAR',
+  EDIT: 'AUTH_EDIT',
   SUCCESS: 'AUTH_SUCCESS',
 };
 
-export const clearAuth = (payload) => ({
-  type: actionsTypes.CLEAR,
+export const editAuth = (payload) => ({
+  type: actionsTypes.EDIT,
   payload,
 });
 
@@ -21,7 +21,7 @@ export const setUserToken = (token) => (dispatch) => {
   localStorage.setItem('@CARCRM:Token', token);
 
   dispatch(
-    clearAuth({
+    editAuth({
       email: '',
       password: '',
     })
