@@ -2,7 +2,7 @@ import { HTTP } from '../../config/http';
 import { showLoading } from './loading';
 import { showNotify } from './notify';
 
-const actionTypes = {
+export const actionTypes = {
   EDIT: 'REGISTER_EDIT',
   ERROR: 'REGISTER_ERROR',
   SUCCESS: 'REGISTER_SUCCESS',
