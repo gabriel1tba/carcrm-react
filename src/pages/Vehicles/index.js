@@ -1,5 +1,7 @@
+import { Header } from '../../components/index';
+
 function Vehicles() {
-  return <div></div>;
+  return <Header />;
 }
 
 export default Vehicles;
