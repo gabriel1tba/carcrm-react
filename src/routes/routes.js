@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import { CircularProgress } from '@material-ui/core';
 
-const Auth = lazy(() => import('../auth'));
-const Register = lazy(() => import('../components/Register'));
+const Auth = lazy(() => import('../pages/Auth'));
+const Register = lazy(() => import('../pages/Register'));
 
 function Routes() {
   return (

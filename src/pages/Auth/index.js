@@ -1,9 +1,9 @@
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Typography, TextField, Button } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
-import { editAuth, login } from '../store/actions/auth';
+import { editAuth, login } from '../../store/actions/auth';
 
-import logoImg from '../assets/logo.png';
+import logoImg from '../../assets/logo.png';
 
 function Auth() {
   const dispatch = useDispatch();
@@ -54,6 +54,10 @@ function Auth() {
             >
               Entrar
             </Button>
+
+            <p className="text-center">
+              Não tem uma conta? <Link to="/register">Cadastre-se</Link>
+            </p>
 
             {success && <Redirect to="/vehicles" />}
           </div>
