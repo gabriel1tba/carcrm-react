@@ -52,7 +52,7 @@ function Header({ title }) {
           </Toolbar>
         </AppBar>
       ) : (
-        <nav class="header navbar navbar-expand-lg navbar-light bg-white p-0">
+        <nav className="header navbar navbar-expand-lg navbar-light bg-white p-0">
           <div className="container">
             <Link className="navbar-brand" to="/">
               <img src={logoImg} alt="Logo Car CRM" height="40" />
