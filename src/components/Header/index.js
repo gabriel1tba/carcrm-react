@@ -1,5 +1,12 @@
 import { Link } from 'react-router-dom';
-import { MenuList, MenuItem } from '@material-ui/core';
+import {
+  MenuList,
+  MenuItem,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+} from '@material-ui/core';
 import {
   FaCar,
   FaUsers,
@@ -8,14 +15,22 @@ import {
   FaWhatsapp,
   FaSignOutAlt,
 } from 'react-icons/fa';
+import { MdMenu } from 'react-icons/md';
 
 import logoImg from '../../assets/logo.png';
 
-function Header() {
+function Header({ title }) {
   return (
     <>
       {window.innerWidth < 577 ? (
-        <div></div>
+        <AppBar position="fixed">
+          <Toolbar>
+            <IconButton edge="start" color="inherit" aria-label="menu">
+              <MdMenu />
+            </IconButton>
+            <Typography variant="h6">{title}</Typography>
+          </Toolbar>
+        </AppBar>
       ) : (
         <nav class="header navbar navbar-expand-lg navbar-light bg-white p-0">
           <div className="container">

@@ -1,7 +1,7 @@
 import { Header } from '../../components/index';
 
 function Vehicles() {
-  return <Header />;
+  return <Header title="Veículos" />;
 }
 
 export default Vehicles;
