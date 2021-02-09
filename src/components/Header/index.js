@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { Link } from 'react-router-dom';
 import {
   MenuList,
@@ -6,6 +8,13 @@ import {
   Toolbar,
   IconButton,
   Typography,
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Divider,
+  Collapse,
 } from '@material-ui/core';
 import {
   FaCar,
@@ -14,18 +23,29 @@ import {
   FaCreditCard,
   FaWhatsapp,
   FaSignOutAlt,
+  FaAngleUp,
+  FaAngleDown,
 } from 'react-icons/fa';
 import { MdMenu } from 'react-icons/md';
 
 import logoImg from '../../assets/logo.png';
 
 function Header({ title }) {
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const [openCollapseSite, setOpenCollapseSite] = useState(false);
+  const [openCollapseFinancial, setOpenCollapseFinancial] = useState(false);
+
   return (
     <>
       {window.innerWidth < 577 ? (
         <AppBar position="fixed">
           <Toolbar>
-            <IconButton edge="start" color="inherit" aria-label="menu">
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={() => setOpenDrawer(true)}
+            >
               <MdMenu />
             </IconButton>
             <Typography variant="h6">{title}</Typography>
@@ -103,6 +123,122 @@ function Header({ title }) {
           </div>
         </nav>
       )}
+      <Drawer
+        anchor="left"
+        open={openDrawer}
+        onClose={() => setOpenDrawer(false)}
+      >
+        <div style={{ width: 320, maxWidth: window.innerWidth - 70 }}>
+          <List component="nav" className="menu-mobile">
+            <ListItem>
+              <img
+                className="img-fluid logo-mobile"
+                src={logoImg}
+                alt="Logo Car CRM"
+                height="40"
+              />
+            </ListItem>
+            <ListItem>
+              <p>gabriel.ferreira.itba@gmail.com</p>
+            </ListItem>
+
+            <Divider className="mt-2 mb-3" />
+
+            <ListItem>
+              <ListItemIcon>
+                <FaCar />
+              </ListItemIcon>
+              <ListItemText primary="Veículos" />
+            </ListItem>
+
+            <ListItem>
+              <ListItemIcon>
+                <FaUsers />
+              </ListItemIcon>
+              <ListItemText primary="Proprietários" />
+            </ListItem>
+
+            <ListItem
+              button
+              onClick={() => setOpenCollapseSite((prev) => !prev)}
+            >
+              <ListItemIcon>
+                <FaLaptop />
+              </ListItemIcon>
+              <ListItemText primary="Site" />
+              {openCollapseSite ? <FaAngleUp /> : <FaAngleDown />}
+            </ListItem>
+
+            <Collapse in={openCollapseSite} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItem>
+                  <ListItemText
+                    className="pl-5"
+                    primary="Otimização para o Google"
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemText
+                    className="pl-5"
+                    primary="Unidades e Telefones"
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemText className="pl-5" primary="Minha Logo" />
+                </ListItem>
+                <ListItem>
+                  <ListItemText className="pl-5" primary="Domínio" />
+                </ListItem>
+
+                <ListItem>
+                  <ListItemText className="pl-5" primary="Configurações" />
+                </ListItem>
+              </List>
+            </Collapse>
+
+            <Divider className="mt-2 mb-2" />
+
+            <ListItem
+              button
+              onClick={() => setOpenCollapseFinancial((prev) => !prev)}
+            >
+              <ListItemIcon>
+                <FaCreditCard />
+              </ListItemIcon>
+              <ListItemText primary="Financeiro" />
+              {openCollapseFinancial ? <FaAngleUp /> : <FaAngleDown />}
+            </ListItem>
+
+            <Collapse in={openCollapseFinancial} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItem>
+                  <ListItemText className="pl-5" primary="Meu Plano" />
+                </ListItem>
+
+                <ListItem>
+                  <ListItemText className="pl-5" primary="Minhas Transações" />
+                </ListItem>
+              </List>
+            </Collapse>
+
+            <ListItem>
+              <ListItemIcon>
+                <FaWhatsapp />
+              </ListItemIcon>
+              <ListItemText primary="Ajuda" />
+            </ListItem>
+
+            <Divider className="mt-2 mb-2" />
+
+            <ListItem>
+              <ListItemIcon>
+                <FaSignOutAlt />
+              </ListItemIcon>
+              <ListItemText primary="Sair" />
+            </ListItem>
+          </List>
+        </div>
+      </Drawer>
     </>
   );
 }

@@ -49,3 +49,17 @@ a:hover {
   padding: 10px 15px;
   color: #444;
 }
+
+.menu-mobile .MuiListItemText-primary {
+  font-weight: 600;
+  color: #444;
+}
+
+.menu-mobile svg {
+  font-size: 22px;
+  color: #444;
+}
+
+.logo-mobile {
+  max-height: 50px !important;
+}
