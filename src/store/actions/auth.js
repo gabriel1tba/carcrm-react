@@ -1,7 +1,7 @@
 import { showLoading } from '../actions/loading';
 import { showNotify } from '../actions/notify';
 
-import root from '../../services/root';
+import api from '../../services/api';
 
 export const actionsTypes = {
   EDIT: 'AUTH_EDIT',
@@ -39,7 +39,7 @@ export const login = (credentials) => (dispatch) => {
     })
   );
 
-  return root
+  return api
     .post('oauth/token', {
       grant_type: 'password',
       client_id: 2,

@@ -1,4 +1,5 @@
-import root from '../../services/root';
+import api from '../../services/api';
+
 import { showLoading } from './loading';
 import { showNotify } from './notify';
 
@@ -45,7 +46,7 @@ export const register = (data) => (dispatch) => {
     })
   );
 
-  return root
+  return api
     .post('register', data)
     .then((response) => {
       dispatch(

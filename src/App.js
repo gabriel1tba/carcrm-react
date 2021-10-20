@@ -7,11 +7,13 @@ import {
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { store } from './store/store';
-
 import Routes from './routes/routes';
 
-import { Loading, Notify, Alert } from './components';
+import Alert from './components/Alert';
+import Notify from './components/Notify';
+import Loading from './components/Loading';
+
+import { store } from './store/store';
 
 import themeUiConfig from './styles/themeUiConfig';
 const theme = createMuiTheme(themeUiConfig);
