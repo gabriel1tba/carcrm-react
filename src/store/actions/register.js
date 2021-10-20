@@ -1,4 +1,4 @@
-import { HTTP } from '../../config/http';
+import root from '../../services/root';
 import { showLoading } from './loading';
 import { showNotify } from './notify';
 
@@ -45,7 +45,8 @@ export const register = (data) => (dispatch) => {
     })
   );
 
-  return HTTP.post('register', data)
+  return root
+    .post('register', data)
     .then((response) => {
       dispatch(
         showLoading({

@@ -4,6 +4,7 @@ import {
   unstable_createMuiStrictModeTheme as createMuiTheme,
   ThemeProvider,
 } from '@material-ui/core/styles';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { store } from './store/store';

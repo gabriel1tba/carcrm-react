@@ -1,6 +1,7 @@
-import { HTTP } from '../../config/http';
 import { showLoading } from '../actions/loading';
 import { showNotify } from '../actions/notify';
+
+import root from '../../services/root';
 
 export const actionsTypes = {
   EDIT: 'AUTH_EDIT',
@@ -38,13 +39,14 @@ export const login = (credentials) => (dispatch) => {
     })
   );
 
-  return HTTP.post('oauth/token', {
-    grant_type: 'password',
-    client_id: 2,
-    client_secret: '1tD8CuxRxMAUGZHkDfOAj0OBeP0XzURNE0HvMAbJ',
-    username: credentials.email,
-    password: credentials.password,
-  })
+  return root
+    .post('oauth/token', {
+      grant_type: 'password',
+      client_id: 2,
+      client_secret: '1tD8CuxRxMAUGZHkDfOAj0OBeP0XzURNE0HvMAbJ',
+      username: credentials.email,
+      password: credentials.password,
+    })
     .then((response) => {
       dispatch(showLoading({ open: false }));
 
