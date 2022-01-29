@@ -7,7 +7,7 @@ const Auth = lazy(() => import('../pages/Auth'));
 const Register = lazy(() => import('../pages/Register'));
 const Vehicles = lazy(() => import('../pages/Vehicles'));
 
-function Routes() {
+const Routes = () => {
   return (
     <Router>
       <Suspense
@@ -26,6 +26,6 @@ function Routes() {
       </Suspense>
     </Router>
   );
-}
+};
 
 export default Routes;

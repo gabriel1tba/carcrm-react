@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { showLoading } from '../../store/actions/loading';
 
-function Loading() {
+const Loading = () => {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.loadingReducer);
 
@@ -19,6 +19,6 @@ function Loading() {
       </div>
     </Modal>
   );
-}
+};
 
 export default Loading;

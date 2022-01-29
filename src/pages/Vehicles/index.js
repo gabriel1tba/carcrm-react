@@ -1,7 +1,7 @@
-import { Header } from '../../components/index';
+import Header from '../../components/Header';
 
-function Vehicles() {
+const Vehicles = () => {
   return <Header title="Veículos" />;
-}
+};
 
 export default Vehicles;

@@ -16,9 +16,10 @@ import Loading from './components/Loading';
 import { store } from './store/store';
 
 import themeUiConfig from './styles/themeUiConfig';
+
 const theme = createMuiTheme(themeUiConfig);
 
-function App() {
+const App = () => {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
@@ -30,6 +31,6 @@ function App() {
       </ThemeProvider>
     </Provider>
   );
-}
+};
 
 export default App;

@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   },
 });
 
-function Notify() {
+const Notify = () => {
   const dispatch = useDispatch();
   const notify = useSelector((state) => state.notifyReducer);
   const classes = useStyles();
@@ -37,6 +37,6 @@ function Notify() {
       />
     </Snackbar>
   );
-}
+};
 
 export default Notify;

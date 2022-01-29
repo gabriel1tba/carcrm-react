@@ -1,6 +1,6 @@
 import { Dialog, DialogActions, DialogTitle, Button } from '@material-ui/core';
 
-function Confirm({ open, title, onClose, onConfirm }) {
+const Confirm = ({ open, title, onClose, onConfirm }) => {
   return (
     <Dialog open={open} onClose={() => onClose()}>
       <DialogTitle disableTypography>
@@ -21,6 +21,6 @@ function Confirm({ open, title, onClose, onConfirm }) {
       </DialogActions>
     </Dialog>
   );
-}
+};
 
 export default Confirm;

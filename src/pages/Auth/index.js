@@ -1,11 +1,12 @@
 import { Link, Redirect } from 'react-router-dom';
 import { Typography, TextField, Button } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
+
 import { editAuth, login } from '../../store/actions/auth';
 
 import logoImg from '../../assets/logo.png';
 
-function Auth() {
+const Auth = () => {
   const dispatch = useDispatch();
   const { credentials, success } = useSelector((state) => state.authReducer);
 
@@ -65,6 +66,6 @@ function Auth() {
       </div>
     </div>
   );
-}
+};
 
 export default Auth;

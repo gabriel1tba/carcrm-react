@@ -30,7 +30,7 @@ import { MdMenu } from 'react-icons/md';
 
 import logoImg from '../../assets/logo.png';
 
-function Header({ title }) {
+const Header = ({ title }) => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openCollapseSite, setOpenCollapseSite] = useState(false);
   const [openCollapseFinancial, setOpenCollapseFinancial] = useState(false);
@@ -241,6 +241,6 @@ function Header({ title }) {
       </Drawer>
     </>
   );
-}
+};
 
 export default Header;

@@ -5,7 +5,7 @@ import { MdError, MdCheckCircle } from 'react-icons/md';
 import { useSelector, useDispatch } from 'react-redux';
 import { showAlert } from '../../store/actions/alert';
 
-function Alert() {
+const Alert = () => {
   const dispatch = useDispatch();
   const alert = useSelector((state) => state.alertReducer);
 
@@ -41,6 +41,6 @@ function Alert() {
       </div>
     </Modal>
   );
-}
+};
 
 export default Alert;

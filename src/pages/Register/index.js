@@ -6,7 +6,7 @@ import { editRegister, register } from '../../store/actions/register';
 
 import logoImg from '../../assets/logo.png';
 
-function Register() {
+const Register = () => {
   const dispatch = useDispatch();
   const { user, error, success } = useSelector(
     (state) => state.registerReducer
@@ -111,6 +111,6 @@ function Register() {
       </div>
     </div>
   );
-}
+};
 
 export default Register;
