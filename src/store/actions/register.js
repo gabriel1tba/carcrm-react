@@ -38,7 +38,7 @@ export const setUserToken = (token) => (dispatch) => {
   dispatch(successRegister(true));
 };
 
-export const register = (data) => (dispatch) => {
+export const register = (data) => async (dispatch) => {
   dispatch(
     showLoading({
       open: true,
@@ -46,37 +46,36 @@ export const register = (data) => (dispatch) => {
     })
   );
 
-  return api
-    .post('register', data)
-    .then((response) => {
-      dispatch(
-        showLoading({
-          open: false,
-        })
-      );
+  try {
+    const response = await api.post('register', data);
+    dispatch(
+      showLoading({
+        open: false,
+      })
+    );
 
-      if (typeof register !== 'undefined') {
-        if (response.data.access_token) {
-          dispatch(
-            showNotify({
-              open: true,
-              class: 'success',
-              msg: 'Usuário cadastrado com sucesso',
-            })
-          );
+    if (typeof register !== 'undefined') {
+      if (response.data.access_token) {
+        dispatch(
+          showNotify({
+            open: true,
+            class: 'success',
+            msg: 'Usuário cadastrado com sucesso',
+          })
+        );
 
-          dispatch(setUserToken(response.data.access_token));
-        }
+        dispatch(setUserToken(response.data.access_token));
       }
-    })
-    .catch((error) => {
-      dispatch(
-        showLoading({
-          open: false,
-        })
-      );
-      if (error.response) {
-        dispatch(errorRegister(error.response.data.errors));
-      }
-    });
+    }
+  } catch (error) {
+    dispatch(
+      showLoading({
+        open: false,
+      })
+    );
+    if (error.response) {
+      debugger;
+      dispatch(errorRegister(error.response.data.erros));
+    }
+  }
 };

@@ -69,28 +69,6 @@ const Register = () => {
               <small className="text-danger">{error.password[0]}</small>
             )}
 
-            <TextField
-              label="Confirmar Senha"
-              type="password"
-              value={user.password_confirmation}
-              error={error.password_confirmation && true}
-              onChange={(text) => {
-                dispatch(
-                  editRegister({ password_confirmation: text.target.value })
-                );
-                if (
-                  error.password_confirmation &&
-                  delete error.password_confirmation
-                );
-              }}
-            />
-
-            {error.password_confirmation && (
-              <small className="text-danger">
-                {error.password_confirmation[0]}
-              </small>
-            )}
-
             <Button
               variant="contained"
               color="primary"
