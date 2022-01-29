@@ -1,5 +1,5 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   unstable_createMuiStrictModeTheme as createMuiTheme,
   ThemeProvider,

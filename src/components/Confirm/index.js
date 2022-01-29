@@ -1,13 +1,17 @@
 import { Dialog, DialogActions, DialogTitle, Button } from '@material-ui/core';
 
-const Confirm = ({ open, title, onClose, onConfirm }) => {
+const Confirm = ({
+  open,
+  title = 'Tem certeza que deseja prosseguir?',
+  onClose,
+  onConfirm,
+}) => {
   return (
     <Dialog open={open} onClose={() => onClose()}>
       <DialogTitle disableTypography>
-        <h6>{title ? title : 'Tem certeza que deseja prosseguir?'}</h6>
+        <h6>{title}</h6>
       </DialogTitle>
       <DialogActions className="d-flex justify-content-center mb-2">
-        <Button onClick={() => onClose()}>Não</Button>
         <Button
           onClick={() => {
             onClose();
@@ -18,6 +22,7 @@ const Confirm = ({ open, title, onClose, onConfirm }) => {
         >
           Sim
         </Button>
+        <Button onClick={() => onClose()}>Não</Button>
       </DialogActions>
     </Dialog>
   );
