@@ -103,7 +103,10 @@ const Register = () => {
             </Button>
 
             <p className="text-center">
-              Já tem uma conta? <Link to="/login">Faça Login</Link>
+              Já tem uma conta?{' '}
+              <Link to="/login" className="text-primary">
+                Faça Login
+              </Link>
             </p>
             {success && <Redirect to="/vehicles" />}
           </div>

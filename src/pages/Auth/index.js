@@ -57,7 +57,10 @@ const Auth = () => {
             </Button>
 
             <p className="text-center">
-              Não tem uma conta? <Link to="/register">Cadastre-se</Link>
+              Não tem uma conta?{' '}
+              <Link to="/register" className="text-primary">
+                Cadastre-se
+              </Link>
             </p>
 
             {success && <Redirect to="/vehicles" />}

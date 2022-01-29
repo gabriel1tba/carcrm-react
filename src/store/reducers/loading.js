@@ -2,12 +2,12 @@ import { actionTypes } from '../actions/loading';
 
 const initialState = {
   open: false,
-  msg: 'Carregando...',
+  msg: 'Aguarde! Carregando...',
 };
 
 function loadingReducer(state = initialState, { type, payload }) {
   switch (type) {
-    case actionTypes.SHOW_LOADING:
+    case actionTypes.CHANGE_VIEW_LOADING:
       return { ...state, ...payload };
 
     default:

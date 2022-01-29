@@ -1,13 +1,11 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux';
-
 import {
   unstable_createMuiStrictModeTheme as createMuiTheme,
   ThemeProvider,
 } from '@material-ui/core/styles';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-
-import Routes from './routes/routes';
+import Routes from './Routes';
 
 import Alert from './components/Alert';
 import Notify from './components/Notify';

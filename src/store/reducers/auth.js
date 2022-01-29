@@ -5,7 +5,7 @@ const initialState = {
     email: '',
     password: '',
   },
-  success: true,
+  success: false,
 };
 
 function authReducer(state = initialState, { type, payload }) {

@@ -6,7 +6,7 @@ import alertReducer from './alert';
 import authReducer from './auth';
 import registerReducer from './register';
 
-const rootReducer = combineReducers({
+const Reducers = combineReducers({
   loadingReducer,
   notifyReducer,
   alertReducer,
@@ -14,4 +14,4 @@ const rootReducer = combineReducers({
   registerReducer,
 });
 
-export default rootReducer;
+export default Reducers;
