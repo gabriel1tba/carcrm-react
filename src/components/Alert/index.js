@@ -1,8 +1,7 @@
 import { Modal, Typography } from '@material-ui/core';
-
 import { MdError, MdCheckCircle } from 'react-icons/md';
-
 import { useSelector, useDispatch } from 'react-redux';
+
 import { showAlert } from '../../store/actions/alert';
 
 const Alert = () => {
