@@ -43,7 +43,7 @@ export const login = (credentials) => (dispatch) => {
     .post('oauth/token', {
       grant_type: 'password',
       client_id: 2,
-      client_secret: '1tD8CuxRxMAUGZHkDfOAj0OBeP0XzURNE0HvMAbJ',
+      client_secret: 'CNoufx85QdMtCDthhCJQ5BUeFg7zzHtkNp4dXJx9',
       username: credentials.email,
       password: credentials.password,
     })
@@ -60,7 +60,7 @@ export const login = (credentials) => (dispatch) => {
       dispatch(showLoading({ open: false }));
 
       if (typeof error.response !== 'undefined') {
-        if (error.response.status === 401 || error.response.status === 404) {
+        if (error.response.status === 400 || error.response.status === 404) {
           dispatch(
             showNotify({
               open: true,

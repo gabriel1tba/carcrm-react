@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://192.168.1.103/crm/carcrm/public/',
+  baseURL: 'http://localhost/',
 });
 
 export default api;
 
-// baseURL: 'http://localhost/crm/carcrm/public/api/' => API
-// baseURL: 'http://localhost/crm/carcrm/public/' => Root
+// baseURL: 'http://localhost/' => Root
+// baseURL: 'http://localhost/api/' => API

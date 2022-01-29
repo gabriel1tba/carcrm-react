@@ -27,8 +27,8 @@ const Auth = () => {
               type="email"
               autoComplete="email"
               value={credentials.email}
-              onChange={(text) =>
-                dispatch(editAuth({ email: text.target.value }))
+              onChange={(event) =>
+                dispatch(editAuth({ email: event.target.value }))
               }
               margin="normal"
             />
@@ -37,8 +37,8 @@ const Auth = () => {
               label="Senha"
               type="password"
               value={credentials.password}
-              onChange={(text) =>
-                dispatch(editAuth({ password: text.target.value }))
+              onChange={(event) =>
+                dispatch(editAuth({ password: event.target.value }))
               }
               margin="normal"
             />
@@ -49,9 +49,7 @@ const Auth = () => {
               fullWidth
               size="large"
               className="mt-4 mb-4"
-              onClick={() => {
-                dispatch(login(credentials));
-              }}
+              onClick={() => dispatch(login(credentials))}
             >
               Entrar
             </Button>
