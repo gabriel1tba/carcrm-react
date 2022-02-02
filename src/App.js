@@ -5,7 +5,7 @@ import {
   ThemeProvider,
 } from '@material-ui/core/styles';
 
-import Routes from './Routes';
+import Routes from './routes';
 
 import Alert from './components/Alert';
 import Notify from './components/Notify';
