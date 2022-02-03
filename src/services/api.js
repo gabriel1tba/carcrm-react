@@ -13,7 +13,7 @@ export const apiAuth = axios.create({
 
 apiAuth.interceptors.request.use((config) => {
   config.headers.authorization = `Bearer ${localStorage.getItem(
-    'access_token'
+    '@CARCRM:Token'
   )}`;
 
   return config;
@@ -25,7 +25,7 @@ apiAuth.interceptors.response.use(
   },
   (error) => {
     if (error?.response.status === 401) {
-      localStorage.removeItem('access_token');
+      localStorage.removeItem('@CARCRM:Token');
       window.location.href = 'login';
     }
 
