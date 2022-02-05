@@ -11,7 +11,15 @@ import MaskedInput from 'react-text-mask';
 
 import Header from '../../Header';
 
-import { store, show, change, cep } from '../../../store/actions/vehicles';
+import {
+  store,
+  show,
+  change,
+  cep,
+  brand,
+  model,
+  version,
+} from '../../../store/actions/vehicles';
 
 const TextMaskCustom = ({ inputRef, ...other }) => {
   const mask = [/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
@@ -80,6 +88,74 @@ const VehiclesForm = ({ match }) => {
     }
   };
 
+  const handleSelectCategory = async (value) => {
+    dispatch(
+      change({
+        vehicle_type: value,
+        vehicle_brand: null,
+        vehicle_model: null,
+        vehicle_version: null,
+        vehicle_gearbox: null,
+        vehicle_fuel: null,
+        vehicle_steering: null,
+        vehicle_motorpower: null,
+        vehicle_doors: null,
+      })
+    );
+
+    dispatch(brand(value));
+    if (data.error?.vehicle_type) {
+      delete data.error?.vehicle_type;
+    }
+  };
+
+  const handleSelectBrand = async (value) => {
+    dispatch(
+      change({
+        vehicle_brand: value,
+        vehicle_model: null,
+        vehicle_version: null,
+      })
+    );
+
+    dispatch(model(data.vehicle.vehicle_type, value));
+
+    if (data.error?.vehicle_brand) {
+      delete data.error?.vehicle_brand;
+    }
+  };
+
+  const handleSelectModel = async (value) => {
+    dispatch(
+      change({
+        vehicle_model: value,
+        vehicle_version: null,
+      })
+    );
+
+    dispatch(version(data.vehicle.vehicle_brand, value));
+
+    if (data.error?.vehicle_model) {
+      delete data.error?.vehicle_model;
+    }
+  };
+
+  const handleSelectRegDate = (value) => {
+    dispatch(change({ vehicle_regdate: value }));
+
+    if (data.error?.vehicle_regdate) {
+      delete data.error?.vehicle_regdate;
+    }
+  };
+
+  const handleSelectVersion = (value) => {
+    dispatch(change({ vehicle_version: value }));
+
+    if (data.error?.vehicle_version) {
+      delete data.error?.vehicle_version;
+    }
+  };
+
   useEffect(() => {
     handleShowOrStoreVehicle();
   }, []);
@@ -108,7 +184,7 @@ const VehiclesForm = ({ match }) => {
                       type="tel"
                       InputProps={{
                         inputComponent: TextMaskCustom,
-                        value: data.vehicle.zipCode,
+                        value: data.vehicle.zipCode || '',
                         onChange: (event) =>
                           handleFillZipCode(event.target.value),
                         endAdornment: (
@@ -137,7 +213,7 @@ const VehiclesForm = ({ match }) => {
                     <TextField
                       error={data.error?.city && true}
                       disabled
-                      value={data.vehicle.city}
+                      value={data.vehicle.city || ''}
                     />
                     {data?.error?.city ? (
                       <strong className="text-danger">
@@ -150,7 +226,7 @@ const VehiclesForm = ({ match }) => {
                     <TextField
                       error={data.error?.uf && true}
                       disabled
-                      value={data.vehicle.uf}
+                      value={data.vehicle.uf || ''}
                     />
                     {data?.error?.uf ? (
                       <strong className="text-danger">
@@ -168,7 +244,10 @@ const VehiclesForm = ({ match }) => {
                   <label className="label-custom">CATEGORIA</label>
                   <Select
                     error={data.error?.vehicle_type && true}
-                    value={data.vehicle.vehicle_type}
+                    value={data.vehicle.vehicle_type || ''}
+                    onChange={(event) =>
+                      handleSelectCategory(event.target.value)
+                    }
                   >
                     {data.vehicle_types.map((item) => (
                       <MenuItem key={item.id} value={item.value}>
@@ -176,6 +255,98 @@ const VehiclesForm = ({ match }) => {
                       </MenuItem>
                     ))}
                   </Select>
+                  {data?.error?.vehicle_type ? (
+                    <strong className="text-danger">
+                      {data?.error?.vehicle_type[0]}
+                    </strong>
+                  ) : null}
+                </div>
+
+                <div className="form-group">
+                  <label className="label-custom">MARCAS</label>
+                  <Select
+                    error={data.error?.vehicle_brand && true}
+                    value={data.vehicle.vehicle_brand || ''}
+                    onChange={(event) => handleSelectBrand(event.target.value)}
+                  >
+                    {data.vehicle_brand.map((item) => (
+                      <MenuItem key={item.id} value={item.value}>
+                        {item.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {data?.error?.vehicle_brand ? (
+                    <strong className="text-danger">
+                      {data?.error?.vehicle_brand[0]}
+                    </strong>
+                  ) : null}
+                </div>
+
+                <div className="row">
+                  <div className="col-md-6 form-group">
+                    <label className="label-custom">MODELO</label>
+                    <Select
+                      error={data.error?.vehicle_model && true}
+                      value={data.vehicle.vehicle_model || ''}
+                      onChange={(event) =>
+                        handleSelectModel(event.target.value)
+                      }
+                    >
+                      {data.vehicle_model.map((item) => (
+                        <MenuItem key={item.id} value={item.value}>
+                          {item.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    {data?.error?.vehicle_model ? (
+                      <strong className="text-danger">
+                        {data?.error?.vehicle_model[0]}
+                      </strong>
+                    ) : null}
+                  </div>
+                  <div className="col-md-6 form-group">
+                    <label className="label-custom">ANO DO MODELO</label>
+                    <Select
+                      error={data.error?.vehicle_regdate && true}
+                      value={data.vehicle.vehicle_regdate || ''}
+                      onChange={(event) =>
+                        handleSelectRegDate(event.target.value)
+                      }
+                    >
+                      {data.regdate.map((item) => (
+                        <MenuItem key={item.id} value={item.value}>
+                          {item.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    {data?.error?.vehicle_regdate ? (
+                      <strong className="text-danger">
+                        {data?.error?.vehicle_regdate[0]}
+                      </strong>
+                    ) : null}
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label className="label-custom">VERSÃO</label>
+                  <Select
+                    error={data.error?.vehicle_version && true}
+                    value={data.vehicle.vehicle_version || ''}
+                    onChange={(event) =>
+                      handleSelectVersion(event.target.value)
+                    }
+                  >
+                    {data.vehicle_version.map((item) => (
+                      <MenuItem key={item.id} value={item.value}>
+                        {item.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {data?.error?.vehicle_version ? (
+                    <strong className="text-danger">
+                      {data?.error?.vehicle_version[0]}
+                    </strong>
+                  ) : null}
                 </div>
               </div>
             </div>

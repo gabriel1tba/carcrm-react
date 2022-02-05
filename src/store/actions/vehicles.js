@@ -112,12 +112,92 @@ export const destroy = (id) => async (dispatch) => {
   }
 };
 
-export const cep = (zipCode) => async (dispatch) => {
-  if (zipCode.length > 8) {
-    const response = await apiAuth.post('webservice/cep', {
-      cep: zipCode,
-    });
+export const brand = (vehicle_type) => async (dispatch) => {
+  dispatch(
+    showLoading({
+      open: true,
+    })
+  );
 
-    return typeof response !== 'undefined' && dispatch(change(response.data));
+  try {
+    const response = await apiAuth.get(`/vehicles/${vehicle_type}/brand`);
+
+    return (
+      typeof response !== 'undefined' && dispatch(indexResponse(response.data))
+    );
+  } catch (error) {
+    console.log(error);
+  } finally {
+    dispatch(
+      showLoading({
+        open: false,
+      })
+    );
+  }
+};
+
+export const model = (vehicle_type, vehicle_brand) => async (dispatch) => {
+  dispatch(
+    showLoading({
+      open: true,
+    })
+  );
+
+  try {
+    const response = await apiAuth.get(
+      `/vehicles/${vehicle_type}/${vehicle_brand}/model`
+    );
+
+    return (
+      typeof response !== 'undefined' && dispatch(indexResponse(response.data))
+    );
+  } catch (error) {
+    console.log(error);
+  } finally {
+    dispatch(
+      showLoading({
+        open: false,
+      })
+    );
+  }
+};
+
+export const version = (vehicle_brand, vehicle_model) => async (dispatch) => {
+  dispatch(
+    showLoading({
+      open: true,
+    })
+  );
+
+  try {
+    const response = await apiAuth.get(
+      `/vehicles/${vehicle_brand}/${vehicle_model}/version`
+    );
+
+    return (
+      typeof response !== 'undefined' && dispatch(indexResponse(response.data))
+    );
+  } catch (error) {
+    console.log(error);
+  } finally {
+    dispatch(
+      showLoading({
+        open: false,
+      })
+    );
+  }
+};
+
+export const cep = (zipCode) => async (dispatch) => {
+  try {
+    if (zipCode.length > 8) {
+      const response = await apiAuth.post('webservice/cep', {
+        cep: zipCode,
+      });
+
+      return typeof response !== 'undefined' && dispatch(change(response.data));
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
