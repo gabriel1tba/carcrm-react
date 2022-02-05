@@ -141,10 +141,6 @@ svg {
   font-weight: 500 !important;
 }
 
-.MuiInputBase-formControl {
-  height: 40px;
-}
-
 .scroll,
 .scroll-form {
   height: calc(100vh - 64px);

@@ -111,3 +111,13 @@ export const destroy = (id) => async (dispatch) => {
     }
   }
 };
+
+export const cep = (zipCode) => async (dispatch) => {
+  if (zipCode.length > 8) {
+    const response = await apiAuth.post('webservice/cep', {
+      cep: zipCode,
+    });
+
+    return typeof response !== 'undefined' && dispatch(change(response.data));
+  }
+};

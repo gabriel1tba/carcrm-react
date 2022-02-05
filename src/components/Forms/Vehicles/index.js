@@ -5,7 +5,7 @@ import MaskedInput from 'react-text-mask';
 
 import Header from '../../Header';
 
-import { store, show, change } from '../../../store/actions/vehicles';
+import { store, show, change, cep } from '../../../store/actions/vehicles';
 
 const TextMaskCustom = ({ inputRef, ...other }) => {
   const mask = [/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
@@ -57,6 +57,23 @@ const VehiclesForm = ({ match }) => {
     setIsLoading(false);
   };
 
+  const handleFillZipCode = async (value) => {
+    dispatch(change({ zipCode: value }));
+    if (value.length > 8) {
+      setIsLoadingCep(true);
+
+      const response = await dispatch(cep(value));
+
+      if (response) setIsLoadingCep(false);
+
+      if (data.error?.zipCode) {
+        delete data.error?.zipCode;
+        delete data.error?.uf;
+        delete data.error?.city;
+      }
+    }
+  };
+
   useEffect(() => {
     handleShowOrStoreVehicle();
   }, []);
@@ -86,18 +103,8 @@ const VehiclesForm = ({ match }) => {
                       InputProps={{
                         inputComponent: TextMaskCustom,
                         value: data.vehicle.zipCode,
-                        onChange: (event) => {
-                          dispatch(change({ zipCode: event.target.value }));
-                          if (event.target.value.length > 8) {
-                            setIsLoadingCep(true);
-
-                            if (data.error?.zipCode) {
-                              delete data.error?.zipCode;
-                              delete data.error?.uf;
-                              delete data.error?.city;
-                            }
-                          }
-                        },
+                        onChange: (event) =>
+                          handleFillZipCode(event.target.value),
                         endAdornment: (
                           <InputAdornment position="start">
                             {isLoadingCep ? (
