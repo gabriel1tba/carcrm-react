@@ -1,6 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { CircularProgress, TextField, InputAdornment } from '@material-ui/core';
+import {
+  CircularProgress,
+  TextField,
+  Select,
+  MenuItem,
+  InputAdornment,
+} from '@material-ui/core';
 import MaskedInput from 'react-text-mask';
 
 import Header from '../../Header';
@@ -94,7 +100,7 @@ const VehiclesForm = ({ match }) => {
               </h3>
               <div className="card card-body">
                 <div className="row">
-                  <div className="col-md-7">
+                  <div className="col-md-7 form-group">
                     <label className="label-custom">CEP</label>
                     <TextField
                       style={isLoadingCep ? { opacity: 0.5 } : {}}
@@ -123,6 +129,53 @@ const VehiclesForm = ({ match }) => {
                       </strong>
                     ) : null}
                   </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-md-9 form-group">
+                    <label className="label-custom">CIDADE</label>
+                    <TextField
+                      error={data.error?.city && true}
+                      disabled
+                      value={data.vehicle.city}
+                    />
+                    {data?.error?.city ? (
+                      <strong className="text-danger">
+                        {data?.error?.city[0]}
+                      </strong>
+                    ) : null}
+                  </div>
+                  <div className="col-md-3 form-group">
+                    <label className="label-custom">UF</label>
+                    <TextField
+                      error={data.error?.uf && true}
+                      disabled
+                      value={data.vehicle.uf}
+                    />
+                    {data?.error?.uf ? (
+                      <strong className="text-danger">
+                        {data?.error?.uf[0]}
+                      </strong>
+                    ) : null}
+                  </div>
+                </div>
+              </div>
+
+              <h3 className="font-weight-normal mt-4 mb-4">Dados do veículo</h3>
+
+              <div className="card card-body">
+                <div className="form-group">
+                  <label className="label-custom">CATEGORIA</label>
+                  <Select
+                    error={data.error?.vehicle_type && true}
+                    value={data.vehicle.vehicle_type}
+                  >
+                    {data.vehicle_types.map((item) => (
+                      <MenuItem key={item.id} value={item.value}>
+                        {item.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
                 </div>
               </div>
             </div>
