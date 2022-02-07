@@ -1,5 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import NumberFormat from 'react-number-format';
+import MaskedInput from 'react-text-mask';
 import {
   CircularProgress,
   TextField,
@@ -7,7 +9,6 @@ import {
   MenuItem,
   InputAdornment,
 } from '@material-ui/core';
-import MaskedInput from 'react-text-mask';
 
 import Header from '../../Header';
 
@@ -35,6 +36,22 @@ const TextMaskCustom = ({ inputRef, ...other }) => {
     />
   );
 };
+
+const NumberFormatCustom = ({ inputRef, onChange, ...other }) => (
+  <NumberFormat
+    {...other}
+    decimalSeparator=","
+    thousandSeparator="."
+    onValueChange={(values) => {
+      onChange({
+        target: {
+          value: values.value,
+        },
+      });
+    }}
+    prefix={other.name}
+  />
+);
 
 const VehiclesForm = ({ match }) => {
   const dispatch = useDispatch();
@@ -154,6 +171,34 @@ const VehiclesForm = ({ match }) => {
     if (data.error?.vehicle_version) {
       delete data.error?.vehicle_version;
     }
+  };
+
+  const handleSelectGearbox = (value) => {
+    dispatch(change({ vehicle_gearbox: value }));
+  };
+
+  const handleSelectFuel = (value) => {
+    dispatch(change({ vehicle_fuel: value }));
+  };
+
+  const handleSelectSteering = (value) => {
+    dispatch(change({ vehicle_steering: value }));
+  };
+
+  const handleSelectMotorpower = (value) => {
+    dispatch(change({ vehicle_motorpower: value }));
+  };
+
+  const handleSelectDoors = (value) => {
+    dispatch(change({ vehicle_doors: value }));
+  };
+
+  const handleSelectCubiccms = (value) => {
+    dispatch(change({ vehicle_cubiccms: value }));
+  };
+
+  const handleSelectColor = (value) => {
+    dispatch(change({ vehicle_color: value }));
   };
 
   useEffect(() => {
@@ -347,6 +392,147 @@ const VehiclesForm = ({ match }) => {
                       {data?.error?.vehicle_version[0]}
                     </strong>
                   ) : null}
+                </div>
+              </div>
+
+              <div className="card card-body mt-4">
+                <div className="row">
+                  {/* EXIBE APENAS SE FOR CARROS */}
+                  {data.vehicle.vehicle_type === 2020 && (
+                    <>
+                      <div className="col-md-6 form-group">
+                        <label className="label-custom">CÂMBIO</label>
+                        <Select
+                          value={data.vehicle.vehicle_gearbox || ''}
+                          onChange={(event) =>
+                            handleSelectGearbox(event.target.value)
+                          }
+                        >
+                          {data.gearbox.map((item) => (
+                            <MenuItem key={item.id} value={item.value}>
+                              {item.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </div>
+
+                      <div className="col-md-6 form-group">
+                        <label className="label-custom">COMBUSTÍVEL</label>
+                        <Select
+                          value={data.vehicle.vehicle_fuel || ''}
+                          onChange={(event) =>
+                            handleSelectFuel(event.target.value)
+                          }
+                        >
+                          {data.fuel.map((item) => (
+                            <MenuItem key={item.id} value={item.value}>
+                              {item.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </div>
+
+                      <div className="col-md-6 form-group">
+                        <label className="label-custom">DIREÇÃO</label>
+                        <Select
+                          value={data.vehicle.vehicle_steering || ''}
+                          onChange={(event) =>
+                            handleSelectSteering(event.target.value)
+                          }
+                        >
+                          {data.car_steering.map((item) => (
+                            <MenuItem key={item.id} value={item.value}>
+                              {item.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </div>
+
+                      <div className="col-md-6 form-group">
+                        <label className="label-custom">
+                          POTÊNCIA DO MOTOR
+                        </label>
+                        <Select
+                          value={data.vehicle.vehicle_motorpower || ''}
+                          onChange={(event) =>
+                            handleSelectMotorpower(event.target.value)
+                          }
+                        >
+                          {data.motorpower.map((item) => (
+                            <MenuItem key={item.id} value={item.value}>
+                              {item.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </div>
+
+                      <div className="col-md-6 form-group">
+                        <label className="label-custom">PORTAS</label>
+                        <Select
+                          value={data.vehicle.vehicle_doors || ''}
+                          onChange={(event) =>
+                            handleSelectDoors(event.target.value)
+                          }
+                        >
+                          {data.doors.map((item) => (
+                            <MenuItem key={item.id} value={item.value}>
+                              {item.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </div>
+                    </>
+                  )}
+
+                  {/* EXIBE APENAS SE FOR MOTOS */}
+                  {data.vehicle.vehicle_type === 2060 && (
+                    <div className="col-md-6 form-group">
+                      <label className="label-custom">CILINDRADAS</label>
+                      <Select
+                        value={data.vehicle.vehicle_cubiccms || ''}
+                        onChange={(event) =>
+                          handleSelectCubiccms(event.target.value)
+                        }
+                      >
+                        {data.cubiccms.map((item) => (
+                          <MenuItem key={item.id} value={item.value}>
+                            {item.label}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </div>
+                  )}
+
+                  <div className="col-md-6 form-group">
+                    <label className="label-custom">COR</label>
+                    <Select
+                      value={data.vehicle.vehicle_color || ''}
+                      onChange={(event) =>
+                        handleSelectColor(event.target.value)
+                      }
+                    >
+                      {data.carcolor.map((item) => (
+                        <MenuItem key={item.id} value={item.value}>
+                          {item.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </div>
+
+                  <div className="col-md-6 form-group">
+                    <label className="label-custom">QUILOMETRAGEM</label>
+                    <TextField
+                      type="tel"
+                      InputProps={{
+                        inputComponent: NumberFormatCustom,
+                        value: data.vehicle.vehicle_mileage || '',
+                        onChange: (event) =>
+                          dispatch(
+                            change({ vehicle_mileage: event.target.value })
+                          ),
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
