@@ -1,11 +1,16 @@
-import { apiAuth } from '../../services/api';
+import { apiAuth, apiUpload } from '../../services/api';
 
 import { showLoading } from './loading';
+import { showNotify } from './notify';
 
 export const actionTypes = {
   INDEX: 'VEHICLE_INDEX',
   DESTROY: 'VEHICLE_DESTROY',
   CHANGE: 'VEHICLE_CHANGE',
+  CREATE: 'VEHICLE_CREATE',
+  UPLOAD_PHOTO: 'VEHICLE_UPLOAD_PHOTO',
+  DELETE_PHOTO: 'VEHICLE_DELETE_PHOTO',
+  REORDER_PHOTO: 'VEHICLE_REORDER_PHOTO',
   SUCCESS: 'VEHICLE_SUCCESS',
   ERROR: 'VEHICLE_ERROR',
 };
@@ -199,5 +204,38 @@ export const cep = (zipCode) => async (dispatch) => {
     }
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const uploadPhotoResponse = (payload) => ({
+  type: actionTypes.UPLOAD_PHOTO,
+  payload,
+});
+
+export const uploadPhoto = (data) => async (dispatch) => {
+  dispatch(indexResponse({ upload_photo: true }));
+
+  try {
+    const response = await apiAuth.post('upload/vehicle ', data);
+
+    if (typeof response !== 'undefined') {
+      if (response.data.error) {
+        dispatch(
+          showNotify({
+            open: true,
+            msg: response.data.error,
+            class: 'error',
+          })
+        );
+
+        if (response.data.id) {
+          dispatch(uploadPhotoResponse(response.data));
+        }
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
+    dispatch(indexResponse({ upload_photo: true }));
   }
 };

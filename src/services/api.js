@@ -19,6 +19,19 @@ apiAuth.interceptors.request.use((config) => {
   return config;
 });
 
+export const apiUpload = axios.create({
+  baseURL: baseURLApi,
+});
+
+apiUpload.interceptors.request.use((config) => {
+  config.headers.authorization = `Bearer ${localStorage.getItem(
+    '@CARCRM:Token'
+  )}`;
+  config.headers.contentType = 'multipart/form-data';
+
+  return config;
+});
+
 apiAuth.interceptors.response.use(
   (response) => {
     return response;
