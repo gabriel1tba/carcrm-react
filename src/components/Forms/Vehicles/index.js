@@ -8,6 +8,8 @@ import {
   Select,
   MenuItem,
   InputAdornment,
+  FormControlLabel,
+  Checkbox,
 } from '@material-ui/core';
 
 import Header from '../../Header';
@@ -201,6 +203,36 @@ const VehiclesForm = ({ match }) => {
     dispatch(change({ vehicle_color: value }));
   };
 
+  const handleCheckFeatures = (value) => {
+    const checkedValue = data.vehicle.vehicle_features[value]
+      ? delete data.vehicle.vehicle_features[value]
+      : { [value]: value };
+
+    dispatch(
+      change({
+        vehicle_features: {
+          ...data.vehicle.vehicle_features,
+          checkedValue,
+        },
+      })
+    );
+  };
+
+  const handleCheckFinancial = (value) => {
+    const checkedValue = data.vehicle.vehicle_financial[value]
+      ? delete data.vehicle.vehicle_financial[value]
+      : { [value]: value };
+
+    dispatch(
+      change({
+        vehicle_financial: {
+          ...data.vehicle.vehicle_financial,
+          checkedValue,
+        },
+      })
+    );
+  };
+
   useEffect(() => {
     handleShowOrStoreVehicle();
   }, []);
@@ -244,11 +276,11 @@ const VehiclesForm = ({ match }) => {
                       }}
                     />
 
-                    {data?.error?.zipCode ? (
+                    {data?.error?.zipCode && (
                       <strong className="text-danger">
                         {data?.error?.zipCode[0]}
                       </strong>
-                    ) : null}
+                    )}
                   </div>
                 </div>
 
@@ -260,11 +292,11 @@ const VehiclesForm = ({ match }) => {
                       disabled
                       value={data.vehicle.city || ''}
                     />
-                    {data?.error?.city ? (
+                    {data?.error?.city && (
                       <strong className="text-danger">
                         {data?.error?.city[0]}
                       </strong>
-                    ) : null}
+                    )}
                   </div>
                   <div className="col-md-3 form-group">
                     <label className="label-custom">UF</label>
@@ -273,11 +305,11 @@ const VehiclesForm = ({ match }) => {
                       disabled
                       value={data.vehicle.uf || ''}
                     />
-                    {data?.error?.uf ? (
+                    {data?.error?.uf && (
                       <strong className="text-danger">
                         {data?.error?.uf[0]}
                       </strong>
-                    ) : null}
+                    )}
                   </div>
                 </div>
               </div>
@@ -300,11 +332,11 @@ const VehiclesForm = ({ match }) => {
                       </MenuItem>
                     ))}
                   </Select>
-                  {data?.error?.vehicle_type ? (
+                  {data?.error?.vehicle_type && (
                     <strong className="text-danger">
                       {data?.error?.vehicle_type[0]}
                     </strong>
-                  ) : null}
+                  )}
                 </div>
 
                 <div className="form-group">
@@ -320,11 +352,11 @@ const VehiclesForm = ({ match }) => {
                       </MenuItem>
                     ))}
                   </Select>
-                  {data?.error?.vehicle_brand ? (
+                  {data?.error?.vehicle_brand && (
                     <strong className="text-danger">
                       {data?.error?.vehicle_brand[0]}
                     </strong>
-                  ) : null}
+                  )}
                 </div>
 
                 <div className="row">
@@ -343,11 +375,11 @@ const VehiclesForm = ({ match }) => {
                         </MenuItem>
                       ))}
                     </Select>
-                    {data?.error?.vehicle_model ? (
+                    {data?.error?.vehicle_model && (
                       <strong className="text-danger">
                         {data?.error?.vehicle_model[0]}
                       </strong>
-                    ) : null}
+                    )}
                   </div>
                   <div className="col-md-6 form-group">
                     <label className="label-custom">ANO DO MODELO</label>
@@ -364,11 +396,11 @@ const VehiclesForm = ({ match }) => {
                         </MenuItem>
                       ))}
                     </Select>
-                    {data?.error?.vehicle_regdate ? (
+                    {data?.error?.vehicle_regdate && (
                       <strong className="text-danger">
                         {data?.error?.vehicle_regdate[0]}
                       </strong>
-                    ) : null}
+                    )}
                   </div>
                 </div>
 
@@ -387,11 +419,11 @@ const VehiclesForm = ({ match }) => {
                       </MenuItem>
                     ))}
                   </Select>
-                  {data?.error?.vehicle_version ? (
+                  {data?.error?.vehicle_version && (
                     <strong className="text-danger">
                       {data?.error?.vehicle_version[0]}
                     </strong>
-                  ) : null}
+                  )}
                 </div>
               </div>
 
@@ -533,6 +565,120 @@ const VehiclesForm = ({ match }) => {
                       }}
                     />
                   </div>
+                </div>
+              </div>
+
+              {data.vehicle.vehicle_type && (
+                <>
+                  <h3 className="font-weight-normal mt-4 mb-4">
+                    Items e Opcionais
+                  </h3>
+                  <div className="card card-body">
+                    <div className="row">
+                      {data.features.map(
+                        (item) =>
+                          item.vehicle_type_id ===
+                            data.vehicle.vehicle_type && (
+                            <div className="col-md-6" key={item.id}>
+                              <FormControlLabel
+                                control={
+                                  <Checkbox
+                                    checked={
+                                      data.vehicle.vehicle_features[item.value]
+                                    }
+                                    onChange={() =>
+                                      handleCheckFeatures(item.value)
+                                    }
+                                  />
+                                }
+                                label={item.label}
+                              />
+                            </div>
+                          )
+                      )}
+                    </div>
+                  </div>
+                </>
+              )}
+
+              <h3 className="font-weight-normal mt-4 mb-4">Financeiro</h3>
+              <div className="card card-body">
+                <div className="form-group">
+                  <label className="label-custom">Estado Financeiro</label>
+                  <div className="row">
+                    {data.financial.map((item) => (
+                      <div className="col-md-6" key={item.id}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={
+                                data.vehicle.vehicle_financial[item.value]
+                              }
+                              onChange={() => handleCheckFinancial(item.value)}
+                            />
+                          }
+                          label={item.label}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-md-6 form-group">
+                    <label className="label-custom">PREÇO</label>
+                    <TextField
+                      type="tel"
+                      name="R$ "
+                      InputProps={{
+                        inputComponent: NumberFormatCustom,
+                        value: data.vehicle.vehicle_price || '',
+                        onChange: (event) => {
+                          dispatch(
+                            change({ vehicle_price: event.target.value })
+                          );
+
+                          if (data.error?.vehicle_price) {
+                            delete data.error?.vehicle_price;
+                          }
+                        },
+                      }}
+                    />
+
+                    {data?.error?.vehicle_price && (
+                      <strong className="text-danger">
+                        {data?.error?.vehicle_price[0]}
+                      </strong>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <h3 className="font-weight-normal mt-4 mb-4">
+                Descrição do anúncio
+              </h3>
+              <div className="card card-body">
+                <div className="form-group">
+                  <label className="label-custom">TÍTULO</label>
+                  <TextField
+                    value={data.vehicle.title || ''}
+                    onChange={(event) =>
+                      dispatch(change({ title: event.target.value }))
+                    }
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label className="label-custom">DESCRIÇÃO</label>
+                  <TextField
+                    multiline
+                    rows={5}
+                    rowsMax={5}
+                    value={data.vehicle.description || ''}
+                    onChange={(event) =>
+                      dispatch(change({ description: event.target.value }))
+                    }
+                  />
                 </div>
               </div>
             </div>
