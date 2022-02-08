@@ -8,6 +8,7 @@ const initialState = {
   vehicle_brand: [],
   vehicle_model: [],
   vehicle_version: [],
+  upload_photo: false,
   success: false,
   errors: {},
 };
@@ -38,6 +39,35 @@ function vehiclesReducer(state = initialState, { type, payload, isLoadMore }) {
         vehicle: {
           ...state.vehicle,
           ...payload,
+        },
+      };
+
+    case actionTypes.UPLOAD_PHOTO:
+      return {
+        ...state,
+        vehicle: {
+          ...state.vehicle,
+          vehicle_photos: [...state.vehicle.vehicle_photos, ...payload],
+        },
+      };
+
+    case actionTypes.DELETE_PHOTO:
+      return {
+        ...state,
+        vehicle: {
+          ...state.vehicle,
+          vehicle_photos: state.vehicle.vehicle_photos.filter(
+            (photo) => photo.id !== payload
+          ),
+        },
+      };
+
+    case actionTypes.REORDER_PHOTO:
+      return {
+        ...state,
+        vehicle: {
+          ...state.vehicle,
+          vehicle_photos: payload,
         },
       };
 
