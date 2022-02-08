@@ -74,7 +74,6 @@ export const register = (data) => async (dispatch) => {
       })
     );
     if (error.response) {
-      debugger;
       dispatch(errorRegister(error.response.data.erros));
     }
   }

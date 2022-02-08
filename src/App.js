@@ -15,6 +15,8 @@ import { store } from './store/store';
 
 import themeUiConfig from './styles/themeUiConfig';
 
+import './styles/global.css';
+
 const theme = createMuiTheme(themeUiConfig);
 
 const App = () => {

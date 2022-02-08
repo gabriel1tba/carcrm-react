@@ -4,13 +4,15 @@ const initialState = {
   vehicles: {
     data: [],
   },
-  vehicle: {},
+  vehicle: {
+    vehicle_features: [],
+  },
   vehicle_brand: [],
   vehicle_model: [],
   vehicle_version: [],
   upload_photo: false,
   success: false,
-  errors: {},
+  error: {},
 };
 
 function vehiclesReducer(state = initialState, { type, payload, isLoadMore }) {

@@ -2,7 +2,9 @@ import { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import NumberFormat from 'react-number-format';
 import MaskedInput from 'react-text-mask';
-import ArrayMove from 'array-move';
+import { arrayMoveImmutable } from 'array-move';
+import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+import { FaTrash } from 'react-icons/fa';
 import {
   CircularProgress,
   TextField,
@@ -13,7 +15,10 @@ import {
   Checkbox,
 } from '@material-ui/core';
 
+import './styles.css';
+
 import Header from '../../Header';
+import Confirm from '../../Confirm';
 
 import {
   store,
@@ -27,6 +32,8 @@ import {
   deletePhoto,
   reorderPhoto,
 } from '../../../store/actions/vehicles';
+
+import { baseURL } from '../../../services/api';
 
 const TextMaskCustom = ({ inputRef, ...other }) => {
   const mask = [/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
@@ -59,6 +66,21 @@ const NumberFormatCustom = ({ inputRef, onChange, ...other }) => (
   />
 );
 
+const SortableItem = SortableElement(({ value }) => {
+  return (
+    <div
+      className="bg-img"
+      style={{
+        backgroundImage: `url(${baseURL}thumb/vehicles/${value.img}?u=${value.user_id}&s=${value.vehicle_id}&h=250&w=250)`,
+      }}
+    />
+  );
+});
+
+const SortableList = SortableContainer(({ children }) => {
+  return <div className="row">{children}</div>;
+});
+
 const VehiclesForm = ({ match }) => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.vehiclesReducer);
@@ -76,23 +98,6 @@ const VehiclesForm = ({ match }) => {
     }
     return null;
   }, [match.params.id]);
-
-  const handleShowOrStoreVehicle = async () => {
-    if (vehicle_id) {
-      const response = await dispatch(show(vehicle_id));
-
-      if (response) {
-        setIsLoading(false);
-      }
-    } else {
-      const response = await dispatch(store());
-
-      if (response) {
-        setIsLoading(false);
-      }
-    }
-    setIsLoading(false);
-  };
 
   const handleFillZipCode = async (value) => {
     dispatch(change({ zipCode: value }));
@@ -238,12 +243,12 @@ const VehiclesForm = ({ match }) => {
   };
 
   const handleUploadPhoto = async (event) => {
-    [...event.target.files].forEach((file) => {
+    [...event.target.files].map((file) => {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('id', data.vehicle.id);
 
-      dispatch(uploadPhoto(formData));
+      return dispatch(uploadPhoto(formData));
     });
 
     if (data.error?.photos) {
@@ -254,15 +259,19 @@ const VehiclesForm = ({ match }) => {
   const handleDeletePhoto = async (id) => {
     setIsDeleted(id);
     try {
-      const response = await dispatch(deletePhoto(id));
+      await dispatch(deletePhoto(id));
       setIsDeleted(null);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const handleConfirmDelete = (event) => {
+    setConfirmEl(event.currentTarget);
+  };
+
   const onSortEnd = ({ oldIndex, newIndex }) => {
-    const newPhotos = ArrayMove(
+    const newPhotos = arrayMoveImmutable(
       data.vehicle.vehicle_photos,
       oldIndex,
       newIndex
@@ -273,8 +282,24 @@ const VehiclesForm = ({ match }) => {
   };
 
   useEffect(() => {
+    const handleShowOrStoreVehicle = async () => {
+      if (vehicle_id) {
+        const response = await dispatch(show(vehicle_id));
+
+        if (response) {
+          setIsLoading(false);
+        }
+      } else {
+        const response = await dispatch(store());
+
+        if (response) {
+          setIsLoading(false);
+        }
+      }
+    };
+
     handleShowOrStoreVehicle();
-  }, []);
+  }, [dispatch, vehicle_id]);
 
   return (
     <>
@@ -721,6 +746,72 @@ const VehiclesForm = ({ match }) => {
                     }
                   />
                 </div>
+              </div>
+
+              <h3 className="font-weight-normal mt-4 mb-4">Fotos</h3>
+              <div className="card card-body mb-5">
+                {data?.error?.photos && (
+                  <strong className="text-danger">
+                    {data?.error?.photos[0]}
+                  </strong>
+                )}
+
+                <SortableList axis="xy" onSortEnd={onSortEnd}>
+                  {data.vehicle.vehicle_photos.map((item, index) => (
+                    <div className="col-6 col-md-4" key={item.id}>
+                      <div className="box-image d-flex justify-content-center align-items-center mt-3">
+                        {isDeleted === item.id ? (
+                          <CircularProgress size={30} color="secondary" />
+                        ) : (
+                          <>
+                            <span
+                              id={item.id}
+                              onClick={handleConfirmDelete}
+                              className="d-flex justify-content-center align-items-center img-action"
+                            >
+                              <div className="app-icon d-flex ">
+                                <FaTrash color="#FFF" size="1.2em" />
+                              </div>
+                            </span>
+                            <SortableItem
+                              key={`item-${item.id}`}
+                              index={index}
+                              value={item}
+                            />
+                            {Boolean(confirmEl) && (
+                              <Confirm
+                                open={item.id === parseInt(confirmEl.id)}
+                                onConfirm={() => handleDeletePhoto(item.id)}
+                                onClose={() => setConfirmEl(null)}
+                              />
+                            )}
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+
+                  <div className="col-6 col-md-4">
+                    <div className="box-image box-upload d-flex justify-content-center align-items-center mt-3">
+                      <input
+                        onChange={handleUploadPhoto}
+                        type="file"
+                        multiple
+                        name="file"
+                        className="file-input"
+                      />
+
+                      {data.upload_photo ? (
+                        <CircularProgress />
+                      ) : (
+                        <p className="box-text">
+                          <span className="text-plus">+</span>
+                          <span>Adicionar fotos</span>
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </SortableList>
               </div>
             </div>
 

@@ -216,7 +216,7 @@ export const uploadPhoto = (data) => async (dispatch) => {
   dispatch(indexResponse({ upload_photo: true }));
 
   try {
-    const response = await apiAuth.post('upload/vehicle ', data);
+    const response = await apiUpload.post('upload/vehicle ', data);
 
     if (typeof response !== 'undefined') {
       if (response.data.error) {
@@ -236,7 +236,7 @@ export const uploadPhoto = (data) => async (dispatch) => {
   } catch (error) {
     console.log(error);
   } finally {
-    dispatch(indexResponse({ upload_photo: true }));
+    dispatch(indexResponse({ upload_photo: false }));
   }
 };
 
