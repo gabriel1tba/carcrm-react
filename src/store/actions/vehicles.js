@@ -268,3 +268,28 @@ export const deletePhoto = (id) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const reorderPhotoResponse = (payload) => ({
+  type: actionTypes.REORDER_PHOTO,
+  payload,
+});
+
+export const reorderPhoto = (pos, data) => async (dispatch) => {
+  dispatch(reorderPhotoResponse(data));
+
+  try {
+    const response = await apiAuth.put(`upload/vehicle/null`, pos);
+
+    if (typeof response !== 'undefined') {
+      dispatch(
+        showNotify({
+          open: true,
+          msg: response.data.success,
+          class: 'success',
+        })
+      );
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
