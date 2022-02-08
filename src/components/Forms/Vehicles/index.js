@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import NumberFormat from 'react-number-format';
 import MaskedInput from 'react-text-mask';
+import ArrayMove from 'array-move';
 import {
   CircularProgress,
   TextField,
@@ -22,6 +23,9 @@ import {
   brand,
   model,
   version,
+  uploadPhoto,
+  deletePhoto,
+  reorderPhoto,
 } from '../../../store/actions/vehicles';
 
 const TextMaskCustom = ({ inputRef, ...other }) => {
@@ -231,6 +235,41 @@ const VehiclesForm = ({ match }) => {
         },
       })
     );
+  };
+
+  const handleUploadPhoto = async (event) => {
+    [...event.target.files].forEach((file) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('id', data.vehicle.id);
+
+      dispatch(uploadPhoto(formData));
+    });
+
+    if (data.error?.photos) {
+      delete data.error?.photos;
+    }
+  };
+
+  const deletePhoto = async (id) => {
+    setIsDeleted(id);
+    try {
+      const response = await dispatch(deletePhoto(id));
+      setIsDeleted(null);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    const newPhotos = ArrayMove(
+      data.vehicle.vehicle_photos,
+      oldIndex,
+      newIndex
+    );
+    const newPhotosId = newPhotos.map((photo) => photo.id);
+
+    dispatch(reorderPhoto({ order: newPhotosId }, newPhotos));
   };
 
   useEffect(() => {
