@@ -251,7 +251,7 @@ const VehiclesForm = ({ match }) => {
     }
   };
 
-  const deletePhoto = async (id) => {
+  const handleDeletePhoto = async (id) => {
     setIsDeleted(id);
     try {
       const response = await dispatch(deletePhoto(id));
