@@ -239,3 +239,32 @@ export const uploadPhoto = (data) => async (dispatch) => {
     dispatch(indexResponse({ upload_photo: true }));
   }
 };
+
+export const deletePhotoResponse = (payload) => ({
+  type: actionTypes.DELETE_PHOTO,
+  payload,
+});
+
+export const deletePhoto = (id) => async (dispatch) => {
+  try {
+    const response = await apiAuth.delete(`upload/vehicle/${id}`);
+
+    if (typeof response !== 'undefined') {
+      if (response.data.error) {
+        dispatch(
+          showNotify({
+            open: true,
+            msg: response.data.error,
+            class: 'error',
+          })
+        );
+
+        if (response.data.success) {
+          dispatch(deletePhotoResponse(id));
+        }
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};

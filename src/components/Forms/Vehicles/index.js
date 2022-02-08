@@ -589,6 +589,7 @@ const VehiclesForm = ({ match }) => {
                                     onChange={() =>
                                       handleCheckFeatures(item.value)
                                     }
+                                    color="primary"
                                   />
                                 }
                                 label={item.label}
@@ -615,6 +616,7 @@ const VehiclesForm = ({ match }) => {
                                 data.vehicle.vehicle_financial[item.value]
                               }
                               onChange={() => handleCheckFinancial(item.value)}
+                              color="primary"
                             />
                           }
                           label={item.label}
