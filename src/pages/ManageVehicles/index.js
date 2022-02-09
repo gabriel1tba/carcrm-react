@@ -34,6 +34,7 @@ import {
   uploadPhoto,
   deletePhoto,
   reorderPhoto,
+  indexResponse,
 } from '../../store/actions/vehicles';
 
 import { baseURL } from '../../services/api';
@@ -214,31 +215,31 @@ const ManageVehicles = ({ match }) => {
     dispatch(change({ vehicle_color: value }));
   };
 
-  const handleCheckFeatures = (value) => {
-    const checkedValue = data.vehicle.vehicle_features[value]
-      ? delete data.vehicle.vehicle_features[value]
-      : { [value]: value };
+  const handleCheckFeatures = (item) => {
+    const checked = data.vehicle.vehicle_features[item.value]
+      ? delete data.vehicle.vehicle_features[item.value]
+      : { [item.value]: item };
 
     dispatch(
       change({
         vehicle_features: {
           ...data.vehicle.vehicle_features,
-          checkedValue,
+          ...checked,
         },
       })
     );
   };
 
-  const handleCheckFinancial = (value) => {
-    const checkedValue = data.vehicle.vehicle_financial[value]
-      ? delete data.vehicle.vehicle_financial[value]
-      : { [value]: value };
+  const handleCheckFinancial = (item) => {
+    const checked = data.vehicle.vehicle_financial[item.value]
+      ? delete data.vehicle.vehicle_financial[item.value]
+      : { [item.value]: item };
 
     dispatch(
       change({
         vehicle_financial: {
           ...data.vehicle.vehicle_financial,
-          checkedValue,
+          ...checked,
         },
       })
     );
@@ -301,7 +302,11 @@ const ManageVehicles = ({ match }) => {
 
   useEffect(() => {
     handleShowOrStoreVehicle();
-  }, [handleShowOrStoreVehicle]);
+
+    return () => {
+      dispatch(indexResponse({ success: false }));
+    };
+  }, [dispatch, handleShowOrStoreVehicle]);
 
   return (
     <>
@@ -658,11 +663,11 @@ const ManageVehicles = ({ match }) => {
                                 control={
                                   <Checkbox
                                     checked={
-                                      data.vehicle.vehicle_features[item.value]
+                                      !!data.vehicle.vehicle_features[
+                                        item.value
+                                      ]
                                     }
-                                    onChange={() =>
-                                      handleCheckFeatures(item.value)
-                                    }
+                                    onChange={() => handleCheckFeatures(item)}
                                     color="primary"
                                   />
                                 }
@@ -687,9 +692,9 @@ const ManageVehicles = ({ match }) => {
                           control={
                             <Checkbox
                               checked={
-                                data.vehicle.vehicle_financial[item.value]
+                                !!data.vehicle.vehicle_financial[item.value]
                               }
-                              onChange={() => handleCheckFinancial(item.value)}
+                              onChange={() => handleCheckFinancial(item)}
                               color="primary"
                             />
                           }

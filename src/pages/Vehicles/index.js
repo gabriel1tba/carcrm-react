@@ -196,8 +196,10 @@ const Vehicles = () => {
                               <div className="dropdown-divider" />
 
                               <MenuItem>
-                                <FaPencilAlt size="1.2em" className="mr-4" />{' '}
-                                Editar
+                                <Link to={`/vehicles/${vehicle.id}/edit`}>
+                                  <FaPencilAlt size="1.2em" className="mr-4" />{' '}
+                                  Editar
+                                </Link>
                               </MenuItem>
                               <MenuItem>
                                 <FaTrash size="1.2em" className="mr-4" /> Apagar
