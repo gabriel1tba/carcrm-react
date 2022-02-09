@@ -1,8 +1,25 @@
-import { useState, useEffect, useCallback, Fragment } from 'react';
+import { useState, useEffect, useCallback, forwardRef, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { CircularProgress, Button } from '@material-ui/core';
-import { FaPlus } from 'react-icons/fa';
+import {
+  Button,
+  CircularProgress,
+  IconButton,
+  Menu,
+  MenuItem,
+  Slide,
+  Fade,
+} from '@material-ui/core';
+import {
+  FaPlus,
+  FaEllipsisV,
+  FaClipboard,
+  FaUser,
+  FaLink,
+  FaPencilAlt,
+  FaTrash,
+  FaShare,
+} from 'react-icons/fa';
 
 import Header from '../../components/Header';
 
@@ -20,6 +37,14 @@ const Vehicles = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadMore, setIsLoadMore] = useState(false);
   const [query, setQuery] = useState({ page: 1 });
+
+  const Transition = forwardRef((props, ref) => {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
+
+  const handleToggleMenu = (event) => {
+    setMenuEl(event.currentTarget);
+  };
 
   const handleDispatchIndex = useCallback(
     async (loadMore) => {
@@ -99,38 +124,90 @@ const Vehicles = () => {
                 {vehicles.data.length &&
                   vehicles.data.map((vehicle, index) => (
                     <Fragment key={index}>
-                      <div className="d-md-flex">
-                        <div className="d-flex">
-                          <div className="vehicle-image d-flex justify-content-center align-items-center">
-                            {isDeleted === vehicle.id ? (
-                              <CircularProgress color="secondary" />
-                            ) : vehicle.cover ? (
-                              <img
-                                src={`${baseURL}thumb/vehicles/${vehicle.cover.img}?u=${vehicle.cover.user_id}&s=${vehicle.cover.vehicle_id}&h=250&w=250`}
-                                alt="Foto ilustrativa de um carro"
-                                className="shadow rounded"
-                              />
-                            ) : null}
-                          </div>
+                      <div className="d-flex">
+                        <div className="vehicle-img d-flex justify-content-center align-items-center">
+                          {isDeleted === vehicle.id ? (
+                            <CircularProgress color="secondary" />
+                          ) : vehicle.cover ? (
+                            <img
+                              src={`${baseURL}thumb/vehicles/${vehicle.cover.img}?u=${vehicle.cover.user_id}&s=${vehicle.cover.vehicle_id}&h=250&w=250`}
+                              alt="Foto ilustrativa de um carro"
+                              className="shadow rounded"
+                            />
+                          ) : null}
+                        </div>
 
-                          <div className="vehicle-details pl-3 pl-md-4">
-                            <h6>
-                              {vehicle.vehicle_brand.label}{' '}
-                              {vehicle.vehicle_model.label}
-                            </h6>
-                            <strong className="d-block">
-                              {vehicle.vehicle_version.label}
+                        <div className="vehicle-detail pl-3 pl-md-4">
+                          <h6>
+                            {vehicle.vehicle_brand.label}{' '}
+                            {vehicle.vehicle_model.label}
+                          </h6>
+                          <strong className="d-block">
+                            {vehicle.vehicle_version.label}
+                          </strong>
+
+                          {vehicle.vehicle_price && (
+                            <strong className="text-danger h5 d-block">
+                              {new Intl.NumberFormat('pt-BR', {
+                                style: 'currency',
+                                currency: 'BRL',
+                              }).format(vehicle.vehicle_price)}
                             </strong>
+                          )}
+                        </div>
 
-                            {vehicle.vehicle_price && (
-                              <strong className="text-danger h5 d-block">
-                                {new Intl.NumberFormat('pt-BR', {
-                                  style: 'currency',
-                                  currency: 'BRL',
-                                }).format(vehicle.vehicle_price)}
-                              </strong>
-                            )}
-                          </div>
+                        <div className="ml-auto">
+                          <IconButton id={index} onClick={handleToggleMenu}>
+                            <FaEllipsisV />
+                          </IconButton>
+
+                          {Boolean(menuEl) && (
+                            <Menu
+                              anchorEl={menuEl}
+                              getContentAnchorEl={null}
+                              anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                              }}
+                              transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                              }}
+                              TransitionComponent={
+                                window.innerWidth < 577 ? Transition : Fade
+                              }
+                              open={index === parseInt(menuEl.id)}
+                              onClose={() => setMenuEl(null)}
+                              onClick={() => setMenuEl(null)}
+                            >
+                              <MenuItem>
+                                <FaClipboard size="1.2em" className="mr-4" />{' '}
+                                Notas
+                              </MenuItem>
+                              <MenuItem>
+                                <FaUser size="1.2em" className="mr-4" />{' '}
+                                Proprietário
+                              </MenuItem>
+                              <MenuItem>
+                                <FaLink size="1.2em" className="mr-4" />{' '}
+                                Visualizar
+                              </MenuItem>
+
+                              <div className="dropdown-divider" />
+
+                              <MenuItem>
+                                <FaPencilAlt size="1.2em" className="mr-4" />{' '}
+                                Editar
+                              </MenuItem>
+                              <MenuItem>
+                                <FaTrash size="1.2em" className="mr-4" /> Apagar
+                              </MenuItem>
+                              <MenuItem>
+                                <FaShare size="1.2em" className="mr-4" />{' '}
+                                Compartilhar
+                              </MenuItem>
+                            </Menu>
+                          )}
                         </div>
                       </div>
                     </Fragment>
