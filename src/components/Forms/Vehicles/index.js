@@ -1,10 +1,11 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
 import MaskedInput from 'react-text-mask';
 import { arrayMoveImmutable } from 'array-move';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
-import { FaTrash } from 'react-icons/fa';
+import { FaTrash, FaSave } from 'react-icons/fa';
 import {
   CircularProgress,
   TextField,
@@ -13,6 +14,7 @@ import {
   InputAdornment,
   FormControlLabel,
   Checkbox,
+  Button,
 } from '@material-ui/core';
 
 import './styles.css';
@@ -281,25 +283,25 @@ const VehiclesForm = ({ match }) => {
     dispatch(reorderPhoto({ order: newPhotosId }, newPhotos));
   };
 
-  useEffect(() => {
-    const handleShowOrStoreVehicle = async () => {
-      if (vehicle_id) {
-        const response = await dispatch(show(vehicle_id));
+  const handleShowOrStoreVehicle = useCallback(async () => {
+    if (vehicle_id) {
+      const response = await dispatch(show(vehicle_id));
 
-        if (response) {
-          setIsLoading(false);
-        }
-      } else {
-        const response = await dispatch(store());
-
-        if (response) {
-          setIsLoading(false);
-        }
+      if (response) {
+        setIsLoading(false);
       }
-    };
+    } else {
+      const response = await dispatch(store());
 
-    handleShowOrStoreVehicle();
+      if (response) {
+        setIsLoading(false);
+      }
+    }
   }, [dispatch, vehicle_id]);
+
+  useEffect(() => {
+    handleShowOrStoreVehicle();
+  }, [handleShowOrStoreVehicle]);
 
   return (
     <>
@@ -315,7 +317,7 @@ const VehiclesForm = ({ match }) => {
               <h3 className="font-weight-normal mb-4">
                 Localização do veículo
               </h3>
-              <div className="card card-body">
+              <div className="card card-body" onClick={() => setTips(0)}>
                 <div className="row">
                   <div className="col-md-7 form-group">
                     <label className="label-custom">CEP</label>
@@ -380,7 +382,7 @@ const VehiclesForm = ({ match }) => {
 
               <h3 className="font-weight-normal mt-4 mb-4">Dados do veículo</h3>
 
-              <div className="card card-body">
+              <div className="card card-body" onClick={() => setTips(1)}>
                 <div className="form-group">
                   <label className="label-custom">CATEGORIA</label>
                   <Select
@@ -491,7 +493,7 @@ const VehiclesForm = ({ match }) => {
                 </div>
               </div>
 
-              <div className="card card-body mt-4">
+              <div className="card card-body mt-4" onClick={() => setTips(1)}>
                 <div className="row">
                   {/* EXIBE APENAS SE FOR CARROS */}
                   {data.vehicle.vehicle_type === 2020 && (
@@ -635,9 +637,9 @@ const VehiclesForm = ({ match }) => {
               {data.vehicle.vehicle_type && (
                 <>
                   <h3 className="font-weight-normal mt-4 mb-4">
-                    Items e Opcionais
+                    Itens e Opcionais
                   </h3>
-                  <div className="card card-body">
+                  <div className="card card-body" onClick={() => setTips(1)}>
                     <div className="row">
                       {data.features.map(
                         (item) =>
@@ -731,6 +733,7 @@ const VehiclesForm = ({ match }) => {
                     onChange={(event) =>
                       dispatch(change({ title: event.target.value }))
                     }
+                    onFocus={() => setTips(2)}
                   />
                 </div>
 
@@ -744,6 +747,7 @@ const VehiclesForm = ({ match }) => {
                     onChange={(event) =>
                       dispatch(change({ description: event.target.value }))
                     }
+                    onFocus={() => setTips(3)}
                   />
                 </div>
               </div>
@@ -795,6 +799,7 @@ const VehiclesForm = ({ match }) => {
                     <div className="box-image box-upload d-flex justify-content-center align-items-center mt-3">
                       <input
                         onChange={handleUploadPhoto}
+                        onClick={() => setTips(4)}
                         type="file"
                         multiple
                         name="file"
@@ -815,7 +820,82 @@ const VehiclesForm = ({ match }) => {
               </div>
             </div>
 
-            <div className="col-md-5"></div>
+            <div className="col-md-5 d-none d-md-block">
+              <div className="tips">
+                <h3 className="font-weight-normal mb-4">Dicas</h3>
+                <div className="card card-body">
+                  {tips === 0 && (
+                    <>
+                      <h5>Endereço</h5>
+                      <p>
+                        O endereço é a primeira informação que os consumidores
+                        procuram quando estão pesquisando Veiculos. <br />
+                        <br />
+                        Anúncios com <strong>endereço</strong> terão mais
+                        oportunidades de serem exibidos nas novas formas de
+                        buscas, e receber mais contatos.
+                      </p>
+                    </>
+                  )}
+                  {tips === 1 && (
+                    <>
+                      <h5>Dados verídicos</h5>
+                      <p>
+                        Informe os dados corretos <br />
+                        (quilometragem, ano modelo, versão, etc.) <br />
+                        para conseguir o comprador rapidamente.
+                      </p>
+                    </>
+                  )}
+                  {tips === 2 && (
+                    <>
+                      <h5>Título</h5>
+                      <p>
+                        Sugerimos complementar o título com caracteristicas do
+                        seu carro.
+                        <br />
+                        Ex: Fiat Palio 2004 em perfeito estado.
+                      </p>
+                    </>
+                  )}
+                  {tips === 3 && (
+                    <>
+                      <h5>Descrição</h5>
+                      <p>
+                        Inclua caracteristicas do carro, como ar condicionado,
+                        vidros e travas elétricas, alarme, som, DVD, air bag
+                        duplo, IPVA pago, duvidas pendentes etc.
+                      </p>
+                    </>
+                  )}
+                  {tips === 4 && (
+                    <>
+                      <p>
+                        <strong>Fotos reais:</strong> Envie fotos reais do seu
+                        carro, assim aumenta suas chances de convencer o
+                        pontencial comprador.
+                        <br />
+                        <br />
+                        <strong>Todos os ângulos:</strong> Além das fotos do
+                        exterior do carro, não se esqueça de mostrar o interior.
+                      </p>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              <div className="d-flex btn-save">
+                <Link to="/vehicles" className="mr-2">
+                  <Button variant="contained" size="large">
+                    Voltar
+                  </Button>
+                </Link>
+                <Button variant="contained" color="primary" size="large">
+                  <FaSave size="1.5rem" className="mr-3" />
+                  Salvar
+                </Button>
+              </div>
+            </div>
           </div>
         )}
       </div>
