@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, forwardRef, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { FcOpenedFolder } from 'react-icons/fc';
 import {
   Button,
   CircularProgress,
@@ -22,10 +23,11 @@ import {
 } from 'react-icons/fa';
 
 import Header from '../../components/Header';
+import Confirm from '../../components/Confirm';
 
 import { baseURL } from '../../services/api';
 
-import { index } from '../../store/actions/vehicles';
+import { index, destroy } from '../../store/actions/vehicles';
 
 const Vehicles = () => {
   const dispatch = useDispatch();
@@ -44,6 +46,20 @@ const Vehicles = () => {
 
   const handleToggleMenu = (event) => {
     setMenuEl(event.currentTarget);
+  };
+
+  const handleDispatchDestroy = async (id) => {
+    setIsDeleted(id);
+
+    try {
+      const response = await dispatch(destroy(id));
+
+      if (response) {
+        setIsDeleted(null);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleDispatchIndex = useCallback(
@@ -114,14 +130,21 @@ const Vehicles = () => {
             </div>
 
             <div className="card">
-              {vehicles.data.length > 0 && (
+              {Boolean(vehicles.data.length) && (
                 <div className="card-header">
                   <h6 className="m-0">Total de veículos {vehicles.total}</h6>
                 </div>
               )}
 
+              {Boolean(!vehicles.data.length) && (
+                <div className="text-center mt-5 pt-5 mb-5 pb-5">
+                  <FcOpenedFolder size="70" />
+                  <h6 className="mt-4 text-muted">Nenhum veiculo encontrado</h6>
+                </div>
+              )}
+
               <div className="p-2 p-md-3">
-                {vehicles.data.length &&
+                {Boolean(vehicles.data.length) &&
                   vehicles.data.map((vehicle, index) => (
                     <Fragment key={index}>
                       <div className="d-flex">
@@ -178,7 +201,6 @@ const Vehicles = () => {
                               }
                               open={index === parseInt(menuEl.id)}
                               onClose={() => setMenuEl(null)}
-                              onClick={() => setMenuEl(null)}
                             >
                               <MenuItem>
                                 <FaClipboard size="1.2em" className="mr-4" />{' '}
@@ -201,7 +223,9 @@ const Vehicles = () => {
                                   Editar
                                 </Link>
                               </MenuItem>
-                              <MenuItem>
+                              <MenuItem
+                                onClick={() => setConfirmEl(vehicle.id)}
+                              >
                                 <FaTrash size="1.2em" className="mr-4" /> Apagar
                               </MenuItem>
                               <MenuItem>
@@ -209,6 +233,15 @@ const Vehicles = () => {
                                 Compartilhar
                               </MenuItem>
                             </Menu>
+                          )}
+                          {confirmEl && (
+                            <Confirm
+                              open={vehicle.id === confirmEl}
+                              onConfirm={() =>
+                                handleDispatchDestroy(vehicle.id)
+                              }
+                              onClose={() => setConfirmEl(null)}
+                            />
                           )}
                         </div>
                       </div>

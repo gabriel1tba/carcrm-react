@@ -314,7 +314,11 @@ const ManageVehicles = ({ match }) => {
       <Header
         title="Veículos - Gestão"
         button={
-          <Button color="inherit" className="ml-auto">
+          <Button
+            color="inherit"
+            className="ml-auto"
+            onClick={() => dispatch(update(data.vehicle))}
+          >
             Salvar
           </Button>
         }
