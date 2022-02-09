@@ -16,6 +16,7 @@ const initialState = {
 };
 
 function vehiclesReducer(state = initialState, { type, payload, isLoadMore }) {
+  console.log(type);
   switch (type) {
     case actionTypes.INDEX:
       if (isLoadMore) {
@@ -49,7 +50,7 @@ function vehiclesReducer(state = initialState, { type, payload, isLoadMore }) {
         ...state,
         vehicle: {
           ...state.vehicle,
-          vehicle_photos: [...state.vehicle.vehicle_photos, ...payload],
+          vehicle_photos: [...state.vehicle.vehicle_photos, payload],
         },
       };
 

@@ -227,10 +227,10 @@ export const uploadPhoto = (data) => async (dispatch) => {
             class: 'error',
           })
         );
+      }
 
-        if (response.data.id) {
-          dispatch(uploadPhotoResponse(response.data));
-        }
+      if (response.data.id) {
+        dispatch(uploadPhotoResponse(response.data));
       }
     }
   } catch (error) {
@@ -258,10 +258,10 @@ export const deletePhoto = (id) => async (dispatch) => {
             class: 'error',
           })
         );
+      }
 
-        if (response.data.success) {
-          dispatch(deletePhotoResponse(id));
-        }
+      if (response.data.success) {
+        dispatch(deletePhotoResponse(id));
       }
     }
   } catch (error) {
