@@ -63,6 +63,7 @@
 }
 
 .btn-save {
-  position: fixed;
-  bottom: 30px;
+  position: absolute;
+  bottom: 48px;
+  right: 15px;
 }

@@ -19,8 +19,8 @@ import {
 
 import './styles.css';
 
-import Header from '../../Header';
-import Confirm from '../../Confirm';
+import Header from '../../components/Header';
+import Confirm from '../../components/Confirm';
 
 import {
   store,
@@ -34,9 +34,9 @@ import {
   uploadPhoto,
   deletePhoto,
   reorderPhoto,
-} from '../../../store/actions/vehicles';
+} from '../../store/actions/vehicles';
 
-import { baseURL } from '../../../services/api';
+import { baseURL } from '../../services/api';
 
 const TextMaskCustom = ({ inputRef, ...other }) => {
   const mask = [/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
@@ -84,14 +84,13 @@ const SortableList = SortableContainer(({ children }) => {
   return <div className="row">{children}</div>;
 });
 
-const VehiclesForm = ({ match }) => {
+const ManageVehicles = ({ match }) => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.vehiclesReducer);
 
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingCep, setIsLoadingCep] = useState(false);
   const [isDeleted, setIsDeleted] = useState(null);
-  const [redirect, setRedirect] = useState(false);
   const [tips, setTips] = useState(0);
   const [confirmEl, setConfirmEl] = useState(null);
 
@@ -917,4 +916,4 @@ const VehiclesForm = ({ match }) => {
   );
 };
 
-export default VehiclesForm;
+export default ManageVehicles;
