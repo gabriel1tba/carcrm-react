@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
 import MaskedInput from 'react-text-mask';
 import { arrayMoveImmutable } from 'array-move';
@@ -26,6 +26,7 @@ import {
   store,
   show,
   change,
+  update,
   cep,
   brand,
   model,
@@ -253,8 +254,8 @@ const VehiclesForm = ({ match }) => {
       return dispatch(uploadPhoto(formData));
     });
 
-    if (data.error?.photos) {
-      delete data.error?.photos;
+    if (data.error?.vehicle_photos) {
+      delete data.error?.vehicle_photos;
     }
   };
 
@@ -305,6 +306,7 @@ const VehiclesForm = ({ match }) => {
 
   return (
     <>
+      {data.success && <Redirect to="/vehicles" />}
       <Header
         title="Veículos - Gestão"
         button={
@@ -761,9 +763,9 @@ const VehiclesForm = ({ match }) => {
 
               <h3 className="font-weight-normal mt-4 mb-4">Fotos</h3>
               <div className="card card-body mb-5">
-                {data?.error?.photos && (
+                {data?.error?.vehicle_photos && (
                   <strong className="text-danger">
-                    {data?.error?.photos[0]}
+                    {data?.error?.vehicle_photos[0]}
                   </strong>
                 )}
 
@@ -897,7 +899,12 @@ const VehiclesForm = ({ match }) => {
                     Voltar
                   </Button>
                 </Link>
-                <Button variant="contained" color="primary" size="large">
+                <Button
+                  onClick={() => dispatch(update(data.vehicle))}
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                >
                   <FaSave size="1.5rem" className="mr-3" />
                   Salvar
                 </Button>
