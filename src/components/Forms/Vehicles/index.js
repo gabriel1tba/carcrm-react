@@ -305,7 +305,14 @@ const VehiclesForm = ({ match }) => {
 
   return (
     <>
-      <Header title="Veículos - Gestão" />
+      <Header
+        title="Veículos - Gestão"
+        button={
+          <Button color="inherit" className="ml-auto">
+            Salvar
+          </Button>
+        }
+      />
       <div className="container mt-4 pt-3">
         {isLoading ? (
           <div className="d-flex justify-content-center mb-4 ">

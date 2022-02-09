@@ -30,7 +30,7 @@ import { MdMenu } from 'react-icons/md';
 
 import logoImg from '../../assets/logo.png';
 
-const Header = ({ title }) => {
+const Header = ({ title, button }) => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openCollapseSite, setOpenCollapseSite] = useState(false);
   const [openCollapseFinancial, setOpenCollapseFinancial] = useState(false);
@@ -48,6 +48,7 @@ const Header = ({ title }) => {
             <MdMenu />
           </IconButton>
           <Typography variant="h6">{title}</Typography>
+          {button && button}
         </Toolbar>
       </AppBar>
 
