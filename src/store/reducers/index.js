@@ -6,6 +6,7 @@ import alertReducer from './alert';
 import authReducer from './auth';
 import registerReducer from './register';
 import vehiclesReducer from './vehicles';
+import navigationReducer from './navigation';
 
 const Reducers = combineReducers({
   loadingReducer,
@@ -14,6 +15,7 @@ const Reducers = combineReducers({
   authReducer,
   registerReducer,
   vehiclesReducer,
+  navigationReducer,
 });
 
 export default Reducers;
