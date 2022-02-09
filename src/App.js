@@ -10,6 +10,7 @@ import Routes from './routes';
 import Alert from './components/Alert';
 import Notify from './components/Notify';
 import Loading from './components/Loading';
+import Navigation from './components/Navigation';
 
 import { store } from './store/store';
 
@@ -26,6 +27,7 @@ const App = () => {
         <Loading />
         <Notify />
         <Alert />
+        <Navigation />
 
         <Routes />
       </ThemeProvider>

@@ -28,6 +28,7 @@ import Confirm from '../../components/Confirm';
 import { baseURL } from '../../services/api';
 
 import { index, destroy } from '../../store/actions/vehicles';
+import { toggleScreen1 } from '../../store/actions/navigation';
 
 const Vehicles = () => {
   const dispatch = useDispatch();
@@ -143,11 +144,11 @@ const Vehicles = () => {
                 </div>
               )}
 
-              <div className="p-2 p-md-3">
+              <div className="p-2 p-md-3 mt-1">
                 {Boolean(vehicles.data.length) &&
                   vehicles.data.map((vehicle, index) => (
                     <Fragment key={index}>
-                      <div className="d-flex">
+                      <div className="d-flex card-container">
                         <div className="vehicle-img d-flex justify-content-center align-items-center">
                           {isDeleted === vehicle.id ? (
                             <CircularProgress color="secondary" />
@@ -202,7 +203,11 @@ const Vehicles = () => {
                               open={index === parseInt(menuEl.id)}
                               onClose={() => setMenuEl(null)}
                             >
-                              <MenuItem>
+                              <MenuItem
+                                onClick={() =>
+                                  dispatch(toggleScreen1({ open: true }))
+                                }
+                              >
                                 <FaClipboard size="1.2em" className="mr-4" />{' '}
                                 Notas
                               </MenuItem>

@@ -211,3 +211,7 @@ nav .disabled span {
   text-decoration: line-through;
   color: rgba(0, 0, 0, 0.54);
 }
+
+.card-container + .card-container {
+  margin-top: 20px;
+}
