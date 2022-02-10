@@ -28,7 +28,7 @@ import Confirm from '../../components/Confirm';
 import { baseURL } from '../../services/api';
 
 import { index, destroy } from '../../store/actions/vehicles';
-import { toggleScreen1 } from '../../store/actions/navigation';
+import { toggleScreen3 } from '../../store/actions/navigation';
 
 const Vehicles = () => {
   const dispatch = useDispatch();
@@ -40,6 +40,17 @@ const Vehicles = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadMore, setIsLoadMore] = useState(false);
   const [query, setQuery] = useState({ page: 1 });
+
+  const notes = (id) => {
+    setMenuEl(null);
+    dispatch(
+      toggleScreen3({
+        open: true,
+        type: 'notes',
+        uid: id,
+      })
+    );
+  };
 
   const Transition = forwardRef((props, ref) => {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -203,11 +214,7 @@ const Vehicles = () => {
                               open={index === parseInt(menuEl.id)}
                               onClose={() => setMenuEl(null)}
                             >
-                              <MenuItem
-                                onClick={() =>
-                                  dispatch(toggleScreen1({ open: true }))
-                                }
-                              >
+                              <MenuItem onClick={() => notes(vehicle.id)}>
                                 <FaClipboard size="1.2em" className="mr-4" />{' '}
                                 Notas
                               </MenuItem>

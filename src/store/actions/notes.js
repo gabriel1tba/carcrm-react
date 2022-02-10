@@ -60,7 +60,7 @@ export const updateResponse = (payload) => ({
 
 export const update = (data) => async (dispatch) => {
   try {
-    const response = await apiAuth.put('/notes/' + data.id, data);
+    const response = await apiAuth.put(`/notes/${data.id}`, data);
 
     if (typeof response !== 'undefined') {
       if (response.data.status === 200) {

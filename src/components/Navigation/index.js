@@ -2,6 +2,8 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Drawer } from '@material-ui/core';
 
+import Notes from '../Notes';
+
 import {
   toggleScreen1,
   toggleScreen2,
@@ -40,7 +42,15 @@ const Navigation = () => {
         open={nav.screen3.open}
         onClose={() => dispatch(toggleScreen3({ open: false }))}
       >
-        <div style={style}></div>
+        <div style={style}>
+          {nav.screen3.type === 'notes' && (
+            <Notes
+              uid={nav.screen3.uid}
+              type={nav.screen3.type}
+              props={nav.screen3.props}
+            />
+          )}
+        </div>
       </Drawer>
     </>
   );
