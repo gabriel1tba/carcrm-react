@@ -27,7 +27,7 @@ export const index = (query, isLoadMore) => async (dispatch) => {
     const response = await apiAuth.get('/notes?' + new URLSearchParams(query));
 
     if (typeof response !== 'undefined') {
-      dispatch(indexResponse(response.data, isLoadMore));
+      return dispatch(indexResponse(response.data, isLoadMore));
     }
   } catch (error) {
     console.log(error);
@@ -45,7 +45,7 @@ export const store = (data) => async (dispatch) => {
     const response = await apiAuth.post('/notes', data);
 
     if (typeof response !== 'undefined') {
-      dispatch(storeResponse(response.data));
+      return dispatch(storeResponse(response.data));
     }
   } catch (error) {
     console.log(error);
@@ -64,7 +64,7 @@ export const update = (data) => async (dispatch) => {
 
     if (typeof response !== 'undefined') {
       if (response.data.status === 200) {
-        dispatch(updateResponse(data));
+        return dispatch(updateResponse(data));
       }
 
       if (response.data.error) {
@@ -93,7 +93,7 @@ export const destroy = (id) => async (dispatch) => {
     const response = await apiAuth.delete('/notes/' + id);
 
     if (typeof response !== 'undefined') {
-      dispatch(destroyResponse(id));
+      return dispatch(destroyResponse(id));
     }
   } catch (error) {
     console.log(error);
