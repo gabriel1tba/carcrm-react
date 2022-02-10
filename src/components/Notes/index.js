@@ -1,14 +1,19 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@material-ui/core/styles';
-import { MdKeyboardBackspace } from 'react-icons/md';
+import { format } from 'date-fns';
+import { pt } from 'date-fns/locale';
+import { zonedTimeToUtc } from 'date-fns-tz';
 import { FcOpenedFolder } from 'react-icons/fc';
+import { MdKeyboardBackspace, MdClose, MdSave, MdSend } from 'react-icons/md';
 import {
   AppBar,
   Toolbar,
   IconButton,
   Typography,
   CircularProgress,
+  TextField,
+  Avatar,
 } from '@material-ui/core';
 
 import {
@@ -18,6 +23,7 @@ import {
   destroy,
   change,
 } from '../../store/actions/notes';
+
 import { toggleScreen3 } from '../../store/actions/navigation';
 
 export default function Notes({ uid, type, props }) {
@@ -40,10 +46,11 @@ export default function Notes({ uid, type, props }) {
   const [menuEl, setMenuEl] = useState(null);
   const [confirmEl, setConfirmEl] = useState(null);
 
-  const handleDispatchindex = useCallback(
+  const handleDispatchIndex = useCallback(
     async (loadMore) => {
       try {
         await dispatch(index(query, loadMore));
+
         setIsLoading(false);
         setLoadMore(false);
       } catch (error) {
@@ -54,8 +61,46 @@ export default function Notes({ uid, type, props }) {
   );
 
   useEffect(() => {
-    handleDispatchindex(isLoadMore);
-  }, [handleDispatchindex, isLoadMore, query]);
+    handleDispatchIndex(isLoadMore);
+  }, [handleDispatchIndex, isLoadMore, query]);
+
+  const handleDispatchStore = async () => {
+    setLoading(true);
+
+    const data = {
+      uid: query.uid,
+      type: query.type,
+    };
+
+    try {
+      const response = await dispatch(store({ ...data, ...note }));
+
+      debugger;
+      if (response) {
+        dispatch(change('clear'));
+
+        document.getElementById('scroll').scroll({
+          top: 0,
+          behavior: 'smooth',
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDispatchUpdate = async () => {
+    setLoading(false);
+    dispatch(update(note)).then((res) => {
+      setLoading(false);
+      setIsEdited(null);
+      if (res) {
+        dispatch(change('clear'));
+      }
+    });
+  };
 
   return (
     <>
@@ -98,6 +143,87 @@ export default function Notes({ uid, type, props }) {
                 <h6 className="mt-4 text-muted">Nenhuma nota encontrada</h6>
               </div>
             )}
+
+            {notes.data.map((item, index) => (
+              <Fragment key={index}>
+                <div
+                  className={
+                    isEdited === item.id || isDeleted === item.id
+                      ? 'bg-selected'
+                      : ''
+                  }
+                >
+                  <div className="card-body d-flex align-items-center">
+                    <div className="d-none d-md-block">
+                      <Avatar className="bg-primary mr-4">
+                        {item.user.name.slice(0, 1)}
+                      </Avatar>
+                    </div>
+
+                    <div>
+                      <div className="alert alert-secondary mr-4 mb-1">
+                        {item.content}
+                      </div>
+                      <small>
+                        {format(
+                          zonedTimeToUtc(item.updated_at, 'America/Sao_Paulo'),
+                          "'Dia' dd 'de' MMMM ', às ' HH:mm'h'",
+                          { locale: pt }
+                        )}{' '}
+                        por {item.user.name}
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </Fragment>
+            ))}
+
+            <div className="form">
+              <TextField
+                autoFocus
+                multiline
+                placeholder="Digite uma nota"
+                value={note.content || ''}
+                onChange={(event) =>
+                  dispatch(change({ content: event.target.value }))
+                }
+              />
+              <div className="send">
+                {loading ? (
+                  <CircularProgress />
+                ) : (
+                  <>
+                    {isEdited ? (
+                      <>
+                        <IconButton
+                          onClick={() => {
+                            dispatch(change('clear'));
+                            setIsEdited(null);
+                          }}
+                        >
+                          <MdClose />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => note.content && handleDispatchUpdate()}
+                        >
+                          <MdSave
+                            color={note.content && theme.palette.secondary.main}
+                          />
+                        </IconButton>
+                      </>
+                    ) : (
+                      <IconButton
+                        onClick={() => note.content && handleDispatchStore()}
+                      >
+                        <MdSend
+                          color={note.content && theme.palette.secondary.main}
+                        />
+                      </IconButton>
+                    )}
+                  </>
+                )}
+              </div>
+            </div>
           </>
         )}
       </div>

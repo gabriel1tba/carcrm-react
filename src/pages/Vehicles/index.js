@@ -47,7 +47,10 @@ const Vehicles = () => {
       toggleScreen3({
         open: true,
         type: 'notes',
-        uid: id,
+        props: {
+          uid: id,
+          type: 'vehicles',
+        },
       })
     );
   };

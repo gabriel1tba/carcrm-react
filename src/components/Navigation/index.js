@@ -45,8 +45,8 @@ const Navigation = () => {
         <div style={style}>
           {nav.screen3.type === 'notes' && (
             <Notes
-              uid={nav.screen3.uid}
-              type={nav.screen3.type}
+              uid={nav.screen3.props.uid}
+              type={nav.screen3.props.type}
               props={nav.screen3.props}
             />
           )}
