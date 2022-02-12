@@ -64,7 +64,7 @@ export const update = (data) => async (dispatch) => {
 
     if (typeof response !== 'undefined') {
       if (response.data.status === 200) {
-        return dispatch(updateResponse(data));
+        dispatch(updateResponse(data));
       }
 
       if (response.data.error) {
@@ -90,10 +90,10 @@ export const destroyResponse = (payload) => ({
 
 export const destroy = (id) => async (dispatch) => {
   try {
-    const response = await apiAuth.delete('/notes/' + id);
+    const response = await apiAuth.delete(`/notes/${id}`);
 
     if (typeof response !== 'undefined') {
-      return dispatch(destroyResponse(id));
+      dispatch(destroyResponse(id));
     }
   } catch (error) {
     console.log(error);

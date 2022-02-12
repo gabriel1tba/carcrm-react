@@ -11,7 +11,7 @@ const notesReducer = (state = initialState, { type, payload, isLoadMore }) => {
   switch (type) {
     case actionTypes.INDEX:
       if (isLoadMore) {
-        payload.notes.data = state.notes.data.concat(payload.notes.data);
+        payload.notes.data = [...state.notes.data, ...payload.notes.data];
       }
 
       return { ...state, ...payload };

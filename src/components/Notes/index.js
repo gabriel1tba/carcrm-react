@@ -1,10 +1,19 @@
-import { useState, useEffect, useCallback, Fragment } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import {
+  useState,
+  useEffect,
+  useCallback,
+  forwardRef,
+  useRef,
+  Fragment,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@material-ui/core/styles';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { zonedTimeToUtc } from 'date-fns-tz';
 import { FcOpenedFolder } from 'react-icons/fc';
+import { FaEllipsisV, FaTrash, FaPencilAlt } from 'react-icons/fa';
 import { MdKeyboardBackspace, MdClose, MdSave, MdSend } from 'react-icons/md';
 import {
   AppBar,
@@ -14,6 +23,10 @@ import {
   CircularProgress,
   TextField,
   Avatar,
+  Menu,
+  MenuItem,
+  Slide,
+  Fade,
 } from '@material-ui/core';
 
 import {
@@ -24,6 +37,8 @@ import {
   change,
 } from '../../store/actions/notes';
 
+import Confirm from '../../components/Confirm';
+
 import { toggleScreen3 } from '../../store/actions/navigation';
 
 export default function Notes({ uid, type, props }) {
@@ -31,6 +46,8 @@ export default function Notes({ uid, type, props }) {
   const notes = useSelector((state) => state.notesReducer.notes);
   const note = useSelector((state) => state.notesReducer.note);
   const theme = useTheme();
+
+  const noteDivElement = useRef(null);
 
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadMore, setLoadMore] = useState(false);
@@ -45,6 +62,46 @@ export default function Notes({ uid, type, props }) {
   const [isEdited, setIsEdited] = useState(null);
   const [menuEl, setMenuEl] = useState(null);
   const [confirmEl, setConfirmEl] = useState(null);
+
+  const Transition = forwardRef((props, ref) => {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
+
+  const handleLoadMore = () => {
+    if (notes.current_page < notes.last_page) {
+      setLoadMore(true);
+    }
+  };
+
+  const handleScroll = (event) => {
+    let scrollTop =
+      event.target.scrollHeight -
+      (event.target.offsetHeight + event.target.scrollTop);
+    if (scrollTop < process.env.REACT_APP_SCROLL_HEIGHT) {
+      if (!isLoadMore && handleLoadMore());
+    }
+  };
+
+  useEffect(() => {
+    const currentELement = noteDivElement.current;
+
+    noteDivElement.current.addEventListener('scroll', handleScroll);
+
+    return () => currentELement.removeEventListener('scroll', handleScroll);
+  });
+
+  useEffect(() => {
+    if (isLoadMore) {
+      setQuery({
+        ...query,
+        page: query.page + 1,
+      });
+    }
+  }, [isLoadMore]);
+
+  const handleToggleMenu = (event) => {
+    setMenuEl(event.currentTarget);
+  };
 
   const handleDispatchIndex = useCallback(
     async (loadMore) => {
@@ -62,7 +119,7 @@ export default function Notes({ uid, type, props }) {
 
   useEffect(() => {
     handleDispatchIndex(isLoadMore);
-  }, [handleDispatchIndex, isLoadMore, query]);
+  }, [query]);
 
   const handleDispatchStore = async () => {
     setLoading(true);
@@ -75,11 +132,10 @@ export default function Notes({ uid, type, props }) {
     try {
       const response = await dispatch(store({ ...data, ...note }));
 
-      debugger;
       if (response) {
         dispatch(change('clear'));
 
-        document.getElementById('scroll').scroll({
+        noteDivElement.current.scroll({
           top: 0,
           behavior: 'smooth',
         });
@@ -92,14 +148,36 @@ export default function Notes({ uid, type, props }) {
   };
 
   const handleDispatchUpdate = async () => {
-    setLoading(false);
-    dispatch(update(note)).then((res) => {
+    setLoading(true);
+
+    try {
+      await dispatch(update(note));
+      dispatch(change('clear'));
+    } catch (error) {
+      console.log(error);
+    } finally {
       setLoading(false);
       setIsEdited(null);
-      if (res) {
-        dispatch(change('clear'));
+    }
+  };
+
+  const handleDispatchEdit = (item) => {
+    setIsEdited(item.id);
+    setMenuEl(null);
+    dispatch(change(item));
+  };
+
+  const handleDispatchDestroy = async (id) => {
+    setIsDeleted(id);
+    setMenuEl(null);
+    try {
+      const response = await dispatch(destroy(id));
+      if (response) {
+        setIsDeleted(null);
       }
-    });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -120,7 +198,7 @@ export default function Notes({ uid, type, props }) {
         </Toolbar>
       </AppBar>
 
-      <div id="scroll" className="scroll-form notes">
+      <div ref={noteDivElement} className="scroll-form notes">
         {isLoading ? (
           <div className="d-flex justify-content-center mt-5 pt-5">
             {' '}
@@ -156,7 +234,7 @@ export default function Notes({ uid, type, props }) {
                   <div className="card-body d-flex align-items-center">
                     <div className="d-none d-md-block">
                       <Avatar className="bg-primary mr-4">
-                        {item.user.name.slice(0, 1)}
+                        {item.user.name[0]}
                       </Avatar>
                     </div>
 
@@ -173,10 +251,61 @@ export default function Notes({ uid, type, props }) {
                         por {item.user.name}
                       </small>
                     </div>
+
+                    <div className="ml-auto">
+                      {isDeleted === item.id ? (
+                        <CircularProgress className="mr-2" color="secondary" />
+                      ) : (
+                        <>
+                          <IconButton id={index} onClick={handleToggleMenu}>
+                            <FaEllipsisV />
+                          </IconButton>
+                          {Boolean(menuEl) && (
+                            <Menu
+                              anchorEl={menuEl}
+                              transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                              }}
+                              TransitionComponent={
+                                window.innerWidth < 577 ? Transition : Fade
+                              }
+                              open={index === parseInt(menuEl.id)}
+                              onClose={() => setMenuEl(null)}
+                            >
+                              <MenuItem
+                                onClick={() => handleDispatchEdit(item)}
+                              >
+                                <FaPencilAlt size="1.2em" className="mr-4" />{' '}
+                                Editar
+                              </MenuItem>
+
+                              <MenuItem onClick={() => setConfirmEl(item.id)}>
+                                <FaTrash size="1.2em" className="mr-4" /> Apagar
+                              </MenuItem>
+                            </Menu>
+                          )}
+                          {confirmEl && (
+                            <Confirm
+                              open={item.id === confirmEl}
+                              onConfirm={() => handleDispatchDestroy(item.id)}
+                              onClose={() => setConfirmEl(null)}
+                            />
+                          )}
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
+                <hr className="m-0" />
               </Fragment>
             ))}
+
+            {isLoadMore && (
+              <div className="text-center card-body">
+                <CircularProgress />
+              </div>
+            )}
 
             <div className="form">
               <TextField
@@ -207,7 +336,7 @@ export default function Notes({ uid, type, props }) {
                           onClick={() => note.content && handleDispatchUpdate()}
                         >
                           <MdSave
-                            color={note.content && theme.palette.secondary.main}
+                            color={note.content && theme.palette.primary.main}
                           />
                         </IconButton>
                       </>
@@ -216,7 +345,7 @@ export default function Notes({ uid, type, props }) {
                         onClick={() => note.content && handleDispatchStore()}
                       >
                         <MdSend
-                          color={note.content && theme.palette.secondary.main}
+                          color={note.content && theme.palette.primary.main}
                         />
                       </IconButton>
                     )}

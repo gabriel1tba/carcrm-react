@@ -114,7 +114,7 @@ const Vehicles = () => {
       let scrollTop =
         event.srcElement.body.scrollHeight -
         (event.srcElement.body.offsetHeight + event.srcElement.body.scrollTop);
-      if (scrollTop < process.env.SCROLL_HEIGHT) {
+      if (scrollTop < process.env.REACT_APP_SCROLL_HEIGHT) {
         if (!isLoadMore && LoadMoreVehicles());
       }
     },
