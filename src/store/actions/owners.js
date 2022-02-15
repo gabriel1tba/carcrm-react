@@ -165,7 +165,6 @@ export const vehicles = (query, isLoadMore) => async (dispatch) => {
 };
 
 // CEP
-
 export const cep = (zipCode) => async (dispatch) => {
   try {
     if (zipCode.length > 8) {
