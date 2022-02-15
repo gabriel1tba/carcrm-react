@@ -1,6 +1,7 @@
 import { useState } from 'react';
-
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { MdMenu } from 'react-icons/md';
 import {
   MenuList,
   MenuItem,
@@ -26,14 +27,27 @@ import {
   FaAngleUp,
   FaAngleDown,
 } from 'react-icons/fa';
-import { MdMenu } from 'react-icons/md';
 
 import logoImg from '../../assets/logo.png';
 
+import { toggleScreen1 } from '../../store/actions/navigation';
+
 const Header = ({ title, button }) => {
+  const dispatch = useDispatch();
+
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openCollapseSite, setOpenCollapseSite] = useState(false);
   const [openCollapseFinancial, setOpenCollapseFinancial] = useState(false);
+
+  const openNavigationOwoners = (page) => {
+    dispatch(
+      toggleScreen1({
+        open: true,
+        type: page,
+        props: {},
+      })
+    );
+  };
 
   return (
     <>
@@ -66,7 +80,10 @@ const Header = ({ title, button }) => {
             </li>
 
             <li className="nav-item">
-              <button className="nav-link bg-white">
+              <button
+                onClick={() => openNavigationOwoners('owners')}
+                className="nav-link bg-white"
+              >
                 <FaUsers className="icon-lg mr-1 " /> Proprietários
               </button>
             </li>

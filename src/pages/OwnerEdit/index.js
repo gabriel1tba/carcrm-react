@@ -24,12 +24,12 @@ import {
   success,
 } from '../../store/actions/owners';
 
-const OwnersEdit = ({ owner_id }) => {
+const OwnerEdit = (props) => {
   const dispatch = useDispatch();
   const owner = useSelector((state) => state.ownersReducer.owner);
   const error = useSelector((state) => state.ownersReducer.error);
   const response = useSelector((state) => state.ownersReducer.success);
-  const owner_id = owner_id ? owner_id : null;
+  const owner_id = props.owner_id ? props.owner_id : null;
 
   const [isLoading, setLoading] = useState(true);
   const [isLoadingCep, setLoadingCep] = useState(false);
@@ -85,8 +85,7 @@ const OwnersEdit = ({ owner_id }) => {
       <div className="scroll card-body">
         {isLoading ? (
           <div className="d-flex justify-content-center mt-5 pt-5">
-            {' '}
-            <CircularProgress />{' '}
+            <CircularProgress />
           </div>
         ) : (
           <>
@@ -96,8 +95,8 @@ const OwnersEdit = ({ owner_id }) => {
               <TextField
                 error={error.name && true}
                 value={owner.name || ''}
-                onChange={(text) => {
-                  dispatch(change({ name: text.target.value }));
+                onChange={(event) => {
+                  dispatch(change({ name: event.target.value }));
                   if (error.name && delete error.name);
                 }}
               />
@@ -113,4 +112,4 @@ const OwnersEdit = ({ owner_id }) => {
   );
 };
 
-export default OwnersEdit;
+export default OwnerEdit;

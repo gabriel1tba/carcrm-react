@@ -1,8 +1,9 @@
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Drawer } from '@material-ui/core';
 
 import Notes from '../Notes';
+import Owners from '../../pages/Owners';
+import OwnerEdit from '../../pages/OwnerEdit';
 
 import {
   toggleScreen1,
@@ -26,7 +27,11 @@ const Navigation = () => {
         open={nav.screen1.open}
         onClose={() => dispatch(toggleScreen1({ open: false }))}
       >
-        <div style={style}></div>
+        <div style={style}>
+          {nav.screen1.type === 'owners' && (
+            <Owners type={nav.screen1.type} props={nav.screen1.props} />
+          )}
+        </div>
       </Drawer>
 
       <Drawer
@@ -34,7 +39,11 @@ const Navigation = () => {
         open={nav.screen2.open}
         onClose={() => dispatch(toggleScreen2({ open: false }))}
       >
-        <div style={style}></div>
+        <div style={style}>
+          {nav.screen2.type === 'owner-edit' && (
+            <OwnerEdit uid={nav.screen2.props.uid} props={nav.screen2.props} />
+          )}
+        </div>
       </Drawer>
 
       <Drawer

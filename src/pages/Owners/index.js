@@ -44,7 +44,7 @@ const Owners = () => {
 
       <div id="scroll" className="scroll">
         <Fab
-          onClick={() => handleCreate()}
+          onClick={handleCreate}
           className="fab-bottom-right mr-3 mb-3"
           color="primary"
         >
