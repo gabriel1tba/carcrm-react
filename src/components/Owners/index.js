@@ -48,7 +48,7 @@ const Owners = () => {
           className="fab-bottom-right mr-3 mb-3"
           color="primary"
         >
-          <FaPlus />
+          <FaPlus size={17} />
         </Fab>
       </div>
     </>

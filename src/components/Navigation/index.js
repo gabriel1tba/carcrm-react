@@ -2,8 +2,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Drawer } from '@material-ui/core';
 
 import Notes from '../Notes';
-import Owners from '../../pages/Owners';
-import OwnerEdit from '../../pages/OwnerEdit';
+import Owners from '../Owners';
+import OwnerEdit from '../OwnerEdit';
 
 import {
   toggleScreen1,
