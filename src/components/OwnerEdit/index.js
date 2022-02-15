@@ -116,7 +116,7 @@ const OwnerEdit = (props) => {
   const owner = useSelector((state) => state.ownersReducer.owner);
   const error = useSelector((state) => state.ownersReducer.error);
   const response = useSelector((state) => state.ownersReducer.success);
-  const owner_id = props.owner_id ? props.owner_id : null;
+  const owner_id = props.uid ? props.uid : null;
 
   const [isLoading, setLoading] = useState(true);
   const [isLoadingCep, setLoadingCep] = useState(false);
