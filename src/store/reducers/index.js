@@ -8,6 +8,7 @@ import registerReducer from './register';
 import vehiclesReducer from './vehicles';
 import navigationReducer from './navigation';
 import notesReducer from './notes';
+import ownersReducer from './owners';
 
 const Reducers = combineReducers({
   loadingReducer,
@@ -18,6 +19,7 @@ const Reducers = combineReducers({
   vehiclesReducer,
   navigationReducer,
   notesReducer,
+  ownersReducer,
 });
 
 export default Reducers;

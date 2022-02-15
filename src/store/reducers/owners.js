@@ -16,7 +16,7 @@ const ownersReducer = (state = initialState, { type, payload, isLoadMore }) => {
   switch (type) {
     case actionTypes.INDEX:
       if (isLoadMore) {
-        payload.owners.data = state.owners.data.concat(payload.owners.data);
+        payload.owners.data = [...state.owners.data, ...payload.owners.data];
       }
 
       return { ...state, ...payload };

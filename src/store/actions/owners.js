@@ -37,7 +37,7 @@ export const indexResponse = (payload, isLoadMore) => ({
 
 export const index = (query, isLoadMore) => async (dispatch) => {
   try {
-    const response = await apiAuth.get('/owners?' + new URLSearchParams(query));
+    const response = await apiAuth.get(`/owners?${new URLSearchParams(query)}`);
 
     return (
       typeof response !== 'undefined' &&
@@ -87,7 +87,7 @@ export const store = (data) => async (dispatch) => {
 // SHOW
 export const show = (id) => async (dispacth) => {
   try {
-    const response = await apiAuth.get('/owners/' + id);
+    const response = await apiAuth.get(`/owners/${id}`);
     return (
       typeof response !== 'undefined' && dispacth(indexResponse(response.data))
     );
@@ -106,7 +106,7 @@ export const update = (data) => async (dispatch) => {
   dispatch(showLoading({ open: true }));
 
   try {
-    const response = await apiAuth.put('/owners/' + data.id, data);
+    const response = await apiAuth.put(`/owners/${data.id}`, data);
 
     if (response.data.error) {
       dispatch(error(response.data.error));
@@ -137,7 +137,7 @@ export const destroyResponse = (payload) => ({
 
 export const destroy = (id) => async (dispatch) => {
   try {
-    const response = await apiAuth.delete('/owners/' + id);
+    const response = await apiAuth.delete(`/owners/${id}`);
     return typeof response !== 'undefined' && dispatch(destroyResponse(id));
   } catch (error) {
     console.log(error);
