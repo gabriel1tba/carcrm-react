@@ -75,6 +75,12 @@ export const show = (id) => async (dispatch) => {
   }
 };
 
+// UPDATE
+export const updateResponse = (payload) => ({
+  type: actionTypes.UPDATE,
+  payload,
+});
+
 export const update = (data) => async (dispatch) => {
   dispatch(
     showLoading({
