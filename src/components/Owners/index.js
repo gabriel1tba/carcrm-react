@@ -130,6 +130,19 @@ const Owners = () => {
     );
   };
 
+  const handleShow = (item) => {
+    setMenuEl(null);
+    dispatch(
+      toggleScreen2({
+        open: true,
+        type: 'owner-show',
+        props: {
+          item: item,
+        },
+      })
+    );
+  };
+
   const handleEdit = (id) => {
     setMenuEl(null);
     dispatch(
@@ -196,7 +209,7 @@ const Owners = () => {
                   {owners.total}{' '}
                   {owners.total > 1
                     ? 'proprietários encontrados'
-                    : 'proprietário encontrada'}
+                    : 'proprietário encontrado'}
                 </h6>
               </div>
             )}
@@ -214,10 +227,14 @@ const Owners = () => {
               {owners.data.map((item, index) => (
                 <Fragment key={index}>
                   <ListItem button selected={isDeleted === item.id}>
-                    <ListItemAvatar>
+                    <ListItemAvatar onClick={() => handleShow(item)}>
                       <Avatar className="bg-primary">{item.name[0]}</Avatar>
                     </ListItemAvatar>
-                    <ListItemText className="pb-3 pt-3" primary={item.name} />
+                    <ListItemText
+                      onClick={() => handleShow(item)}
+                      className="pb-3 pt-3"
+                      primary={item.name}
+                    />
 
                     {isDeleted === item.id && (
                       <CircularProgress className="mr-2" color="secondary" />

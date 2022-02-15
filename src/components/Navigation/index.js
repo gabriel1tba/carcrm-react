@@ -4,6 +4,7 @@ import { Drawer } from '@material-ui/core';
 import Notes from '../Notes';
 import Owners from '../Owners';
 import OwnerEdit from '../OwnerEdit';
+import OwnerShow from '../OwnerShow';
 
 import {
   toggleScreen1,
@@ -42,6 +43,10 @@ const Navigation = () => {
         <div style={style}>
           {nav.screen2.type === 'owner-edit' && (
             <OwnerEdit uid={nav.screen2.props.uid} props={nav.screen2.props} />
+          )}
+
+          {nav.screen2.type === 'owner-show' && (
+            <OwnerShow item={nav.screen2.props.item} />
           )}
         </div>
       </Drawer>
