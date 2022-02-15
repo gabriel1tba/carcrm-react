@@ -109,21 +109,19 @@ const Vehicles = () => {
     }
   }, [handleDispatchIndex, query, vehicles.current_page, vehicles.last_page]);
 
-  const handleScroll = useCallback(
-    (event) => {
-      let scrollTop =
-        event.srcElement.body.scrollHeight -
-        (event.srcElement.body.offsetHeight + event.srcElement.body.scrollTop);
-      if (scrollTop < process.env.REACT_APP_SCROLL_HEIGHT) {
-        if (!isLoadMore && LoadMoreVehicles());
-      }
-    },
-    [LoadMoreVehicles, isLoadMore]
-  );
+  const handleScroll = (event) => {
+    let scrollTop =
+      event.srcElement.body.scrollHeight -
+      (event.srcElement.body.offsetHeight + event.srcElement.body.scrollTop);
+    if (scrollTop < process.env.REACT_APP_SCROLL_HEIGHT) {
+      if (!isLoadMore && LoadMoreVehicles());
+    }
+  };
 
   useEffect(() => {
     document.addEventListener('scroll', handleScroll);
-  }, [handleScroll]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
