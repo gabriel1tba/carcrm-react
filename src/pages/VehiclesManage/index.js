@@ -39,12 +39,12 @@ import {
 
 import { baseURL } from '../../services/api';
 
-const TextMaskCustom = ({ inputRef, ...other }) => {
+const TextMaskCustom = ({ inputRef, ...rest }) => {
   const mask = [/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
 
   return (
     <MaskedInput
-      {...other}
+      {...rest}
       ref={(ref) => {
         inputRef(ref ? ref.inputElement : null);
       }}
@@ -54,9 +54,9 @@ const TextMaskCustom = ({ inputRef, ...other }) => {
   );
 };
 
-const NumberFormatCustom = ({ inputRef, onChange, ...other }) => (
+const NumberFormatCustom = ({ inputRef, onChange, ...rest }) => (
   <NumberFormat
-    {...other}
+    {...rest}
     decimalSeparator=","
     thousandSeparator="."
     onValueChange={(values) => {
@@ -66,7 +66,7 @@ const NumberFormatCustom = ({ inputRef, onChange, ...other }) => (
         },
       });
     }}
-    prefix={other.name}
+    prefix={rest.name}
   />
 );
 
