@@ -85,7 +85,7 @@ const SortableList = SortableContainer(({ children }) => {
   return <div className="row">{children}</div>;
 });
 
-const ManageVehicles = ({ match }) => {
+const VehiclesManage = ({ match }) => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.vehiclesReducer);
 
@@ -925,4 +925,4 @@ const ManageVehicles = ({ match }) => {
   );
 };
 
-export default ManageVehicles;
+export default VehiclesManage;

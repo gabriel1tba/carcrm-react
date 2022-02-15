@@ -6,7 +6,7 @@ import { CircularProgress } from '@material-ui/core';
 const Auth = lazy(() => import('../pages/Auth'));
 const Register = lazy(() => import('../pages/Register'));
 const Vehicles = lazy(() => import('../pages/Vehicles'));
-const ManageVehicles = lazy(() => import('../pages/ManageVehicles'));
+const VehiclesManage = lazy(() => import('../pages/VehiclesManage'));
 
 const Routes = () => {
   return (
@@ -23,8 +23,8 @@ const Routes = () => {
           <Route path="/login" component={Auth} />
           <Route path="/register" component={Register} />
           <Route exact path="/vehicles" component={Vehicles} />
-          <Route path="/vehicles/create" component={ManageVehicles} />
-          <Route path="/vehicles/:id/edit" component={ManageVehicles} />
+          <Route path="/vehicles/create" component={VehiclesManage} />
+          <Route path="/vehicles/:id/edit" component={VehiclesManage} />
         </Switch>
       </Suspense>
     </Router>
