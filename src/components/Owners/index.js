@@ -179,6 +179,19 @@ const Owners = (props) => {
     );
   };
 
+  const handleVehicles = (owner_id) => {
+    setMenuEl(null);
+    dispatch(
+      toggleScreen2({
+        open: true,
+        type: 'owner-vehicles',
+        props: {
+          uid: owner_id,
+        },
+      })
+    );
+  };
+
   return (
     <>
       <AppBar position="absolute">
@@ -283,7 +296,7 @@ const Owners = (props) => {
                               <FaClipboard size="1.2em" className="mr-4" />{' '}
                               Notas
                             </MenuItem>
-                            <MenuItem>
+                            <MenuItem onClick={() => handleVehicles(item.id)}>
                               <FaCar size="1.2em" className="mr-4" /> Veiculos
                             </MenuItem>
 

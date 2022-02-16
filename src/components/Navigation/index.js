@@ -5,6 +5,7 @@ import Notes from '../Notes';
 import Owners from '../Owners';
 import OwnerEdit from '../OwnerEdit';
 import OwnerShow from '../OwnerShow';
+import OwnerVehicles from '../OwnerVehicles';
 
 import {
   toggleScreen1,
@@ -47,6 +48,10 @@ const Navigation = () => {
 
           {nav.screen2.type === 'owner-show' && (
             <OwnerShow item={nav.screen2.props.item} />
+          )}
+
+          {nav.screen2.type === 'owner-vehicles' && (
+            <OwnerVehicles uid={nav.screen2.props.uid} />
           )}
         </div>
       </Drawer>
