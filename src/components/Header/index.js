@@ -47,6 +47,8 @@ const Header = ({ title, button }) => {
         props: {},
       })
     );
+
+    setOpenDrawer(false);
   };
 
   return (
@@ -159,14 +161,18 @@ const Header = ({ title, button }) => {
 
             <Divider className="mt-2 mb-3" />
 
-            <ListItem>
+            <ListItem
+              component={Link}
+              to="/vehicles"
+              onClick={() => setOpenDrawer(false)}
+            >
               <ListItemIcon>
                 <FaCar />
               </ListItemIcon>
               <ListItemText primary="Veículos" />
             </ListItem>
 
-            <ListItem>
+            <ListItem onClick={() => openNavigationOwoners('owners')}>
               <ListItemIcon>
                 <FaUsers />
               </ListItemIcon>

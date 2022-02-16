@@ -325,6 +325,12 @@ const Owners = (props) => {
                 </Fragment>
               ))}
             </List>
+
+            {isLoadMore && (
+              <div className="text-center card-body">
+                <CircularProgress />
+              </div>
+            )}
           </>
         )}
         <Fab

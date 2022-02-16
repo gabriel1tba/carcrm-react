@@ -16,7 +16,7 @@ import {
 
 import Confirm from '../Confirm';
 
-import { toggleScreen1 } from '../../store/actions/navigation';
+import { toggleScreen1, toggleScreen2 } from '../../store/actions/navigation';
 
 import {
   indexResponse,
@@ -63,18 +63,31 @@ const VehiclesOwner = ({ item = {}, onClose }) => {
     );
   };
 
+  const handleShowOwner = (item) => {
+    dispatch(
+      toggleScreen2({
+        open: true,
+        type: 'owner-show',
+        props: {
+          item: item,
+        },
+      })
+    );
+  };
+
   return (
     <div className="dialog">
       <DialogTitle>Proprietário</DialogTitle>
       <List className="pb-3">
         {item.vehicle_owner && (
           <ListItem button>
-            <ListItemAvatar>
+            <ListItemAvatar onClick={() => handleShowOwner(item.vehicle_owner)}>
               <Avatar className="account-avatar">
                 <MdPerson />
               </Avatar>
             </ListItemAvatar>
             <ListItemText
+              onClick={() => handleShowOwner(item.vehicle_owner)}
               className="pb-3 pt-3 m-0"
               primary={item.vehicle_owner.name}
             />

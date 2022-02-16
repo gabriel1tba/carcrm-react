@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useCallback, forwardRef, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -98,38 +99,39 @@ const Vehicles = () => {
     handleDispatchIndex();
   }, [handleDispatchIndex]);
 
-  const LoadMoreVehicles = useCallback(() => {
-    if (vehicles.current_page < vehicles.last_page) {
-      setQuery(
-        {
-          ...query,
-          page: query.page + 1,
-        },
-        () => {
-          handleDispatchIndex(true);
-        }
-      );
+  useEffect(() => {
+    if (isLoadMore) {
+      setQuery({
+        ...query,
+        page: query.page + 1,
+      });
     }
-  }, [handleDispatchIndex, query, vehicles.current_page, vehicles.last_page]);
+  }, [isLoadMore]);
 
   const handleScroll = (event) => {
-    let scrollTop =
-      event.srcElement.body.scrollHeight -
-      (event.srcElement.body.offsetHeight + event.srcElement.body.scrollTop);
-    if (scrollTop < process.env.REACT_APP_SCROLL_HEIGHT) {
-      if (!isLoadMore && LoadMoreVehicles());
+    const { scrollTop, scrollHeight, clientHeight } =
+      event.srcElement.documentElement;
+    let scroll = scrollHeight - (clientHeight + scrollTop);
+    if (scroll < process.env.REACT_APP_SCROLL_HEIGHT) {
+      if (!isLoadMore && handleLoadMore());
+    }
+  };
+
+  const handleLoadMore = () => {
+    if (vehicles.current_page < vehicles.last_page) {
+      setIsLoadMore(true);
     }
   };
 
   useEffect(() => {
     document.addEventListener('scroll', handleScroll);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    return () => document.removeEventListener('scroll', handleScroll);
+  });
 
   return (
     <>
       <Header title="Veículos" />;
-      <div className="container mt-4 pt-3">
+      <div className="container mb-5">
         {isLoading ? (
           <div className="d-flex justify-content-center mb-4 ">
             <CircularProgress />
@@ -273,10 +275,17 @@ const Vehicles = () => {
                           )}
                         </div>
                       </div>
+                      <hr />
                     </Fragment>
                   ))}
               </div>
             </div>
+
+            {isLoadMore && (
+              <div className="text-center card-body">
+                <CircularProgress />
+              </div>
+            )}
           </>
         )}
       </div>
