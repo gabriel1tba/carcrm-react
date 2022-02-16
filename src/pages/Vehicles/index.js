@@ -10,6 +10,7 @@ import {
   MenuItem,
   Slide,
   Fade,
+  Dialog,
 } from '@material-ui/core';
 import {
   FaPlus,
@@ -24,6 +25,7 @@ import {
 
 import Header from '../../components/Header';
 import Confirm from '../../components/Confirm';
+import VehiclesOwner from '../../components/VehiclesOwner';
 
 import { baseURL } from '../../services/api';
 
@@ -37,6 +39,7 @@ const Vehicles = () => {
   const [isDeleted, setIsDeleted] = useState(null);
   const [confirmEl, setConfirmEl] = useState(null);
   const [menuEl, setMenuEl] = useState(null);
+  const [ownerEl, setOwnerEl] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadMore, setIsLoadMore] = useState(false);
   const [query, setQuery] = useState({ page: 1 });
@@ -219,7 +222,7 @@ const Vehicles = () => {
                                 <FaClipboard size="1.2em" className="mr-4" />{' '}
                                 Notas
                               </MenuItem>
-                              <MenuItem>
+                              <MenuItem onClick={() => setOwnerEl(vehicle.id)}>
                                 <FaUser size="1.2em" className="mr-4" />{' '}
                                 Proprietário
                               </MenuItem>
@@ -255,6 +258,18 @@ const Vehicles = () => {
                               }
                               onClose={() => setConfirmEl(null)}
                             />
+                          )}
+
+                          {ownerEl && (
+                            <Dialog
+                              open={vehicle.id === ownerEl}
+                              onClose={() => setOwnerEl(null)}
+                            >
+                              <VehiclesOwner
+                                item={vehicle}
+                                onClose={() => setOwnerEl(null)}
+                              />
+                            </Dialog>
                           )}
                         </div>
                       </div>

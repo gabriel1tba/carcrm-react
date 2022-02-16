@@ -5,6 +5,7 @@ import { showNotify } from './notify';
 
 export const actionTypes = {
   INDEX: 'VEHICLE_INDEX',
+  UPDATE: 'VEHICLE_UPDATE',
   DESTROY: 'VEHICLE_DESTROY',
   CHANGE: 'VEHICLE_CHANGE',
   CREATE: 'VEHICLE_CREATE',

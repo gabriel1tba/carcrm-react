@@ -27,10 +27,8 @@ import {
 const VehiclesOwner = ({ item = {}, onClose }) => {
   const dispatch = useDispatch();
 
-  const [state, setState] = useState({
-    isDeleted: null,
-    confirmEl: null,
-  });
+  const [isDeleted] = useState(null);
+  const [confirmEl, setConfirmEl] = useState(null);
 
   useEffect(() => {
     return () => {
@@ -80,22 +78,22 @@ const VehiclesOwner = ({ item = {}, onClose }) => {
               className="pb-3 pt-3 m-0"
               primary={item.vehicle_owner.name}
             />
-            {state.isDeleted === item.vehicle_owner.id ? (
+            {isDeleted === item.vehicle_owner.id ? (
               <CircularProgress className="mr-2" color="secondary" />
             ) : (
               <IconButton
-                onClick={() => setState({ confirmEl: item.vehicle_owner.id })}
+                onClick={() => setConfirmEl(item.vehicle_owner.id)}
                 className="ml-auto"
               >
                 <MdDelete />
               </IconButton>
             )}
 
-            {state.confirmEl && (
+            {confirmEl && (
               <Confirm
-                open={item.vehicle_owner.id === state.confirmEl}
+                open={item.vehicle_owner.id === confirmEl}
                 onConfirm={() => handleUpdate(null, null)}
-                onClose={() => setState({ confirmEl: null })}
+                onClose={() => setConfirmEl(null)}
               />
             )}
           </ListItem>

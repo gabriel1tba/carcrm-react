@@ -7,7 +7,7 @@ import {
   useRef,
   Fragment,
 } from 'react';
-import { MdKeyboardBackspace, MdMoreHoriz } from 'react-icons/md';
+import { MdKeyboardBackspace, MdMoreHoriz, MdPersonAdd } from 'react-icons/md';
 import { FcOpenedFolder } from 'react-icons/fc';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -46,12 +46,14 @@ import {
   toggleScreen3,
 } from '../../store/actions/navigation';
 
-const Owners = () => {
+const Owners = (props) => {
   const dispatch = useDispatch();
   const owners = useSelector((state) => state.ownersReducer.owners);
+  const vehicle_id = props.props.vehicle_id || null;
 
   const noteDivElement = useRef(null);
 
+  const [confirmOwnerEl, setConfirmOwnerEl] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadMore, setLoadMore] = useState(false);
   const [query, setQuery] = useState({
@@ -239,8 +241,25 @@ const Owners = () => {
                     {isDeleted === item.id && (
                       <CircularProgress className="mr-2" color="secondary" />
                     )}
+                    {vehicle_id && (
+                      <IconButton onClick={() => setConfirmOwnerEl(item.id)}>
+                        <MdPersonAdd />
+                      </IconButton>
+                    )}
 
-                    {!isDeleted && (
+                    {confirmOwnerEl && (
+                      <Confirm
+                        open={item.id === confirmOwnerEl}
+                        onConfirm={() => {
+                          props.props.onSelected(item);
+                          dispatch(toggleScreen1({ open: false }));
+                        }}
+                        onClose={() => setConfirmOwnerEl(null)}
+                        title="Deseja adicionar esse proprietário ao veiculo ?"
+                      />
+                    )}
+
+                    {!isDeleted && !vehicle_id && (
                       <>
                         <IconButton id={index} onClick={handleToggleMenu}>
                           <MdMoreHoriz />

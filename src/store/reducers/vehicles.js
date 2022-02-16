@@ -26,6 +26,20 @@ function vehiclesReducer(state = initialState, { type, payload, isLoadMore }) {
       }
       return { ...state, ...payload };
 
+    case actionTypes.UPDATE:
+      let index = state.vehicles.data.findIndex(
+        (item) => item.id === payload.id
+      );
+      state.vehicles.data[index] = payload;
+
+      return {
+        ...state,
+        vehicles: {
+          ...state.vehicles,
+          data: state.vehicles.data,
+        },
+      };
+
     case actionTypes.DESTROY:
       return {
         ...state,
