@@ -178,7 +178,7 @@ const Vehicles = () => {
 
                         <div className="vehicle-detail pl-3 pl-md-4">
                           <h6>
-                            {vehicle.vehicle_brand.label}{' '}
+                            {vehicle.vehicle_brand.label}
                             {vehicle.vehicle_model.label}
                           </h6>
                           <strong className="d-block">
@@ -219,15 +219,15 @@ const Vehicles = () => {
                               onClose={() => setMenuEl(null)}
                             >
                               <MenuItem onClick={() => notes(vehicle.id)}>
-                                <FaClipboard size="1.2em" className="mr-4" />{' '}
+                                <FaClipboard size="1.2em" className="mr-4" />
                                 Notas
                               </MenuItem>
                               <MenuItem onClick={() => setOwnerEl(vehicle.id)}>
-                                <FaUser size="1.2em" className="mr-4" />{' '}
+                                <FaUser size="1.2em" className="mr-4" />
                                 Proprietário
                               </MenuItem>
                               <MenuItem>
-                                <FaLink size="1.2em" className="mr-4" />{' '}
+                                <FaLink size="1.2em" className="mr-4" />
                                 Visualizar
                               </MenuItem>
 
@@ -235,7 +235,7 @@ const Vehicles = () => {
 
                               <MenuItem>
                                 <Link to={`/vehicles/${vehicle.id}/edit`}>
-                                  <FaPencilAlt size="1.2em" className="mr-4" />{' '}
+                                  <FaPencilAlt size="1.2em" className="mr-4" />
                                   Editar
                                 </Link>
                               </MenuItem>
@@ -245,7 +245,7 @@ const Vehicles = () => {
                                 <FaTrash size="1.2em" className="mr-4" /> Apagar
                               </MenuItem>
                               <MenuItem>
-                                <FaShare size="1.2em" className="mr-4" />{' '}
+                                <FaShare size="1.2em" className="mr-4" />
                                 Compartilhar
                               </MenuItem>
                             </Menu>

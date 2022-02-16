@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect, Fragment, useRef } from 'react';
 import { MdKeyboardBackspace } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { FcOpenedFolder } from 'react-icons/fc';
@@ -21,6 +21,8 @@ const OwnerVehicles = (props) => {
   const dispatch = useDispatch();
   const list = useSelector((state) => state.ownersReducer.vehicles);
 
+  const noteDivElement = useRef(null);
+
   const [isLoading, setLoading] = useState(true);
   const [isLoadMore, setLoadMore] = useState(false);
   const [query, setQuery] = useState({
@@ -29,7 +31,7 @@ const OwnerVehicles = (props) => {
   });
 
   useEffect(() => {
-    _index(isLoadMore);
+    handleIndex(isLoadMore);
   }, [query]);
 
   useEffect(() => {
@@ -41,30 +43,30 @@ const OwnerVehicles = (props) => {
     }
   }, [isLoadMore]);
 
-  const _handleLoadMore = () => {
+  const handleLoadMore = () => {
     if (list.current_page < list.last_page) {
       setLoadMore(true);
     }
   };
 
-  const _handleScroll = (event) => {
+  const handleScroll = (event) => {
     let scrollTop =
       event.srcElement.scrollHeight -
       (event.srcElement.offsetHeight + event.srcElement.scrollTop);
     if (scrollTop < process.env.REACT_APP_SCROLL_HEIGHT) {
-      if (!isLoadMore && _handleLoadMore());
+      if (!isLoadMore && handleLoadMore());
     }
   };
 
   useEffect(() => {
-    document.getElementById('scroll').addEventListener('scroll', _handleScroll);
-    return () =>
-      document
-        .getElementById('scroll')
-        .removeEventListener('scroll', _handleScroll);
+    const currentELement = noteDivElement.current;
+
+    noteDivElement.current.addEventListener('scroll', handleScroll);
+
+    return () => currentELement.removeEventListener('scroll', handleScroll);
   });
 
-  const _index = (loadMore) => {
+  const handleIndex = (loadMore) => {
     dispatch(vehicles(query, loadMore)).then((res) => {
       setLoading(false);
       setLoadMore(false);
@@ -89,18 +91,17 @@ const OwnerVehicles = (props) => {
         </Toolbar>
       </AppBar>
 
-      <div id="scroll" className="scroll">
+      <div ref={noteDivElement} className="scroll">
         {isLoading ? (
           <div className="d-flex justify-content-center mt-5 pt-5">
-            {' '}
-            <CircularProgress />{' '}
+            <CircularProgress />
           </div>
         ) : (
           <>
             {list.data.length > 0 && (
               <div className="card-body">
                 <h6 className="m-0">
-                  {list.total}{' '}
+                  {list.total}
                   {list.total > 1
                     ? 'veiculos encontrados'
                     : 'veiculo encontrado'}

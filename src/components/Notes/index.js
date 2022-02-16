@@ -201,15 +201,14 @@ export default function Notes({ uid, type, props }) {
       <div ref={noteDivElement} className="scroll-form notes">
         {isLoading ? (
           <div className="d-flex justify-content-center mt-5 pt-5">
-            {' '}
-            <CircularProgress />{' '}
+            <CircularProgress />
           </div>
         ) : (
           <>
             {notes.data.length > 0 && (
               <div className="card-body">
                 <h6 className="m-0">
-                  {notes.total}{' '}
+                  {notes.total}
                   {notes.total > 1 ? 'notas encontradas' : 'nota encontrada'}
                 </h6>
               </div>
@@ -247,7 +246,7 @@ export default function Notes({ uid, type, props }) {
                           zonedTimeToUtc(item.updated_at, 'America/Sao_Paulo'),
                           "'Dia' dd 'de' MMMM ', às ' HH:mm'h'",
                           { locale: pt }
-                        )}{' '}
+                        )}
                         por {item.user.name}
                       </small>
                     </div>
@@ -276,7 +275,7 @@ export default function Notes({ uid, type, props }) {
                               <MenuItem
                                 onClick={() => handleDispatchEdit(item)}
                               >
-                                <FaPencilAlt size="1.2em" className="mr-4" />{' '}
+                                <FaPencilAlt size="1.2em" className="mr-4" />
                                 Editar
                               </MenuItem>
 

@@ -213,15 +213,14 @@ const Owners = (props) => {
       <div ref={noteDivElement} className="scroll">
         {isLoading ? (
           <div className="d-flex justify-content-center mt-5 pt-5">
-            {' '}
-            <CircularProgress />{' '}
+            <CircularProgress />
           </div>
         ) : (
           <>
             {owners.data.length > 0 && (
               <div className="card-body">
                 <h6 className="m-0">
-                  {owners.total}{' '}
+                  {owners.total}
                   {owners.total > 1
                     ? 'proprietários encontrados'
                     : 'proprietário encontrado'}
@@ -293,7 +292,7 @@ const Owners = (props) => {
                             <MenuItem
                               onClick={() => handleToggleNotes(item.id)}
                             >
-                              <FaClipboard size="1.2em" className="mr-4" />{' '}
+                              <FaClipboard size="1.2em" className="mr-4" />
                               Notas
                             </MenuItem>
                             <MenuItem onClick={() => handleVehicles(item.id)}>
@@ -303,7 +302,7 @@ const Owners = (props) => {
                             <Divider />
 
                             <MenuItem onClick={() => handleEdit(item.id)}>
-                              <FaPencilAlt size="1.2em" className="mr-4" />{' '}
+                              <FaPencilAlt size="1.2em" className="mr-4" />
                               Editar
                             </MenuItem>
 

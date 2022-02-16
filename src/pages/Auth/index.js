@@ -55,7 +55,7 @@ const Auth = () => {
             </Button>
 
             <p className="text-center">
-              Não tem uma conta?{' '}
+              Não tem uma conta?
               <Link to="/register" className="text-primary">
                 Cadastre-se
               </Link>

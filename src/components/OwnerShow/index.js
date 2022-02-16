@@ -223,8 +223,7 @@ const OwnerShow = ({ item }) => {
               <address className="h6">
                 {owner.street && (
                   <>
-                    {' '}
-                    {owner.street}{' '}
+                    {owner.street}
                     {owner.streetNumber && '- ' + owner.streetNumber} <br />
                   </>
                 )}
