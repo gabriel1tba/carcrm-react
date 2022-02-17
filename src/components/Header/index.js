@@ -105,7 +105,10 @@ const Header = ({ title, button }) => {
                 <FaLaptop className="icon-lg mr-1" /> Site
               </Link>
               <MenuList className="dropdown-menu">
-                <MenuItem className="dropdown-item">
+                <MenuItem
+                  onClick={() => openNavigationOwoners('seo')}
+                  className="dropdown-item"
+                >
                   Otimização para o Google
                 </MenuItem>
                 <MenuItem className="dropdown-item">
@@ -198,7 +201,7 @@ const Header = ({ title, button }) => {
 
             <Collapse in={openCollapseSite} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                <ListItem>
+                <ListItem onClick={() => openNavigationOwoners('seo')}>
                   <ListItemText
                     className="pl-5"
                     primary="Otimização para o Google"

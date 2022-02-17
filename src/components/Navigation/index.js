@@ -6,6 +6,7 @@ import Owners from '../Owners';
 import OwnerEdit from '../OwnerEdit';
 import OwnerShow from '../OwnerShow';
 import OwnerVehicles from '../OwnerVehicles';
+import Seo from '../Site/Seo';
 
 import {
   toggleScreen1,
@@ -33,6 +34,7 @@ const Navigation = () => {
           {nav.screen1.type === 'owners' && (
             <Owners type={nav.screen1.type} props={nav.screen1.props} />
           )}
+          {nav.screen1.type === 'seo' && <Seo />}
         </div>
       </Drawer>
 
