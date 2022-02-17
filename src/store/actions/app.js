@@ -34,8 +34,10 @@ export const indexResponse = (payload) => ({
 
 export const index = () => async (dispatch) => {
   try {
-    const res = await apiAuth.get('/app');
-    return typeof res !== 'undefined' && dispatch(indexResponse(res.data));
+    const response = await apiAuth.get('/app');
+    return (
+      typeof response !== 'undefined' && dispatch(indexResponse(response.data))
+    );
   } catch (error) {
     console.log(error);
   }
@@ -46,17 +48,17 @@ export const update = (data) => async (dispatch) => {
   dispatch(showLoading({ open: true }));
 
   try {
-    const res = await apiAuth.put(`/app/${data.id}`, data);
-    if (typeof res !== 'undefined') {
-      if (res.data.error) {
-        dispatch(error(res.data.error));
+    const response = await apiAuth.put(`/app/${data.id}`, data);
+    if (typeof response !== 'undefined') {
+      if (response.data.error) {
+        dispatch(error(response.data.error));
       }
 
-      if (res.data.status === 200) {
+      if (response.data.status === 200) {
         dispatch(
           showNotify({
             open: true,
-            msg: res.data.success,
+            msg: response.data.success,
             class: 'success',
           })
         );
