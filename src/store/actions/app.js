@@ -46,7 +46,7 @@ export const update = (data) => async (dispatch) => {
   dispatch(showLoading({ open: true }));
 
   try {
-    const res = await apiAuth.put('/app/' + data.id, data);
+    const res = await apiAuth.put(`/app/${data.id}`, data);
     if (typeof res !== 'undefined') {
       if (res.data.error) {
         dispatch(error(res.data.error));

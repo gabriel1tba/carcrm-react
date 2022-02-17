@@ -1,4 +1,5 @@
-import { useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { MdMenu } from 'react-icons/md';
@@ -30,6 +31,7 @@ import {
 
 import logoImg from '../../assets/logo.png';
 
+import { index } from '../../store/actions/app';
 import { toggleScreen1 } from '../../store/actions/navigation';
 
 const Header = ({ title, button }) => {
@@ -50,6 +52,10 @@ const Header = ({ title, button }) => {
 
     setOpenDrawer(false);
   };
+
+  useEffect(() => {
+    dispatch(index());
+  }, []);
 
   return (
     <>
