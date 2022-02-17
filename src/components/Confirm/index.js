@@ -12,6 +12,7 @@ const Confirm = ({
         <h6>{title}</h6>
       </DialogTitle>
       <DialogActions className="d-flex justify-content-center mb-2">
+        <Button onClick={() => onClose()}>Não</Button>
         <Button
           onClick={() => {
             onClose();
@@ -22,7 +23,6 @@ const Confirm = ({
         >
           Sim
         </Button>
-        <Button onClick={() => onClose()}>Não</Button>
       </DialogActions>
     </Dialog>
   );
