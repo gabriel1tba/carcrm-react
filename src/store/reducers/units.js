@@ -1,4 +1,4 @@
-import { actionTypes } from '../actions/units.action';
+import { actionTypes } from '../actions/units';
 
 const initialState = {
   units: [],

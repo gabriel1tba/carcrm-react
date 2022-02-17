@@ -71,7 +71,7 @@ export const store = (data) => async (dispatch) => {
 // SHOW
 export const show = (id) => async (dispatch) => {
   try {
-    const response = await apiAuth.get('/units/' + id);
+    const response = await apiAuth.get(`/units/${id}`);
     return (
       typeof response !== 'undefined' && dispatch(indexResponse(response.data))
     );
@@ -90,7 +90,7 @@ export const update = (data) => async (dispatch) => {
   dispatch(showLoading({ open: true }));
 
   try {
-    const response = await apiAuth.put('/units/' + data.id, data);
+    const response = await apiAuth.put(`/units/${data.id}`, data);
     dispatch(showLoading({ open: false }));
     if (typeof response !== 'undefined') {
       if (response.data.error) {
@@ -117,7 +117,7 @@ export const destroyResponse = (payload) => ({
 
 export const destroy = (id) => async (dispatch) => {
   try {
-    const response = await apiAuth.delete('/units/' + id);
+    const response = await apiAuth.delete(`/units/${id}`);
     return typeof response !== 'undefined' && dispatch(destroyResponse(id));
   } catch (error) {
     console.log(error);
