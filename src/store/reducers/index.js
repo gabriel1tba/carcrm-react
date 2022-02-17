@@ -10,6 +10,7 @@ import navigationReducer from './navigation';
 import notesReducer from './notes';
 import ownersReducer from './owners';
 import appReducer from './app';
+import unitsReducer from './units';
 
 const Reducers = combineReducers({
   loadingReducer,
@@ -22,6 +23,7 @@ const Reducers = combineReducers({
   notesReducer,
   ownersReducer,
   appReducer,
+  unitsReducer,
 });
 
 export default Reducers;
