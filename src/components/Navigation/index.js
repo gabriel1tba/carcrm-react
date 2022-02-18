@@ -10,6 +10,7 @@ import Seo from '../Site/Seo';
 import Units from '../Site/Units';
 import UnitEdit from '../Site/UnitEdit';
 import Logo from '../Site/Logo';
+import Domain from '../Site/Domain';
 
 import {
   toggleScreen1,
@@ -40,6 +41,7 @@ const Navigation = () => {
           {nav.screen1.type === 'seo' && <Seo />}
           {nav.screen1.type === 'units' && <Units />}
           {nav.screen1.type === 'logo' && <Logo />}
+          {nav.screen1.type === 'domain' && <Domain />}
         </div>
       </Drawer>
 

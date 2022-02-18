@@ -123,7 +123,12 @@ const Header = ({ title, button }) => {
                 >
                   Minha Logo
                 </MenuItem>
-                <MenuItem className="dropdown-item">Domínio</MenuItem>
+                <MenuItem
+                  onClick={() => openNavigationOwoners('domain')}
+                  className="dropdown-item"
+                >
+                  Domínio
+                </MenuItem>
                 <MenuItem className="dropdown-item">Configurações</MenuItem>
               </MenuList>
             </li>
@@ -221,14 +226,10 @@ const Header = ({ title, button }) => {
                     primary="Unidades e Telefones"
                   />
                 </ListItem>
-                <ListItem>
-                  <ListItemText
-                    onClick={() => openNavigationOwoners('logo')}
-                    className="pl-5"
-                    primary="Minha Logo"
-                  />
+                <ListItem onClick={() => openNavigationOwoners('logo')}>
+                  <ListItemText className="pl-5" primary="Minha Logo" />
                 </ListItem>
-                <ListItem>
+                <ListItem onClick={() => openNavigationOwoners('domain')}>
                   <ListItemText className="pl-5" primary="Domínio" />
                 </ListItem>
 
