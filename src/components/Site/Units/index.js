@@ -23,7 +23,7 @@ import {
   Typography,
 } from '@material-ui/core';
 
-import { Confirm } from '../../Confirm';
+import Confirm from '../../Confirm';
 
 import { destroy, index } from '../../../store/actions/units';
 
@@ -32,7 +32,7 @@ import {
   toggleScreen2,
 } from '../../../store/actions/navigation';
 
-const Unit = () => {
+const Units = () => {
   const dispatch = useDispatch();
   const units = useSelector((state) => state.unitsReducer.units);
 
@@ -199,4 +199,4 @@ const Unit = () => {
   );
 };
 
-export default Unit;
+export default Units;

@@ -111,7 +111,10 @@ const Header = ({ title, button }) => {
                 >
                   Otimização para o Google
                 </MenuItem>
-                <MenuItem className="dropdown-item">
+                <MenuItem
+                  onClick={() => openNavigationOwoners('units')}
+                  className="dropdown-item"
+                >
                   Unidades e Telefone
                 </MenuItem>
                 <MenuItem className="dropdown-item">Minha Logo</MenuItem>
@@ -207,7 +210,7 @@ const Header = ({ title, button }) => {
                     primary="Otimização para o Google"
                   />
                 </ListItem>
-                <ListItem>
+                <ListItem onClick={() => openNavigationOwoners('owners')}>
                   <ListItemText
                     className="pl-5"
                     primary="Unidades e Telefones"

@@ -7,6 +7,8 @@ import OwnerEdit from '../OwnerEdit';
 import OwnerShow from '../OwnerShow';
 import OwnerVehicles from '../OwnerVehicles';
 import Seo from '../Site/Seo';
+import Units from '../Site/Units';
+import UnitEdit from '../Site/UnitEdit';
 
 import {
   toggleScreen1,
@@ -35,6 +37,7 @@ const Navigation = () => {
             <Owners type={nav.screen1.type} props={nav.screen1.props} />
           )}
           {nav.screen1.type === 'seo' && <Seo />}
+          {nav.screen1.type === 'units' && <Units />}
         </div>
       </Drawer>
 
@@ -54,6 +57,10 @@ const Navigation = () => {
 
           {nav.screen2.type === 'owner-vehicles' && (
             <OwnerVehicles uid={nav.screen2.props.uid} />
+          )}
+
+          {nav.screen2.type === 'unit-edit' && (
+            <UnitEdit uid={nav.screen2.props.uid} />
           )}
         </div>
       </Drawer>
