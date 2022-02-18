@@ -45,7 +45,7 @@ const Units = () => {
   const [menuEl, setMenuEl] = useState(null);
   const [confirmEl, setConfirmEl] = useState(null);
 
-  const _create = () => {
+  const handleCreate = () => {
     dispatch(
       toggleScreen2({
         open: true,
@@ -55,7 +55,7 @@ const Units = () => {
     );
   };
 
-  const _edit = (id) => {
+  const handleEdit = (id) => {
     setConfirmEl(null);
     dispatch(
       toggleScreen2({
@@ -68,13 +68,13 @@ const Units = () => {
     );
   };
 
-  const _destroy = (id) => {
+  const handlDestroy = (id) => {
     setConfirmEl(null);
     setIsDeleted(id);
     dispatch(destroy(id)).then((res) => res && setIsDeleted(null));
   };
 
-  const _handleMenu = (event) => {
+  const handleMenu = (event) => {
     setMenuEl(event.currentTarget);
   };
 
@@ -112,8 +112,8 @@ const Units = () => {
                 <h6 className="m-0">
                   {units.length}
                   {units.length > 1
-                    ? 'unidades encontradas'
-                    : 'unidade encontrada'}
+                    ? ' unidades encontradas'
+                    : ' unidade encontrada'}
                 </h6>
               </div>
             )}
@@ -145,7 +145,7 @@ const Units = () => {
 
                     {!isDeleted && (
                       <div>
-                        <IconButton id={index} onClick={_handleMenu}>
+                        <IconButton id={index} onClick={handleMenu}>
                           <MdMoreHoriz />
                         </IconButton>
                         {Boolean(menuEl) && (
@@ -161,12 +161,12 @@ const Units = () => {
                             open={index === parseInt(menuEl.id)}
                             onClose={() => setMenuEl(null)}
                           >
-                            <MenuItem onClick={() => _edit(item.id)}>
+                            <MenuItem onClick={() => handleEdit(item.id)}>
                               <FaPencilAlt size="1.2em" className="mr-4" />
                               Editar
                             </MenuItem>
 
-                            <MenuItem onClick={() => setMenuEl(item.id)}>
+                            <MenuItem onClick={() => setConfirmEl(item.id)}>
                               <FaTrash size="1.2em" className="mr-4" /> Apagar
                             </MenuItem>
                           </Menu>
@@ -174,7 +174,7 @@ const Units = () => {
                         {confirmEl && (
                           <Confirm
                             open={item.id === confirmEl}
-                            onConfirm={() => _destroy(item.id)}
+                            onConfirm={() => handlDestroy(item.id)}
                             onClose={() => setMenuEl(null)}
                           />
                         )}
@@ -186,7 +186,7 @@ const Units = () => {
               ))}
             </List>
             <Fab
-              onClick={() => _create()}
+              onClick={() => handleCreate()}
               className="fab-bottom-right mr-3 mb-3"
               color="primary"
             >
