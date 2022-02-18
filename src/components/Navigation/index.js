@@ -9,6 +9,7 @@ import OwnerVehicles from '../OwnerVehicles';
 import Seo from '../Site/Seo';
 import Units from '../Site/Units';
 import UnitEdit from '../Site/UnitEdit';
+import Logo from '../Site/Logo';
 
 import {
   toggleScreen1,
@@ -38,6 +39,7 @@ const Navigation = () => {
           )}
           {nav.screen1.type === 'seo' && <Seo />}
           {nav.screen1.type === 'units' && <Units />}
+          {nav.screen1.type === 'logo' && <Logo />}
         </div>
       </Drawer>
 

@@ -117,7 +117,12 @@ const Header = ({ title, button }) => {
                 >
                   Unidades e Telefone
                 </MenuItem>
-                <MenuItem className="dropdown-item">Minha Logo</MenuItem>
+                <MenuItem
+                  onClick={() => openNavigationOwoners('logo')}
+                  className="dropdown-item"
+                >
+                  Minha Logo
+                </MenuItem>
                 <MenuItem className="dropdown-item">Domínio</MenuItem>
                 <MenuItem className="dropdown-item">Configurações</MenuItem>
               </MenuList>
@@ -217,7 +222,11 @@ const Header = ({ title, button }) => {
                   />
                 </ListItem>
                 <ListItem>
-                  <ListItemText className="pl-5" primary="Minha Logo" />
+                  <ListItemText
+                    onClick={() => openNavigationOwoners('logo')}
+                    className="pl-5"
+                    primary="Minha Logo"
+                  />
                 </ListItem>
                 <ListItem>
                   <ListItemText className="pl-5" primary="Domínio" />
