@@ -16,8 +16,6 @@ import { toggleScreen1 } from '../../../store/actions/navigation';
 
 import { destroyLogo, uploadLogo } from '../../../store/actions/app';
 
-import { baseURL } from '../../../services/api';
-
 const Logo = () => {
   const dispatch = useDispatch();
   const app = useSelector((state) => state.appReducer.app);
@@ -67,7 +65,12 @@ const Logo = () => {
                 style={isDeleted ? { opacity: 0.5 } : {}}
                 className="img-fluid"
                 src={
-                  baseURL + 'thumb/logo/' + app.logo + '?u=' + app.id + '&h=150'
+                  process.env.REACT_APP_BASE_URL +
+                  'thumb/logo/' +
+                  app.logo +
+                  '?u=' +
+                  app.id +
+                  '&h=150'
                 }
               />
 

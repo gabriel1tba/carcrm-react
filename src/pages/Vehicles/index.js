@@ -28,8 +28,6 @@ import Header from '../../components/Header';
 import Confirm from '../../components/Confirm';
 import VehiclesOwner from '../../components/VehiclesOwner';
 
-import { baseURL } from '../../services/api';
-
 import { index, destroy } from '../../store/actions/vehicles';
 import { toggleScreen3 } from '../../store/actions/navigation';
 
@@ -171,7 +169,7 @@ const Vehicles = () => {
                             <CircularProgress color="secondary" />
                           ) : vehicle.cover ? (
                             <img
-                              src={`${baseURL}thumb/vehicles/${vehicle.cover.img}?u=${vehicle.cover.user_id}&s=${vehicle.cover.vehicle_id}&h=250&w=250`}
+                              src={`${process.env.REACT_APP_BASE_URL}thumb/vehicles/${vehicle.cover.img}?u=${vehicle.cover.user_id}&s=${vehicle.cover.vehicle_id}&h=250&w=250`}
                               alt="Foto ilustrativa de um carro"
                               className="shadow rounded"
                             />

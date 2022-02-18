@@ -115,9 +115,9 @@ export const destroyLogo = (id) => async (dispatch) => {
 
 // VALIDATE SUBDOMAIN
 export const validateSubdomain = (value) => (dispatch) => {
-  const lowerText = value.toLowerCase();
-  if (lowerText.search(' ') >= 0) {
-    lowerText = lowerText.replace(' ', '');
+  let lowercaseText = value.toLowerCase();
+  if (lowercaseText.search(' ') >= 0) {
+    lowercaseText = lowercaseText.replace(' ', '');
     dispatch(
       showAlert({
         open: true,
@@ -127,8 +127,8 @@ export const validateSubdomain = (value) => (dispatch) => {
     );
   }
 
-  if (lowerText.search('www') >= 0) {
-    lowerText = lowerText.replace('www', '');
+  if (lowercaseText.search('www') >= 0) {
+    lowercaseText = lowercaseText.replace('www', '');
     dispatch(
       showAlert({
         open: true,
@@ -138,8 +138,8 @@ export const validateSubdomain = (value) => (dispatch) => {
     );
   }
 
-  if (lowerText.search('.com') >= 0) {
-    lowerText = lowerText.replace('.com', '');
+  if (lowercaseText.search('.com') >= 0) {
+    lowercaseText = lowercaseText.replace('.com', '');
     dispatch(
       showAlert({
         open: true,
@@ -149,7 +149,7 @@ export const validateSubdomain = (value) => (dispatch) => {
     );
   }
 
-  return lowerText
+  return lowercaseText
     .normalize('NFD')
     .replace(/([\u0300-\u036f]|[^0-9a-zA-Z.])/g, '');
 };

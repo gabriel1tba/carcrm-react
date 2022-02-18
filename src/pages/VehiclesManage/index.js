@@ -37,8 +37,6 @@ import {
   indexResponse,
 } from '../../store/actions/vehicles';
 
-import { baseURL } from '../../services/api';
-
 const TextMaskCustom = ({ inputRef, ...rest }) => {
   const mask = [/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
 
@@ -75,7 +73,7 @@ const SortableItem = SortableElement(({ value }) => {
     <div
       className="bg-img"
       style={{
-        backgroundImage: `url(${baseURL}thumb/vehicles/${value.img}?u=${value.user_id}&s=${value.vehicle_id}&h=250&w=250)`,
+        backgroundImage: `url(${process.env.REACT_APP_BASE_URL}thumb/vehicles/${value.img}?u=${value.user_id}&s=${value.vehicle_id}&h=250&w=250)`,
       }}
     />
   );

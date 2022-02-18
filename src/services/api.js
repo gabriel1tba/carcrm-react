@@ -1,14 +1,11 @@
 import axios from 'axios';
 
-export const baseURL = 'http://localhost/';
-export const baseURLApi = 'http://localhost/api/';
-
 export const api = axios.create({
-  baseURL: baseURL,
+  baseURL: process.env.REACT_APP_BASE_URL,
 });
 
 export const apiAuth = axios.create({
-  baseURL: baseURLApi,
+  baseURL: process.env.REACT_APP_API_URL,
 });
 
 apiAuth.interceptors.request.use((config) => {
@@ -20,7 +17,7 @@ apiAuth.interceptors.request.use((config) => {
 });
 
 export const apiUpload = axios.create({
-  baseURL: baseURLApi,
+  baseURL: process.env.REACT_APP_API_URL,
 });
 
 apiUpload.interceptors.request.use((config) => {

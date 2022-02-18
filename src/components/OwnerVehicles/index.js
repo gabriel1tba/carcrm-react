@@ -15,7 +15,6 @@ import {
 import { toggleScreen2 } from '../../store/actions/navigation';
 
 import { vehicles } from '../../store/actions/owners';
-import { baseURL } from '../../services/api';
 
 const OwnerVehicles = (props) => {
   const dispatch = useDispatch();
@@ -125,7 +124,7 @@ const OwnerVehicles = (props) => {
                         alt=""
                         className="shadow rounded"
                         src={
-                          baseURL +
+                          process.env.REACT_APP_BASE_URL +
                           'thumb/vehicles/' +
                           item.cover.img +
                           '?u=' +
