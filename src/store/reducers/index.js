@@ -11,6 +11,7 @@ import notesReducer from './notes';
 import ownersReducer from './owners';
 import appReducer from './app';
 import unitsReducer from './units';
+import payReducer from './pay';
 
 const Reducers = combineReducers({
   loadingReducer,
@@ -24,6 +25,7 @@ const Reducers = combineReducers({
   ownersReducer,
   appReducer,
   unitsReducer,
+  payReducer,
 });
 
 export default Reducers;
