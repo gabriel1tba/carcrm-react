@@ -20,6 +20,11 @@ const Plans = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleSelectPlan = (item) => {
+    dispatch(change({ plan: item }));
+    dispatch(change({ pay_type: null }));
+  };
+
   return (
     <div className="container mt-4 pt-3">
       {isLoading ? (
@@ -69,7 +74,7 @@ const Plans = () => {
                       color="primary"
                       size="large"
                       className="mt-2 mb-4"
-                      onClick={() => dispatch(change({ plan: item }))}
+                      onClick={() => handleSelectPlan(item)}
                     >
                       Contratar
                     </Button>
