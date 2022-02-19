@@ -109,8 +109,8 @@ const Settings = () => {
           <label className="label-custom">EMAIL CONTATO</label>
           <TextField
             value={app.email_contact || ''}
-            onChange={(text) =>
-              dispatch(change({ email_contact: text.target.value }))
+            onChange={(event) =>
+              dispatch(change({ email_contact: event.target.value }))
             }
           />
         </div>
@@ -124,8 +124,8 @@ const Settings = () => {
             InputProps={{
               inputComponent: TextMaskCustom,
               value: app.whatsapp,
-              onChange: (text) =>
-                dispatch(change({ whatsapp: text.target.value })),
+              onChange: (event) =>
+                dispatch(change({ whatsapp: event.target.value })),
             }}
           />
         </div>
@@ -136,8 +136,8 @@ const Settings = () => {
           </label>
           <TextField
             value={app.facebook_page_id || ''}
-            onChange={(text) =>
-              dispatch(change({ facebook_page_id: text.target.value }))
+            onChange={(event) =>
+              dispatch(change({ facebook_page_id: event.target.value }))
             }
           />
           <a
@@ -145,8 +145,8 @@ const Settings = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <strong className="text-danger d-block mt-1">
-              Não sei o ID da minha página ?
+            <strong className="text-warning d-block mt-1">
+              Não sei o ID da minha página?
             </strong>
           </a>
         </div>
@@ -156,8 +156,8 @@ const Settings = () => {
           <TextField
             placeholder="Ex: UA-145797887-1"
             value={app.google_analytics || ''}
-            onChange={(text) =>
-              dispatch(change({ google_analytics: text.target.value }))
+            onChange={(event) =>
+              dispatch(change({ google_analytics: event.target.value }))
             }
           />
         </div>
@@ -168,8 +168,8 @@ const Settings = () => {
             multiline
             rows="3"
             value={app.facebook_pixel || ''}
-            onChange={(text) =>
-              dispatch(change({ facebook_pixel: text.target.value }))
+            onChange={(event) =>
+              dispatch(change({ facebook_pixel: event.target.value }))
             }
           />
         </div>

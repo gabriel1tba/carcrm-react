@@ -129,7 +129,12 @@ const Header = ({ title, button }) => {
                 >
                   Domínio
                 </MenuItem>
-                <MenuItem className="dropdown-item">Configurações</MenuItem>
+                <MenuItem
+                  onClick={() => openNavigationOwoners('settings')}
+                  className="dropdown-item"
+                >
+                  Configurações
+                </MenuItem>
               </MenuList>
             </li>
 
@@ -233,7 +238,7 @@ const Header = ({ title, button }) => {
                   <ListItemText className="pl-5" primary="Domínio" />
                 </ListItem>
 
-                <ListItem>
+                <ListItem onClick={() => openNavigationOwoners('settings')}>
                   <ListItemText className="pl-5" primary="Configurações" />
                 </ListItem>
               </List>
