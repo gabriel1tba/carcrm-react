@@ -147,8 +147,7 @@ const UnitEdit = (props) => {
       <div className="card-body scroll">
         {isLoading ? (
           <div className="d-flex justify-content-center mt-5 pt-5">
-            {' '}
-            <CircularProgress />{' '}
+            <CircularProgress />
           </div>
         ) : (
           <>

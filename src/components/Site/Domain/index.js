@@ -115,7 +115,7 @@ const Domain = () => {
             <div className="form-group">
               <Typography className="text-center mt-4 mb-4" component="p">
                 Necessário ter um domínio registrado para utilizar. <br />
-                Para registrar um domínio acesse{' '}
+                Para registrar um domínio acesse
                 <Button
                   color="primary"
                   onClick={() => window.open('https://registro.br', '_blank')}
