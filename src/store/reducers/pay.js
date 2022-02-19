@@ -1,4 +1,4 @@
-import { actionTypes } from '../actions/pay.action';
+import { actionTypes } from '../actions/pay';
 
 const initialState = {
   plans: [],
