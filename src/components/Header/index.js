@@ -147,7 +147,9 @@ const Header = ({ title, button }) => {
                 <FaCreditCard className="icon-lg mr-1" /> Financeiro
               </Link>
               <MenuList className="dropdown-menu">
-                <MenuItem className="dropdown-item">Plano</MenuItem>
+                <MenuItem component={Link} to="/pay" className="dropdown-item">
+                  Plano
+                </MenuItem>
                 <MenuItem className="dropdown-item">Minhas Transações</MenuItem>
               </MenuList>
             </li>
@@ -259,7 +261,11 @@ const Header = ({ title, button }) => {
 
             <Collapse in={openCollapseFinancial} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                <ListItem>
+                <ListItem
+                  component={Link}
+                  to="/pay"
+                  onClick={() => setOpenDrawer(true)}
+                >
                   <ListItemText className="pl-5" primary="Meu Plano" />
                 </ListItem>
 

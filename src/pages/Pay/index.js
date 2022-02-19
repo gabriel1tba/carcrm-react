@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Header from '../Header';
+import Header from '../../components/Header';
 import Account from './components/Account';
 import Plans from './components/Plans';
 import Cart from './components/Cart';
@@ -24,11 +24,11 @@ const Pay = () => {
   return (
     <>
       <Header title={title} />
-      {(app.status === 0 || app.status === 1) && (
+      {Boolean(app.status === 0 || app.status === 1) && (
         <>{Object.keys(plan).length === 0 ? <Plans /> : <Cart />}</>
       )}
 
-      {app.status === 2 && <Account />}
+      {Boolean(app.status) === 2 && <Account />}
     </>
   );
 };
