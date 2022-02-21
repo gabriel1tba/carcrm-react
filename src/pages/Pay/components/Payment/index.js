@@ -337,7 +337,7 @@ const Payment = () => {
           variant="contained"
           size="large"
           className="mt-4 mb-2 mr-3 font-weight-bold"
-          startIcon={<MdArrowBack className="ml-2" />}
+          startIcon={<MdArrowBack style={{ marginLeft: '12px' }} />}
           onClick={() => {
             dispatch(setError({}));
             dispatch(change({ pay_type: null }));

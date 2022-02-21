@@ -29,3 +29,55 @@ export const plans = () => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const payCard = (data) => async (dispatch) => {
+  dispatch(
+    showLoading({
+      open: true,
+      msg: 'Processando pagamento...',
+    })
+  );
+
+  try {
+    const response = await apiAuth.post('/pay/card', data);
+
+    if (typeof response !== 'undefined') {
+      if (response.data.success) {
+        dispatch(success(response.data.id));
+      }
+      if (response.data.error) {
+        dispatch(error(response.data.error));
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
+    dispatch(showLoading({ open: false }));
+  }
+};
+
+export const payPec = (data) => async (dispatch) => {
+  dispatch(
+    showLoading({
+      open: true,
+      msg: 'Processando pagamento...',
+    })
+  );
+
+  try {
+    const response = await apiAuth.post('/pay/pec', data);
+
+    if (typeof response !== 'undefined') {
+      if (response.data.success) {
+        dispatch(success(response.data.id));
+      }
+      if (response.data.error) {
+        dispatch(error(response.data.error));
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
+    dispatch(showLoading({ open: false }));
+  }
+};
