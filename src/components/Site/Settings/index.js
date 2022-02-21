@@ -14,10 +14,10 @@ import {
 import { toggleScreen1 } from '../../../store/actions/navigation';
 import { change, update } from '../../../store/actions/app';
 
-const TextMaskCustom = ({ inputRef, ...other }) => {
+const TextMaskCustom = ({ inputRef, name, value, ...rest }) => {
   let mask = [];
 
-  if (other.name === 'phone') {
+  if (name === 'phone') {
     mask = [
       '(',
       /[0-9]/,
@@ -35,8 +35,8 @@ const TextMaskCustom = ({ inputRef, ...other }) => {
       /\d/,
       /\d/,
     ];
-    if (other.value) {
-      if (other.value.length === 15) {
+    if (value) {
+      if (value.length === 15) {
         mask = [
           '(',
           /[0-9]/,
@@ -60,7 +60,7 @@ const TextMaskCustom = ({ inputRef, ...other }) => {
 
   return (
     <MaskedInput
-      {...other}
+      {...rest}
       ref={(ref) => {
         inputRef(ref ? ref.inputElement : null);
       }}

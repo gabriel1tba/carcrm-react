@@ -25,11 +25,10 @@ import {
   update,
 } from '../../../store/actions/units';
 
-const TextMaskCustom = (props) => {
-  const { inputRef, ...other } = props;
+const TextMaskCustom = ({ inputRef, name, value, ...rest }) => {
   let mask = [];
 
-  if (props.name === 'phone') {
+  if (name === 'phone') {
     mask = [
       '(',
       /[0-9]/,
@@ -47,8 +46,8 @@ const TextMaskCustom = (props) => {
       /\d/,
       /\d/,
     ];
-    if (other.value) {
-      if (other.value.length === 15) {
+    if (value) {
+      if (value.length === 15) {
         mask = [
           '(',
           /[0-9]/,
@@ -70,13 +69,13 @@ const TextMaskCustom = (props) => {
     }
   }
 
-  if (props.name === 'cep') {
+  if (name === 'cep') {
     mask = [/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
   }
 
   return (
     <MaskedInput
-      {...other}
+      {...rest}
       ref={(ref) => {
         inputRef(ref ? ref.inputElement : null);
       }}
