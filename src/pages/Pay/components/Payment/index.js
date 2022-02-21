@@ -4,7 +4,13 @@ import MaskedInput from 'react-text-mask';
 import { Button, InputAdornment, TextField } from '@material-ui/core';
 import { MdArrowBack, MdCreditCard, MdEmail } from 'react-icons/md';
 
-import { change, error as setError } from '../../../../store/actions/pay';
+import {
+  alertError,
+  change,
+  error as setError,
+  payCard,
+  payPec,
+} from '../../../../store/actions/pay';
 
 const TextMaskCustom = ({ inputRef, id, ...rest }) => {
   let mask = [];
@@ -110,6 +116,88 @@ const Payment = () => {
         ...cart,
         cardExpiration: value,
       });
+    }
+  };
+
+  const payCard = () => {
+    window.Mercadopago.createToken(
+      document.getElementById('pay'),
+      setCardTokenAndPay
+    );
+  };
+
+  const setError = (errorCode) => {
+    if (errorCode === '205') {
+      dispatch(alertError({ cardNumber: 'Digite o número do seu cartão.' }));
+    }
+
+    if (errorCode === 'E301') {
+      dispatch(alertError({ cardNumber: 'Número do cartão inválido.' }));
+    }
+
+    if (errorCode === 'E302') {
+      dispatch(alertError({ securityCode: 'Confira o código de segurança.' }));
+    }
+
+    if (errorCode === '221') {
+      dispatch(
+        alertError({ cardholderName: 'Digite o nome impresso no cartão.' })
+      );
+    }
+
+    if (errorCode === '208' || errorCode === '209') {
+      dispatch(alertError({ cardExpiration: 'Digite o vencimento cartão.' }));
+    }
+
+    if (errorCode === '325' || errorCode === '326') {
+      dispatch(
+        alertError({ cardExpiration: 'Vencimento do cartão inválido.' })
+      );
+    }
+
+    if (errorCode === '214') {
+      dispatch(alertError({ cpf: 'Informe o número do seu CPF.' }));
+    }
+
+    if (errorCode === '324') {
+      dispatch(alertError({ cpf: 'Número do CPF inválido.' }));
+    }
+  };
+
+  const setCardTokenAndPay = (status, response) => {
+    try {
+      if (status === 200 || status === 201) {
+        dispatch(
+          payCard({
+            token: response.id,
+            payment_method_id: document.getElementById('paymentMethodId').value,
+            plan_id: plan.id,
+            email: cart.email,
+          })
+        );
+      } else {
+        console.log(response);
+        setError(response.cause[0].code);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handlePayPec = () => {
+    try {
+      dispatch(
+        payPec({
+          payment_method_id: pay_type,
+          plan_id: plan.id,
+          first_name: cart.first_name,
+          last_name: cart.last_name,
+          email: cart.email,
+          cpf: cart.cpf && cart.cpf.replace(/[^a-zA-Z0-9]/g, ''),
+        })
+      );
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -352,6 +440,7 @@ const Payment = () => {
           fullWidth
           size="large"
           className="mt-4 mb-2 font-weight-bold"
+          onClick={() => (pay_type === 'card' ? handlePayPec() : payPec())}
         >
           Realizar pagamento
         </Button>

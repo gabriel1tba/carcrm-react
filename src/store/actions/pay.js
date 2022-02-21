@@ -1,4 +1,6 @@
 import { showLoading } from './loading';
+import { showNotify } from './notify';
+
 import { apiAuth } from '../../services/api';
 export const actionTypes = {
   CHANGE: 'PAY_CHANGE',
@@ -20,6 +22,18 @@ export const error = (payload) => ({
   type: actionTypes.ERROR,
   payload,
 });
+
+export const alertError = (value) => (dispatch) => {
+  dispatch(showLoading({ open: false }));
+  dispatch(
+    showNotify({
+      open: true,
+      msg: Object.values(value)[0],
+      class: 'error',
+    })
+  );
+  dispatch(error(value));
+};
 
 export const plans = () => async (dispatch) => {
   try {
