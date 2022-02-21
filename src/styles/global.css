@@ -187,7 +187,7 @@ svg {
   top: 17px;
   width: 37px;
   height: 25px;
-  /* background: url('/payment-screen-sprites.png') -737px 0 no-repeat; */
+  background: url('http://localhost:3000/payment-screen-sprites.png') -737px 0 no-repeat;
 }
 
 .pending {

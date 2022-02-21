@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import MaskedInput from 'react-text-mask';
-import { InputAdornment, TextField } from '@material-ui/core';
-import { MdCreditCard } from 'react-icons/md';
+import { Button, InputAdornment, TextField } from '@material-ui/core';
+import { MdArrowBack, MdCreditCard, MdEmail } from 'react-icons/md';
+
+import { change, error as setError } from '../../../../store/actions/pay';
 
 const TextMaskCustom = ({ inputRef, id, ...rest }) => {
   let mask = [];
@@ -77,10 +79,39 @@ const Payment = () => {
   const success = useSelector((state) => state.payReducer.success);
   const error = useSelector((state) => state.payReducer.error);
 
-  const inputPayment = useRef(null);
   const secureThumbnail = useRef(null);
 
   const [cart, setCart] = useState({});
+
+  const setPaymentMethod = (status, response) => {
+    try {
+      if (status === 200) {
+        document.getElementById('paymentMethodId').value = response[0].id;
+        secureThumbnail.current.src = response[0].secure_thumbnail;
+      } else {
+        console.log(`payment method info error: ${response}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const cardExpiration = (value) => {
+    if (value.length === 5) {
+      const [cardExpirationMonth, cardExpirationYear] = value.split('/');
+      setCart({
+        ...cart,
+        cardExpiration: value,
+        cardExpirationMonth,
+        cardExpirationYear,
+      });
+    } else {
+      setCart({
+        ...cart,
+        cardExpiration: value,
+      });
+    }
+  };
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -97,19 +128,6 @@ const Payment = () => {
       document.body.removeChild(script);
     };
   }, []);
-
-  const setPaymentMethod = (status, response) => {
-    try {
-      if (status === 200) {
-        inputPayment.current.value = response[0].id;
-        secureThumbnail.current.src = response[0].secure_thumbnail;
-      } else {
-        console.log(`payment method info error: ${response}`);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <form id="pay">
@@ -159,9 +177,185 @@ const Payment = () => {
               />
             </div>
           </div>
-          <input type="hidden" ref={inputPayment} />
+
+          <div className="col-6 col-md-4">
+            <div className="form-group">
+              <label className="label-custom">Vencimento</label>
+              <TextField
+                error={
+                  (error.cardExpirationMonth || error.cardExpirationYear) &&
+                  true
+                }
+                id="cardExpiration"
+                type="tel"
+                InputProps={{
+                  inputComponent: TextMaskCustom,
+                  value: cart.cardExpiration,
+                  autoComplete: 'off',
+                  onChange: (event) => cardExpiration(event.target.value),
+                }}
+              />
+            </div>
+          </div>
+
+          <div className="col-md-8 order-1 order-md-0">
+            <div className="form-group">
+              <label className="label-custom">Nome impresso no cartão</label>
+              <TextField
+                error={error.cardholderName && true}
+                id={'cardholderName'}
+                value={cart.cardholderName || ''}
+                autoComplete="off"
+                inputProps={{ 'data-checkout': 'cardholderName' }}
+                onChange={(event) =>
+                  setCart({ ...cart, cardholderName: event.target.value })
+                }
+              />
+            </div>
+          </div>
+
+          <div className="col-6 col-md-4">
+            <div className="form-group">
+              <label className="label-custom">CVV</label>
+              <TextField
+                error={error.securityCode}
+                id="securityCode"
+                InputProps={{
+                  inputComponent: TextMaskCustom,
+                  value: cart.securityCode,
+                  autoComplete: 'off',
+                  type: 'tel',
+                  inputProps: { 'data-checkout': 'securityCode' },
+                  onChange: (event) =>
+                    setCart({ ...cart, securityCode: event.target.value }),
+                  endAdornment: (
+                    <InputAdornment>
+                      <div className="cvv_info" />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </div>
+          </div>
+
+          <input
+            type="hidden"
+            id="cardExpirationMonth"
+            value={cart.cardExpirationMonth || ''}
+            data-checkout="cardExpirationMonth"
+          />
+          <input
+            type="hidden"
+            id="cardExpirationYear"
+            value={cart.cardExpirationYear || ''}
+            data-checkout="cardExpirationYear"
+          />
+          <input type="hidden" id="paymentMethodId" />
         </div>
       )}
+
+      {pay_type !== 'card' && (
+        <>
+          <div className="form-group">
+            <label className="label-custom">Nome</label>
+            <TextField
+              error={error.first_name && true}
+              value={cart.first_name || ''}
+              autoComplete="off"
+              onChange={(event) =>
+                setCart({ ...cart, first_name: event.target.value })
+              }
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="label-custom">Sobrenome</label>
+            <TextField
+              error={error.last_name && true}
+              value={cart.last_name || ''}
+              autoComplete="off"
+              onChange={(event) =>
+                setCart({ ...cart, first_name: event.target.value })
+              }
+            />
+          </div>
+        </>
+      )}
+
+      <div className="form-group">
+        <label className="label-custom">Email</label>
+        <TextField
+          error={error.email && true}
+          value={cart.email || ''}
+          autoComplete="off"
+          id="email"
+          type="email"
+          onChange={(event) => setCart({ ...cart, email: event.target.value })}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment>
+                <MdEmail
+                  style={{ fontSize: '1.5rem' }}
+                  className="mr-2 text-muted"
+                />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </div>
+
+      <div className="form-group">
+        <label className="label-custom">CPF</label>
+        <TextField
+          error={error.cpf && true}
+          autoComplete="off"
+          id="cpf"
+          InputProps={{
+            inputComponent: TextMaskCustom,
+            value: cart.cpf,
+            type: 'tel',
+            placeholder: '___.___.___-__',
+            onChange: (event) =>
+              setCart({
+                ...cart,
+                cpf: event.target.value,
+                docNumber: event.target.value.replace(/[.-]/g, ''),
+              }),
+          }}
+        />
+        <input id="docType" value="CPF" data-checkout="docType" type="hidden" />
+        <input
+          id="docNumber"
+          value={cart.docNumber || ''}
+          data-checkout="docNumber"
+          type="hidden"
+        />
+      </div>
+
+      <div className="d-flex">
+        <Button
+          variant="contained"
+          size="large"
+          className="mt-4 mb-2 mr-3 font-weight-bold"
+          startIcon={<MdArrowBack className="ml-2" />}
+          onClick={() => {
+            dispatch(setError({}));
+            dispatch(change({ pay_type: null }));
+          }}
+        >
+          &nbsp;
+        </Button>
+
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          size="large"
+          className="mt-4 mb-2 font-weight-bold"
+        >
+          Realizar pagamento
+        </Button>
+      </div>
     </form>
   );
 };
