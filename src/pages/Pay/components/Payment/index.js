@@ -119,14 +119,14 @@ const Payment = () => {
     }
   };
 
-  const payCard = () => {
+  const handlePayCard = () => {
     window.Mercadopago.createToken(
       document.getElementById('pay'),
       setCardTokenAndPay
     );
   };
 
-  const setError = (errorCode) => {
+  const handleSetError = (errorCode) => {
     if (errorCode === '205') {
       dispatch(alertError({ cardNumber: 'Digite o número do seu cartão.' }));
     }
@@ -177,7 +177,7 @@ const Payment = () => {
         );
       } else {
         console.log(response);
-        setError(response.cause[0].code);
+        handleSetError(response.cause[0].code);
       }
     } catch (error) {
       console.log(error);
@@ -363,7 +363,7 @@ const Payment = () => {
               value={cart.last_name || ''}
               autoComplete="off"
               onChange={(event) =>
-                setCart({ ...cart, first_name: event.target.value })
+                setCart({ ...cart, last_name: event.target.value })
               }
             />
           </div>
@@ -440,7 +440,9 @@ const Payment = () => {
           fullWidth
           size="large"
           className="mt-4 mb-2 font-weight-bold"
-          onClick={() => (pay_type === 'card' ? handlePayPec() : payPec())}
+          onClick={() =>
+            pay_type === 'card' ? handlePayCard() : handlePayPec()
+          }
         >
           Realizar pagamento
         </Button>
