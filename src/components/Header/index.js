@@ -150,7 +150,13 @@ const Header = ({ title, button }) => {
                 <MenuItem component={Link} to="/pay" className="dropdown-item">
                   Plano
                 </MenuItem>
-                <MenuItem className="dropdown-item">Minhas Transações</MenuItem>
+                <MenuItem
+                  component={Link}
+                  to="/transactions"
+                  className="dropdown-item"
+                >
+                  Minhas Transações
+                </MenuItem>
               </MenuList>
             </li>
 
@@ -270,7 +276,13 @@ const Header = ({ title, button }) => {
                 </ListItem>
 
                 <ListItem>
-                  <ListItemText className="pl-5" primary="Minhas Transações" />
+                  <ListItemText
+                    component={Link}
+                    to="/transactions"
+                    onClick={() => setOpenDrawer(true)}
+                    className="pl-5"
+                    primary="Minhas Transações"
+                  />
                 </ListItem>
               </List>
             </Collapse>

@@ -8,6 +8,7 @@ const Register = lazy(() => import('../pages/Register'));
 const Vehicles = lazy(() => import('../pages/Vehicles'));
 const VehiclesManage = lazy(() => import('../pages/VehiclesManage'));
 const Pay = lazy(() => import('../pages/Pay'));
+const Transactions = lazy(() => import('../pages/Transactions'));
 
 const Routes = () => {
   return (
@@ -24,6 +25,7 @@ const Routes = () => {
           <Route path="/login" component={Auth} />
           <Route path="/register" component={Register} />
           <Route path="/pay" component={Pay} />
+          <Route path="/transactions" component={Transactions} />
           <Route exact path="/vehicles" component={Vehicles} />
           <Route path="/vehicles/create" component={VehiclesManage} />
           <Route path="/vehicles/:id/edit" component={VehiclesManage} />

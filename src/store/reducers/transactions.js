@@ -1,4 +1,4 @@
-import { actionTypes } from '../actions/transactions.action';
+import { actionTypes } from '../actions/transactions';
 
 const initialState = {
   transactions: {
