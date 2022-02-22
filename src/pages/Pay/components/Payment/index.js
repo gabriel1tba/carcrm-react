@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import MaskedInput from 'react-text-mask';
 import { Button, InputAdornment, TextField } from '@material-ui/core';
@@ -446,6 +447,8 @@ const Payment = () => {
         >
           Realizar pagamento
         </Button>
+
+        {success && <Redirect to={`/transactions/${success}`} />}
       </div>
     </form>
   );
