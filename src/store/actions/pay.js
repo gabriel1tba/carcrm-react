@@ -2,6 +2,7 @@ import { showLoading } from './loading';
 import { showNotify } from './notify';
 
 import { apiAuth } from '../../services/api';
+
 export const actionTypes = {
   CHANGE: 'PAY_CHANGE',
   SUCCESS: 'PAY_SUCCESS',
