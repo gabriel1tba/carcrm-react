@@ -24,11 +24,11 @@ const Pay = () => {
   return (
     <>
       <Header title={title} />
-      {Boolean(app.status === 0 || app.status === 1) && (
+      {(app.status === 0 || app.status === 1) && (
         <>{Object.keys(plan).length === 0 ? <Plans /> : <Cart />}</>
       )}
 
-      {Boolean(app.status) === 2 && <Account />}
+      {app.status === 2 && <Account />}
     </>
   );
 };
