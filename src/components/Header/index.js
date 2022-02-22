@@ -53,6 +53,11 @@ const Header = ({ title, button }) => {
     setOpenDrawer(false);
   };
 
+  const signOut = () => {
+    localStorage.removeItem('@CARCRM:Token');
+    setOpenDrawer(false);
+  };
+
   useEffect(() => {
     dispatch(index());
   }, []);
@@ -167,7 +172,7 @@ const Header = ({ title, button }) => {
             </li>
 
             <li className="nav-item">
-              <Link className="nav-link" to="/">
+              <Link className="nav-link" to="/" onClick={signOut}>
                 <FaSignOutAlt className="icon-lg mr-2" /> Sair
               </Link>
             </li>
@@ -270,7 +275,7 @@ const Header = ({ title, button }) => {
                 <ListItem
                   component={Link}
                   to="/pay"
-                  onClick={() => setOpenDrawer(true)}
+                  onClick={() => setOpenDrawer(false)}
                 >
                   <ListItemText className="pl-5" primary="Meu Plano" />
                 </ListItem>
@@ -279,7 +284,7 @@ const Header = ({ title, button }) => {
                   <ListItemText
                     component={Link}
                     to="/transactions"
-                    onClick={() => setOpenDrawer(true)}
+                    onClick={() => setOpenDrawer(false)}
                     className="pl-5"
                     primary="Minhas Transações"
                   />
@@ -296,11 +301,7 @@ const Header = ({ title, button }) => {
 
             <Divider className="mt-2 mb-2" />
 
-            <ListItem
-              component={Link}
-              to="/"
-              onClick={() => setOpenDrawer(true)}
-            >
+            <ListItem component={Link} to="/" onClick={signOut}>
               <ListItemIcon>
                 <FaSignOutAlt />
               </ListItemIcon>
