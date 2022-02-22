@@ -61,7 +61,7 @@ const Auth = () => {
               </Link>
             </p>
 
-            {success && <Redirect to="/vehicles" />}
+            {success && <Redirect to="/" />}
           </div>
         </div>
       </div>

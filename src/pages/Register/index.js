@@ -86,7 +86,8 @@ const Register = () => {
                 Faça Login
               </Link>
             </p>
-            {success && <Redirect to="/vehicles" />}
+
+            {success && <Redirect to="/" />}
           </div>
         </div>
       </div>
