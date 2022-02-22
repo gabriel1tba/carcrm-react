@@ -10,6 +10,7 @@ const VehiclesManage = lazy(() => import('../pages/VehiclesManage'));
 const Pay = lazy(() => import('../pages/Pay'));
 const Transactions = lazy(() => import('../pages/Transactions'));
 const TransactionsShow = lazy(() => import('../pages/TransactionsShow'));
+const Steps = lazy(() => import('../pages/Steps'));
 
 const Routes = () => {
   return (
@@ -22,7 +23,7 @@ const Routes = () => {
         }
       >
         <Switch>
-          <Route exact path="/" component={Auth} />
+          <Route exact path="/" component={Steps} />
           <Route path="/login" component={Auth} />
           <Route path="/register" component={Register} />
           <Route path="/pay" component={Pay} />

@@ -172,7 +172,7 @@ const Header = ({ title, button }) => {
             </li>
 
             <li className="nav-item">
-              <Link className="nav-link" to="/" onClick={signOut}>
+              <Link className="nav-link" to="/login" onClick={signOut}>
                 <FaSignOutAlt className="icon-lg mr-2" /> Sair
               </Link>
             </li>
@@ -301,7 +301,7 @@ const Header = ({ title, button }) => {
 
             <Divider className="mt-2 mb-2" />
 
-            <ListItem component={Link} to="/" onClick={signOut}>
+            <ListItem component={Link} to="/login" onClick={signOut}>
               <ListItemIcon>
                 <FaSignOutAlt />
               </ListItemIcon>
