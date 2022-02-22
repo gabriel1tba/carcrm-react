@@ -5,7 +5,6 @@ export const actionTypes = {
 };
 
 // INDEX
-
 export const indexResponse = (payload, isLoadMore) => ({
   type: actionTypes.INDEX,
   payload,
@@ -27,7 +26,6 @@ export const index = (query, isLoadMore) => async (dispatch) => {
 };
 
 // SHOW
-
 export const show = (id) => async (dispatch) => {
   try {
     const response = await apiAuth.get(`/transactions/${id}`);
