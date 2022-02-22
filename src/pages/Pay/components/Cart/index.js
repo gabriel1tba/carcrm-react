@@ -50,7 +50,7 @@ const Cart = () => {
 
             <div className="card-body text-center">
               <h5 className="mb-3">
-                Total de{' '}
+                Total de
                 {new Intl.NumberFormat('pt-BR', {
                   style: 'currency',
                   currency: 'BRL',

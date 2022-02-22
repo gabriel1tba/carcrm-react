@@ -73,8 +73,7 @@ const Transactions = () => {
       <div className="container mt-4 pt-3">
         {isLoading ? (
           <div className="d-flex justify-content-center mt-5 pt-5">
-            {' '}
-            <CircularProgress />{' '}
+            <CircularProgress />
           </div>
         ) : (
           <>

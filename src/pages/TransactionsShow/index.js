@@ -15,6 +15,7 @@ import {
 import Header from '../../components/Header';
 
 import { show } from '../../store/actions/transactions';
+import { Link } from 'react-router-dom';
 
 const TransactionsShow = (props) => {
   const dispatch = useDispatch();
@@ -36,8 +37,7 @@ const TransactionsShow = (props) => {
       <div className="container mt-4 pt-3">
         {isLoading ? (
           <div className="d-flex justify-content-center mt-5 pt-5">
-            {' '}
-            <CircularProgress />{' '}
+            <CircularProgress />
           </div>
         ) : (
           <>
@@ -195,6 +195,16 @@ const TransactionsShow = (props) => {
               </div>
             )}
           </>
+        )}
+
+        {Boolean(!isLoading) && (
+          <div className="mt-3 d-flex justify-content-end">
+            <Link to="/transactions">
+              <Button color="primary" variant="contained" size="large">
+                Voltar
+              </Button>
+            </Link>
+          </div>
         )}
       </div>
     </>
