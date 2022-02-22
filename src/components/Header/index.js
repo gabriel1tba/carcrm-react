@@ -167,8 +167,8 @@ const Header = ({ title, button }) => {
             </li>
 
             <li className="nav-item">
-              <Link to="#" className="nav-link">
-                <FaSignOutAlt className="icon-lg mr-1" /> Sair
+              <Link className="nav-link" to="/">
+                <FaSignOutAlt className="icon-lg mr-2" /> Sair
               </Link>
             </li>
           </ul>
@@ -296,7 +296,11 @@ const Header = ({ title, button }) => {
 
             <Divider className="mt-2 mb-2" />
 
-            <ListItem>
+            <ListItem
+              component={Link}
+              to="/"
+              onClick={() => setOpenDrawer(true)}
+            >
               <ListItemIcon>
                 <FaSignOutAlt />
               </ListItemIcon>
