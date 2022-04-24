@@ -1,7 +1,8 @@
+import { app } from '../../mocks/app';
 import { actionTypes } from '../actions/app';
 
 const initialState = {
-  app: {},
+  app,
   success: false,
   error: {},
 };

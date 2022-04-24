@@ -4,8 +4,6 @@ import { showNotify } from './notify';
 import { showLoading } from './loading';
 import { showAlert } from './alert';
 
-import { apiAuth } from '../../services/api';
-
 export const actionTypes = {
   INDEX: 'APP_INDEX',
   UPDATE: 'APP_UPDATE',
@@ -66,38 +64,30 @@ export const update = (data) => async (dispatch) => {
 // UPLOAD LOGO
 export const uploadLogo = (item) => async (dispatch) => {
   try {
-    const response = await apiAuth.post('/upload/logo', item);
-    if (typeof response !== 'undefined') {
-      if (response.data.logo) {
-        dispatch(
-          showNotify({
-            open: true,
-            msg: 'Logo enviado com sucesso',
-            class: 'success',
-          })
-        );
-        dispatch(change({ logo: response.data.logo }));
-      }
-    }
-  } catch (error) {}
+    dispatch(
+      showNotify({
+        open: true,
+        msg: 'Logo enviado com sucesso',
+        class: 'success',
+      })
+    );
+    dispatch(change({ logo: item }));
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // DESTROY LOGO
 export const destroyLogo = (id) => async (dispatch) => {
   try {
-    const response = await apiAuth.delete(`/upload/logo/${id}`);
-    if (typeof response !== 'undefined') {
-      if (response.data.status === 200) {
-        dispatch(
-          showNotify({
-            open: true,
-            msg: 'Logo apagada com sucesso',
-            class: 'success',
-          })
-        );
-        dispatch(change({ logo: null }));
-      }
-    }
+    dispatch(
+      showNotify({
+        open: true,
+        msg: 'Logo apagada com sucesso',
+        class: 'success',
+      })
+    );
+    dispatch(change({ logo: null }));
   } catch (error) {
     console.log(error);
   }

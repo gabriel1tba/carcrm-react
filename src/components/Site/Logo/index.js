@@ -63,15 +63,8 @@ const Logo = () => {
               <img
                 alt=""
                 style={isDeleted ? { opacity: 0.5 } : {}}
-                className="img-fluid"
-                src={
-                  process.env.REACT_APP_BASE_URL +
-                  'thumb/logo/' +
-                  app.logo +
-                  '?u=' +
-                  app.id +
-                  '&h=150'
-                }
+                className="img-fluid img-logo"
+                src={app.logo}
               />
 
               <div className="mt-4">

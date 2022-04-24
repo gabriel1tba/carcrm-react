@@ -101,6 +101,11 @@ svg {
   color: #444;
 }
 
+.img-logo {
+  height: 120px;
+  width: fit-content;
+}
+
 .vehicle-img {
   min-width: 180px;
   min-height: 135px;
