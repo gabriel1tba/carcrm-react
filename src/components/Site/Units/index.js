@@ -79,7 +79,8 @@ const Units = () => {
   };
 
   useEffect(() => {
-    dispatch(index()).then((res) => res && setLoading(false));
+    dispatch(index());
+    setLoading(false);
   }, []);
 
   return (

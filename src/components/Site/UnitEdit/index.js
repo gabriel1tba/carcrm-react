@@ -92,7 +92,7 @@ const UnitEdit = (props) => {
   const response = useSelector((state) => state.unitsReducer.success);
   const unit_id = props.uid ? props.uid : null;
 
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const [isLoadingCep, setLoadingCep] = useState(false);
 
   useEffect(() => {
@@ -101,7 +101,8 @@ const UnitEdit = (props) => {
 
   const handleIndex = () => {
     if (unit_id) {
-      dispatch(show(unit_id)).then((res) => res && setLoading(false));
+      dispatch(show(unit_id));
+      setLoading(false);
     } else {
       dispatch(change('clear'));
       setLoading(false);
@@ -157,13 +158,10 @@ const UnitEdit = (props) => {
                 name="phone"
                 type="tel"
                 autoComplete="off"
-                InputProps={{
-                  inputComponent: TextMaskCustom,
-                  value: unit.phone,
-                  onChange: (event) => {
-                    dispatch(change({ phone: event.target.value }));
-                    if (error.phone && delete error.phone);
-                  },
+                value={unit.phone || ''}
+                onChange={(event) => {
+                  dispatch(change({ phone: event.target.value }));
+                  if (error.phone && delete error.phone);
                 }}
               />
               {error.phone && (
@@ -171,39 +169,34 @@ const UnitEdit = (props) => {
               )}
             </div>
 
-            {unit.phone && (
-              <div className="form-group">
-                <label className="label-custom">TELEFONE 2</label>
-                <TextField
-                  name="phone"
-                  type="tel"
-                  autoComplete="off"
-                  InputProps={{
-                    inputComponent: TextMaskCustom,
-                    value: unit.phone2,
-                    onChange: (event) =>
-                      dispatch(change({ phone2: event.target.value })),
-                  }}
-                />
-              </div>
-            )}
+            <div className="form-group">
+              <label className="label-custom">TELEFONE 2</label>
+              <TextField
+                name="phone"
+                type="tel"
+                autoComplete="off"
+                value={unit.phone2 || ''}
+                onChange={(event) => {
+                  dispatch(change({ phone2: event.target.value }));
+                  if (error.phone2 && delete error.phone);
+                }}
+              />
+            </div>
 
-            {unit.phone2 && (
-              <div className="form-group">
-                <label className="label-custom">TELEFONE 3</label>
-                <TextField
-                  name="phone"
-                  type="tel"
-                  autoComplete="off"
-                  InputProps={{
-                    inputComponent: TextMaskCustom,
-                    value: unit.phone3,
-                    onChange: (event) =>
-                      dispatch(change({ phone3: event.target.value })),
-                  }}
-                />
-              </div>
-            )}
+            <div className="form-group">
+              <label className="label-custom">TELEFONE 3</label>
+              <TextField
+                name="phone"
+                type="tel"
+                autoComplete="off"
+                InputProps={{
+                  inputComponent: TextMaskCustom,
+                  value: unit.phone3 || '',
+                  onChange: (event) =>
+                    dispatch(change({ phone3: event.target.value })),
+                }}
+              />
+            </div>
 
             <h6 className="mb-4 mt-4 text-secondary">Endereço</h6>
 
@@ -215,7 +208,7 @@ const UnitEdit = (props) => {
                 name="cep"
                 InputProps={{
                   inputComponent: TextMaskCustom,
-                  value: unit.zipCode,
+                  value: unit.zipCode || '',
                   onChange: (event) => {
                     dispatch(change({ zipCode: event.target.value }));
                     if (event.target.value.length > 8) {

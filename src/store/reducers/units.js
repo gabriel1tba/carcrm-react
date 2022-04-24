@@ -1,8 +1,10 @@
+import { units } from '../../mocks/units';
+
 import { actionTypes } from '../actions/units';
 
 const initialState = {
-  units: [],
-  unit: {},
+  units,
+  unit: units[0],
   success: false,
   error: {},
 };

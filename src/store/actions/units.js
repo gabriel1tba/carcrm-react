@@ -1,4 +1,5 @@
-import { apiAuth } from '../../services/api';
+import axios from 'axios';
+import { units } from '../../mocks/units';
 
 import { showLoading } from './loading';
 
@@ -34,11 +35,10 @@ export const indexResponse = (payload) => ({
 });
 
 export const index = (query) => async (dispatch) => {
+  console.log(query);
+
   try {
-    const response = await apiAuth.get('/units?' + new URLSearchParams(query));
-    return (
-      typeof response !== 'undefined' && dispatch(indexResponse(response.data))
-    );
+    dispatch(indexResponse(units));
   } catch (error) {
     console.log(error);
   }
@@ -51,16 +51,12 @@ export const storeResponse = (payload) => ({
 });
 
 export const store = (data) => async (dispatch) => {
+  console.log(data);
+
   dispatch(showLoading({ open: true }));
   try {
-    const response = await apiAuth.post('/units', data);
-    if (response.data.error) {
-      dispatch(error(response.data.error));
-    }
-    if (response.data.id) {
-      dispatch(storeResponse(response.data));
-      dispatch(success(true));
-    }
+    dispatch(storeResponse(units[0]));
+    dispatch(success(true));
   } catch (error) {
     console.log(error);
   } finally {
@@ -70,11 +66,10 @@ export const store = (data) => async (dispatch) => {
 
 // SHOW
 export const show = (id) => async (dispatch) => {
+  console.log(id);
+
   try {
-    const response = await apiAuth.get(`/units/${id}`);
-    return (
-      typeof response !== 'undefined' && dispatch(indexResponse(response.data))
-    );
+    dispatch(indexResponse(units));
   } catch (error) {
     console.log(error);
   }
@@ -87,21 +82,14 @@ export const updateResponse = (payload) => ({
 });
 
 export const update = (data) => async (dispatch) => {
+  console.log(data);
+
   dispatch(showLoading({ open: true }));
 
   try {
-    const response = await apiAuth.put(`/units/${data.id}`, data);
     dispatch(showLoading({ open: false }));
-    if (typeof response !== 'undefined') {
-      if (response.data.error) {
-        dispatch(error(response.data.error));
-      }
-
-      if (response.data.status === 200) {
-        dispatch(updateResponse(data));
-        dispatch(success(true));
-      }
-    }
+    dispatch(updateResponse(units[0]));
+    dispatch(success(true));
   } catch (error) {
     console.log(error);
   } finally {
@@ -116,9 +104,10 @@ export const destroyResponse = (payload) => ({
 });
 
 export const destroy = (id) => async (dispatch) => {
+  console.log(id);
+
   try {
-    const response = await apiAuth.delete(`/units/${id}`);
-    return typeof response !== 'undefined' && dispatch(destroyResponse(id));
+    dispatch(destroyResponse(id));
   } catch (error) {
     console.log(error);
   }
@@ -126,12 +115,23 @@ export const destroy = (id) => async (dispatch) => {
 
 // CEP
 export const cep = (zipCode) => async (dispatch) => {
+  console.log(zipCode);
+
   try {
     if (zipCode.length > 8) {
-      const response = await apiAuth.post('webservice/cep', {
-        cep: zipCode,
-      });
-      return typeof response !== 'undefined' && dispatch(change(response.data));
+      const { data } = await axios.get(
+        `https://viacep.com.br/ws/${zipCode}/json`
+      );
+
+      const formatedData = {
+        zipCode: data.cep,
+        uf: data.uf,
+        city: data.localidade,
+        neighborhood: data.bairro,
+        street: data.logradouro,
+      };
+
+      return dispatch(change(formatedData));
     }
   } catch (error) {
     console.log(error);

@@ -32,6 +32,8 @@ export const setUserToken = (token) => (dispatch) => {
 };
 
 export const login = (credentials) => (dispatch) => {
+  console.log(credentials);
+
   dispatch(
     showLoading({
       open: true,

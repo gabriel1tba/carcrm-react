@@ -43,6 +43,8 @@ export const index = () => async (dispatch) => {
 
 // UPDATE
 export const update = (data) => async (dispatch) => {
+  console.log(data);
+
   dispatch(showLoading({ open: true }));
 
   try {
@@ -63,6 +65,8 @@ export const update = (data) => async (dispatch) => {
 
 // UPLOAD LOGO
 export const uploadLogo = (item) => async (dispatch) => {
+  console.log(item);
+
   try {
     dispatch(
       showNotify({
@@ -79,6 +83,8 @@ export const uploadLogo = (item) => async (dispatch) => {
 
 // DESTROY LOGO
 export const destroyLogo = (id) => async (dispatch) => {
+  console.log(id);
+
   try {
     dispatch(
       showNotify({
@@ -95,6 +101,8 @@ export const destroyLogo = (id) => async (dispatch) => {
 
 // VALIDATE SUBDOMAIN
 export const validateSubdomain = (value) => (dispatch) => {
+  console.log(value);
+
   let lowercaseText = value.toLowerCase();
   if (lowercaseText.search(' ') >= 0) {
     lowercaseText = lowercaseText.replace(' ', '');
