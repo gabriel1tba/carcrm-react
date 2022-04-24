@@ -1,7 +1,7 @@
+import { token } from '../../mocks/auth';
+
 import { showLoading } from '../actions/loading';
 import { showNotify } from '../actions/notify';
-
-import { api } from '../../services/api';
 
 export const actionsTypes = {
   EDIT: 'AUTH_EDIT',
@@ -39,44 +39,29 @@ export const login = (credentials) => (dispatch) => {
     })
   );
 
-  return api
-    .post('oauth/token', {
-      grant_type: 'password',
-      client_id: 2,
-      client_secret: '5t19WBluzxf4lfa15bZ64uoJWF7UgGvhs1hnmHbf',
-      username: credentials.email,
-      password: credentials.password,
-    })
-    .then((response) => {
-      dispatch(showLoading({ open: false }));
+  try {
+    dispatch(setUserToken(token.access_token));
+  } catch (error) {
+    dispatch(showLoading({ open: false }));
 
-      if (typeof response !== 'undefined') {
-        if (response.data.access_token) {
-          dispatch(setUserToken(response.data.access_token));
-        }
+    if (typeof error.response !== 'undefined') {
+      if (error.response.status === 400 || error.response.status === 404) {
+        dispatch(
+          showNotify({
+            open: true,
+            class: 'error',
+            msg: 'Verifique suas credênciais',
+          })
+        );
+      } else {
+        dispatch(
+          showNotify({
+            open: true,
+            class: 'error',
+            msg: 'Erro inesperádo! Por favor, contate o administrador.',
+          })
+        );
       }
-    })
-    .catch((error) => {
-      dispatch(showLoading({ open: false }));
-
-      if (typeof error.response !== 'undefined') {
-        if (error.response.status === 400 || error.response.status === 404) {
-          dispatch(
-            showNotify({
-              open: true,
-              class: 'error',
-              msg: 'Verifique suas credênciais',
-            })
-          );
-        } else {
-          dispatch(
-            showNotify({
-              open: true,
-              class: 'error',
-              msg: 'Erro inesperádo! Por favor, contate o administrador.',
-            })
-          );
-        }
-      }
-    });
+    }
+  }
 };

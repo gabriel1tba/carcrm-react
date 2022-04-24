@@ -1,3 +1,5 @@
+import { app } from '../../mocks/app';
+
 import { showNotify } from './notify';
 import { showLoading } from './loading';
 import { showAlert } from './alert';
@@ -35,10 +37,7 @@ export const indexResponse = (payload) => ({
 
 export const index = () => async (dispatch) => {
   try {
-    const response = await apiAuth.get('/app');
-    return (
-      typeof response !== 'undefined' && dispatch(indexResponse(response.data))
-    );
+    dispatch(indexResponse(app));
   } catch (error) {
     console.log(error);
   }
@@ -49,23 +48,14 @@ export const update = (data) => async (dispatch) => {
   dispatch(showLoading({ open: true }));
 
   try {
-    const response = await apiAuth.put(`/app/${data.id}`, data);
-    if (typeof response !== 'undefined') {
-      if (response.data.error) {
-        dispatch(error(response.data.error));
-      }
-
-      if (response.data.status === 200) {
-        dispatch(
-          showNotify({
-            open: true,
-            msg: response.data.success,
-            class: 'success',
-          })
-        );
-        dispatch(success(true));
-      }
-    }
+    dispatch(
+      showNotify({
+        open: true,
+        msg: 'Cadastrado com sucesso',
+        class: 'success',
+      })
+    );
+    dispatch(success(true));
   } catch (error) {
     console.log(error);
   } finally {
