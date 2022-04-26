@@ -1,4 +1,6 @@
-import { apiAuth } from '../../services/api';
+import axios from 'axios';
+import { owners } from '../../mocks/owners';
+
 import { showLoading } from './loading';
 import { showNotify } from './notify';
 
@@ -36,13 +38,10 @@ export const indexResponse = (payload, isLoadMore) => ({
 });
 
 export const index = (query, isLoadMore) => async (dispatch) => {
-  try {
-    const response = await apiAuth.get(`/owners?${new URLSearchParams(query)}`);
+  console.log(query);
 
-    return (
-      typeof response !== 'undefined' &&
-      dispatch(indexResponse(response.data, isLoadMore))
-    );
+  try {
+    dispatch(indexResponse(owners.data, isLoadMore));
   } catch (error) {
     console.log(error);
   }
@@ -55,28 +54,20 @@ export const storeResponse = (payload) => ({
 });
 
 export const store = (data) => async (dispatch) => {
+  console.log(data);
+
   dispatch(showLoading({ open: true }));
 
   try {
-    const response = await apiAuth.post('/owners', data);
-
-    if (typeof response !== 'undefined') {
-      if (response.data.error) {
-        dispatch(error(response.data.error));
-      }
-
-      if (response.data.id) {
-        dispatch(storeResponse(response.data));
-        dispatch(success(true));
-        dispatch(
-          showNotify({
-            open: true,
-            msg: 'Proprietário cadastrado com sucesso',
-            class: 'success',
-          })
-        );
-      }
-    }
+    dispatch(storeResponse(owners.data));
+    dispatch(success(true));
+    dispatch(
+      showNotify({
+        open: true,
+        msg: 'Proprietário cadastrado com sucesso',
+        class: 'success',
+      })
+    );
   } catch (error) {
     console.log(error);
   } finally {
@@ -85,12 +76,11 @@ export const store = (data) => async (dispatch) => {
 };
 
 // SHOW
-export const show = (id) => async (dispacth) => {
+export const show = (item) => async (dispacth) => {
+  console.log(item);
+
   try {
-    const response = await apiAuth.get(`/owners/${id}`);
-    return (
-      typeof response !== 'undefined' && dispacth(indexResponse(response.data))
-    );
+    dispacth(indexResponse(item));
   } catch (error) {
     console.log(error);
   }
@@ -103,25 +93,19 @@ export const updateResponse = (payload) => ({
 });
 
 export const update = (data) => async (dispatch) => {
+  console.log(data);
+
   dispatch(showLoading({ open: true }));
 
   try {
-    const response = await apiAuth.put(`/owners/${data.id}`, data);
-
-    if (response.data.error) {
-      dispatch(error(response.data.error));
-    }
-    if (response.data.status === 200) {
-      dispatch(updateResponse(data));
-      dispatch(success(true));
-      dispatch(
-        showNotify({
-          open: true,
-          msg: response.data.success,
-          class: 'success',
-        })
-      );
-    }
+    dispatch(success(true));
+    dispatch(
+      showNotify({
+        open: true,
+        msg: 'Proprietário atualizado com sucesso',
+        class: 'success',
+      })
+    );
   } catch (error) {
     console.log(error);
   } finally {
@@ -136,9 +120,10 @@ export const destroyResponse = (payload) => ({
 });
 
 export const destroy = (id) => async (dispatch) => {
+  console.log(id);
+
   try {
-    const response = await apiAuth.delete(`/owners/${id}`);
-    return typeof response !== 'undefined' && dispatch(destroyResponse(id));
+    dispatch(destroyResponse(id));
   } catch (error) {
     console.log(error);
   }
@@ -151,14 +136,10 @@ export const vehiclesResponse = (payload) => ({
 });
 
 export const vehicles = (query, isLoadMore) => async (dispatch) => {
+  console.log(query);
+
   try {
-    const response = await apiAuth.get(
-      '/vehicles?' + new URLSearchParams(query)
-    );
-    return (
-      typeof response !== 'undefined' &&
-      dispatch(vehiclesResponse(response.data, isLoadMore))
-    );
+    dispatch(vehiclesResponse(owners.data, isLoadMore));
   } catch (error) {
     console.log(error);
   }
@@ -166,12 +147,23 @@ export const vehicles = (query, isLoadMore) => async (dispatch) => {
 
 // CEP
 export const cep = (zipCode) => async (dispatch) => {
+  console.log(zipCode);
+
   try {
     if (zipCode.length > 8) {
-      const response = await apiAuth.post('webservice/cep', {
-        cep: zipCode,
-      });
-      return typeof response !== 'undefined' && dispatch(change(response.data));
+      const { data } = await axios.get(
+        `https://viacep.com.br/ws/${zipCode}/json`
+      );
+
+      const formatedData = {
+        zipCode: data.cep,
+        uf: data.uf,
+        city: data.localidade,
+        neighborhood: data.bairro,
+        street: data.logradouro,
+      };
+
+      return dispatch(change(formatedData));
     }
   } catch (error) {
     console.log(error);

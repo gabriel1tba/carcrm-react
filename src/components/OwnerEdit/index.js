@@ -113,17 +113,17 @@ const TextMaskCustom = ({ inputRef, name, ...rest }) => {
 
 const OwnerEdit = (props) => {
   const dispatch = useDispatch();
-  const owner = useSelector((state) => state.ownersReducer.owner);
   const error = useSelector((state) => state.ownersReducer.error);
   const response = useSelector((state) => state.ownersReducer.success);
-  const owner_id = props.uid ? props.uid : null;
+  const owner = props.item;
 
   const [isLoading, setLoading] = useState(true);
   const [isLoadingCep, setLoadingCep] = useState(false);
 
   const handleDispatchIndex = () => {
-    if (owner_id) {
-      dispatch(show(owner_id)).then((res) => res && setLoading(false));
+    if (owner) {
+      dispatch(show(owner));
+      setLoading(false);
     } else {
       dispatch(change('clear'));
       setLoading(false);
@@ -154,12 +154,12 @@ const OwnerEdit = (props) => {
           </IconButton>
 
           <Typography variant="h6" color="inherit">
-            {owner_id ? 'Editar proprietário' : 'Novo proprietário'}
+            {owner ? 'Editar proprietário' : 'Novo proprietário'}
           </Typography>
 
           <Button
             onClick={() =>
-              owner_id ? dispatch(update(owner)) : dispatch(store(owner))
+              owner ? dispatch(update(owner)) : dispatch(store(owner))
             }
             color="inherit"
             className="ml-auto"

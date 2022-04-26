@@ -127,7 +127,9 @@ const Owners = (props) => {
       toggleScreen2({
         open: true,
         type: 'owner-edit',
-        props: {},
+        props: {
+          item: {},
+        },
       })
     );
   };
@@ -145,14 +147,14 @@ const Owners = (props) => {
     );
   };
 
-  const handleEdit = (id) => {
+  const handleEdit = (item) => {
     setMenuEl(null);
     dispatch(
       toggleScreen2({
         open: true,
         type: 'owner-edit',
         props: {
-          uid: id,
+          item: item,
         },
       })
     );
@@ -301,7 +303,7 @@ const Owners = (props) => {
 
                             <Divider />
 
-                            <MenuItem onClick={() => handleEdit(item.id)}>
+                            <MenuItem onClick={() => handleEdit(item)}>
                               <FaPencilAlt size="1.2em" className="mr-4" />
                               Editar
                             </MenuItem>

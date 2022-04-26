@@ -1,8 +1,10 @@
+import { owners } from '../../mocks/owners';
+
 import { actionTypes } from '../actions/owners';
 
 const initialState = {
   owners: {
-    data: [],
+    data: owners.data,
   },
   owner: {},
   vehicles: {

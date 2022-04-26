@@ -54,7 +54,10 @@ const Navigation = () => {
       >
         <div style={style}>
           {nav.screen2.type === 'owner-edit' && (
-            <OwnerEdit uid={nav.screen2.props.uid} props={nav.screen2.props} />
+            <OwnerEdit
+              item={nav.screen2.props.item}
+              props={nav.screen2.props}
+            />
           )}
 
           {nav.screen2.type === 'owner-show' && (
