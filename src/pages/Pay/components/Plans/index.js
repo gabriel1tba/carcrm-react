@@ -1,11 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Button,
-  ButtonBase,
-  CircularProgress,
-  Divider,
-} from '@material-ui/core';
+import { Button, CircularProgress, Divider } from '@material-ui/core';
 
 import { change, plans } from '../../../../store/actions/pay';
 
@@ -16,7 +11,8 @@ const Plans = () => {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(plans()).then((res) => res && setLoading(false));
+    dispatch(plans());
+    setLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

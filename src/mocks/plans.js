@@ -1,0 +1,32 @@
+export const plans = [
+  {
+    id: 1,
+    title: 'Mensal',
+    price: 19.9,
+    equivalent: 19.9,
+    discount: null,
+    period: 1,
+    created_at: '2022-02-19T16:58:48.000000Z',
+    updated_at: '2022-02-19T16:58:48.000000Z',
+  },
+  {
+    id: 2,
+    title: 'Semestral',
+    price: 107.4,
+    equivalent: 17.9,
+    discount: '-10%',
+    period: 3,
+    created_at: '2022-02-19T16:58:48.000000Z',
+    updated_at: '2022-02-19T16:58:48.000000Z',
+  },
+  {
+    id: 3,
+    title: 'Anual',
+    price: 179,
+    equivalent: 14.9,
+    discount: '-25%',
+    period: 12,
+    created_at: '2022-02-19T16:58:48.000000Z',
+    updated_at: '2022-02-19T16:58:48.000000Z',
+  },
+];

@@ -1,7 +1,9 @@
+import { plans } from '../../mocks/plans';
+
 import { actionTypes } from '../actions/pay';
 
 const initialState = {
-  plans: [],
+  plans,
   plan: {},
   pay_type: null,
   success: null,

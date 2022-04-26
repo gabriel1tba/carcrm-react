@@ -1,7 +1,7 @@
+import { plans as plansMock } from '../../mocks/plans';
+
 import { showLoading } from './loading';
 import { showNotify } from './notify';
-
-import { apiAuth } from '../../services/api';
 
 export const actionTypes = {
   CHANGE: 'PAY_CHANGE',
@@ -38,14 +38,15 @@ export const alertError = (value) => (dispatch) => {
 
 export const plans = () => async (dispatch) => {
   try {
-    const response = await apiAuth.get('/pay/plans');
-    return typeof response !== 'undefined' && dispatch(change(response.data));
+    dispatch(change(plansMock));
   } catch (error) {
     console.log(error);
   }
 };
 
 export const payCard = (data) => async (dispatch) => {
+  console.log(data);
+
   dispatch(
     showLoading({
       open: true,
@@ -54,16 +55,7 @@ export const payCard = (data) => async (dispatch) => {
   );
 
   try {
-    const response = await apiAuth.post('/pay/card', data);
-
-    if (typeof response !== 'undefined') {
-      if (response.data.success) {
-        dispatch(success(response.data.id));
-      }
-      if (response.data.error) {
-        dispatch(error(response.data.error));
-      }
-    }
+    dispatch(success(plansMock.id));
   } catch (error) {
     console.log(error);
   } finally {
@@ -72,6 +64,8 @@ export const payCard = (data) => async (dispatch) => {
 };
 
 export const payPec = (data) => async (dispatch) => {
+  console.log(data);
+
   dispatch(
     showLoading({
       open: true,
@@ -80,16 +74,7 @@ export const payPec = (data) => async (dispatch) => {
   );
 
   try {
-    const response = await apiAuth.post('/pay/pec', data);
-
-    if (typeof response !== 'undefined') {
-      if (response.data.success) {
-        dispatch(success(response.data.id));
-      }
-      if (response.data.error) {
-        dispatch(error(response.data.error));
-      }
-    }
+    dispatch(success(plansMock.id));
   } catch (error) {
     console.log(error);
   } finally {
