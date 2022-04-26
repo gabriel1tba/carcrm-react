@@ -27,7 +27,8 @@ const TransactionsShow = (props) => {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(show(transaction_id)).then((res) => res && setLoading(false));
+    dispatch(show(transaction_id));
+    setLoading(false);
   }, []);
 
   return (

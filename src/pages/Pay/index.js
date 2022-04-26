@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Header from '../../components/Header';
 import Account from './components/Account';
@@ -7,7 +7,6 @@ import Plans from './components/Plans';
 import Cart from './components/Cart';
 
 const Pay = () => {
-  const dispatch = useDispatch();
   const app = useSelector((state) => state.appReducer.app);
   const plan = useSelector((state) => state.payReducer.plan);
   const [title, setTitle] = useState();

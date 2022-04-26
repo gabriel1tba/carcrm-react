@@ -1,8 +1,10 @@
+import { transactions } from '../../mocks/transactions';
+
 import { actionTypes } from '../actions/transactions';
 
 const initialState = {
   transactions: {
-    data: [],
+    data: transactions.data,
   },
   transaction: {},
 };

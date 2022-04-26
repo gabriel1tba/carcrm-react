@@ -1,4 +1,4 @@
-import { apiAuth } from '../../services/api';
+import { transactions } from '../../mocks/transactions';
 
 export const actionTypes = {
   INDEX: 'TRANSACTIONS_INDEX',
@@ -12,14 +12,10 @@ export const indexResponse = (payload, isLoadMore) => ({
 });
 
 export const index = (query, isLoadMore) => async (dispatch) => {
+  console.log(query);
+
   try {
-    const response = await apiAuth.get(
-      `/transactions?${new URLSearchParams(query)}`
-    );
-    return (
-      typeof response !== 'undefined' &&
-      dispatch(indexResponse(response.data, isLoadMore))
-    );
+    dispatch(indexResponse(transactions.data, isLoadMore));
   } catch (error) {
     console.log(error);
   }
@@ -27,11 +23,10 @@ export const index = (query, isLoadMore) => async (dispatch) => {
 
 // SHOW
 export const show = (id) => async (dispatch) => {
+  console.log(id);
+
   try {
-    const response = await apiAuth.get(`/transactions/${id}`);
-    return (
-      typeof response !== 'undefined' && dispatch(indexResponse(response.data))
-    );
+    dispatch(indexResponse(transactions.data));
   } catch (error) {
     console.log(error);
   }

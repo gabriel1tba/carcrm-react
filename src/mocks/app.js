@@ -15,7 +15,7 @@ export const app = {
   site_keywords: 'Ex omnis natus esse',
   site_description: 'Enim, quia, culpa',
   plan_id: 3,
-  status: 2,
+  status: 0,
   expira: '2022-02-08 00:08:44',
   disable: null,
   delete: null,
