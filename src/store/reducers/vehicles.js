@@ -1,8 +1,10 @@
+import { vehicles } from '../../mocks/vehicles';
+
 import { actionTypes } from '../actions/vehicles';
 
 const initialState = {
   vehicles: {
-    data: [],
+    data: vehicles.data,
   },
   vehicle: {
     vehicle_features: [],

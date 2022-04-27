@@ -82,12 +82,9 @@ const Vehicles = () => {
   const handleDispatchIndex = useCallback(
     async (loadMore) => {
       try {
-        const response = await dispatch(index(query, loadMore));
-        if (response) {
-          setIsLoading(false);
+        dispatch(index(query, loadMore));
 
-          if (isLoadMore) setIsLoadMore(false);
-        }
+        setIsLoading(false);
       } catch (error) {}
     },
     [dispatch, isLoadMore, query]
@@ -169,9 +166,9 @@ const Vehicles = () => {
                             <CircularProgress color="secondary" />
                           ) : vehicle.cover ? (
                             <img
-                              src={`${process.env.REACT_APP_BASE_URL}thumb/vehicles/${vehicle.cover.img}?u=${vehicle.cover.user_id}&s=${vehicle.cover.vehicle_id}&h=250&w=250`}
+                              src={vehicle.cover.img}
                               alt="Foto ilustrativa de um carro"
-                              className="shadow rounded"
+                              className="shadow rounded vehicle-cover "
                             />
                           ) : null}
                         </div>

@@ -87,7 +87,7 @@ const VehiclesManage = ({ match }) => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.vehiclesReducer);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isLoadingCep, setIsLoadingCep] = useState(false);
   const [isDeleted, setIsDeleted] = useState(null);
   const [tips, setTips] = useState(0);
@@ -407,11 +407,12 @@ const VehiclesManage = ({ match }) => {
                       handleSelectCategory(event.target.value)
                     }
                   >
-                    {data.vehicle_types.map((item) => (
-                      <MenuItem key={item.id} value={item.value}>
-                        {item.label}
-                      </MenuItem>
-                    ))}
+                    {Boolean(data.vehicle_types) &&
+                      data.vehicle_types.map((item) => (
+                        <MenuItem key={item.id} value={item.value}>
+                          {item.label}
+                        </MenuItem>
+                      ))}
                   </Select>
                   {data?.error?.vehicle_type && (
                     <strong className="text-danger">
@@ -427,11 +428,12 @@ const VehiclesManage = ({ match }) => {
                     value={data.vehicle.vehicle_brand || ''}
                     onChange={(event) => handleSelectBrand(event.target.value)}
                   >
-                    {data.vehicle_brand.map((item) => (
-                      <MenuItem key={item.id} value={item.value}>
-                        {item.label}
-                      </MenuItem>
-                    ))}
+                    {Boolean(data.vehicle_brand) &&
+                      data.vehicle_brand.map((item) => (
+                        <MenuItem key={item.id} value={item.value}>
+                          {item.label}
+                        </MenuItem>
+                      ))}
                   </Select>
                   {data?.error?.vehicle_brand && (
                     <strong className="text-danger">
@@ -450,11 +452,12 @@ const VehiclesManage = ({ match }) => {
                         handleSelectModel(event.target.value)
                       }
                     >
-                      {data.vehicle_model.map((item) => (
-                        <MenuItem key={item.id} value={item.value}>
-                          {item.label}
-                        </MenuItem>
-                      ))}
+                      {Boolean(data.vehicle_model) &&
+                        data.vehicle_model.map((item) => (
+                          <MenuItem key={item.id} value={item.value}>
+                            {item.label}
+                          </MenuItem>
+                        ))}
                     </Select>
                     {data?.error?.vehicle_model && (
                       <strong className="text-danger">
@@ -471,11 +474,12 @@ const VehiclesManage = ({ match }) => {
                         handleSelectRegDate(event.target.value)
                       }
                     >
-                      {data.regdate.map((item) => (
-                        <MenuItem key={item.id} value={item.value}>
-                          {item.label}
-                        </MenuItem>
-                      ))}
+                      {Boolean(data.regdate) &&
+                        data.regdate.map((item) => (
+                          <MenuItem key={item.id} value={item.value}>
+                            {item.label}
+                          </MenuItem>
+                        ))}
                     </Select>
                     {data?.error?.vehicle_regdate && (
                       <strong className="text-danger">
@@ -494,11 +498,12 @@ const VehiclesManage = ({ match }) => {
                       handleSelectVersion(event.target.value)
                     }
                   >
-                    {data.vehicle_version.map((item) => (
-                      <MenuItem key={item.id} value={item.value}>
-                        {item.label}
-                      </MenuItem>
-                    ))}
+                    {Boolean(data.vehicle_version) &&
+                      data.vehicle_version.map((item) => (
+                        <MenuItem key={item.id} value={item.value}>
+                          {item.label}
+                        </MenuItem>
+                      ))}
                   </Select>
                   {data?.error?.vehicle_version && (
                     <strong className="text-danger">
@@ -521,11 +526,12 @@ const VehiclesManage = ({ match }) => {
                             handleSelectGearbox(event.target.value)
                           }
                         >
-                          {data.gearbox.map((item) => (
-                            <MenuItem key={item.id} value={item.value}>
-                              {item.label}
-                            </MenuItem>
-                          ))}
+                          {Boolean(data.gearbox) &&
+                            data.gearbox.map((item) => (
+                              <MenuItem key={item.id} value={item.value}>
+                                {item.label}
+                              </MenuItem>
+                            ))}
                         </Select>
                       </div>
 
@@ -537,11 +543,12 @@ const VehiclesManage = ({ match }) => {
                             handleSelectFuel(event.target.value)
                           }
                         >
-                          {data.fuel.map((item) => (
-                            <MenuItem key={item.id} value={item.value}>
-                              {item.label}
-                            </MenuItem>
-                          ))}
+                          {Boolean(data.fuel) &&
+                            data.fuel.map((item) => (
+                              <MenuItem key={item.id} value={item.value}>
+                                {item.label}
+                              </MenuItem>
+                            ))}
                         </Select>
                       </div>
 
@@ -553,11 +560,12 @@ const VehiclesManage = ({ match }) => {
                             handleSelectSteering(event.target.value)
                           }
                         >
-                          {data.car_steering.map((item) => (
-                            <MenuItem key={item.id} value={item.value}>
-                              {item.label}
-                            </MenuItem>
-                          ))}
+                          {Boolean(data.car_steering) &&
+                            data.car_steering.map((item) => (
+                              <MenuItem key={item.id} value={item.value}>
+                                {item.label}
+                              </MenuItem>
+                            ))}
                         </Select>
                       </div>
 
@@ -571,11 +579,12 @@ const VehiclesManage = ({ match }) => {
                             handleSelectMotorpower(event.target.value)
                           }
                         >
-                          {data.motorpower.map((item) => (
-                            <MenuItem key={item.id} value={item.value}>
-                              {item.label}
-                            </MenuItem>
-                          ))}
+                          {Boolean(data.motorpower) &&
+                            data.motorpower.map((item) => (
+                              <MenuItem key={item.id} value={item.value}>
+                                {item.label}
+                              </MenuItem>
+                            ))}
                         </Select>
                       </div>
 
@@ -587,11 +596,12 @@ const VehiclesManage = ({ match }) => {
                             handleSelectDoors(event.target.value)
                           }
                         >
-                          {data.doors.map((item) => (
-                            <MenuItem key={item.id} value={item.value}>
-                              {item.label}
-                            </MenuItem>
-                          ))}
+                          {Boolean(data.doors) &&
+                            data.doors.map((item) => (
+                              <MenuItem key={item.id} value={item.value}>
+                                {item.label}
+                              </MenuItem>
+                            ))}
                         </Select>
                       </div>
                     </>
@@ -607,11 +617,12 @@ const VehiclesManage = ({ match }) => {
                           handleSelectCubiccms(event.target.value)
                         }
                       >
-                        {data.cubiccms.map((item) => (
-                          <MenuItem key={item.id} value={item.value}>
-                            {item.label}
-                          </MenuItem>
-                        ))}
+                        {Boolean(data.cubiccms) &&
+                          data.cubiccms.map((item) => (
+                            <MenuItem key={item.id} value={item.value}>
+                              {item.label}
+                            </MenuItem>
+                          ))}
                       </Select>
                     </div>
                   )}
@@ -624,11 +635,12 @@ const VehiclesManage = ({ match }) => {
                         handleSelectColor(event.target.value)
                       }
                     >
-                      {data.carcolor.map((item) => (
-                        <MenuItem key={item.id} value={item.value}>
-                          {item.label}
-                        </MenuItem>
-                      ))}
+                      {Boolean(data.carcolor) &&
+                        data.carcolor.map((item) => (
+                          <MenuItem key={item.id} value={item.value}>
+                            {item.label}
+                          </MenuItem>
+                        ))}
                     </Select>
                   </div>
 
@@ -656,28 +668,29 @@ const VehiclesManage = ({ match }) => {
                   </h3>
                   <div className="card card-body" onClick={() => setTips(1)}>
                     <div className="row">
-                      {data.features.map(
-                        (item) =>
-                          item.vehicle_type_id ===
-                            data.vehicle.vehicle_type && (
-                            <div className="col-md-6" key={item.id}>
-                              <FormControlLabel
-                                control={
-                                  <Checkbox
-                                    checked={
-                                      !!data.vehicle.vehicle_features[
-                                        item.value
-                                      ]
-                                    }
-                                    onChange={() => handleCheckFeatures(item)}
-                                    color="primary"
-                                  />
-                                }
-                                label={item.label}
-                              />
-                            </div>
-                          )
-                      )}
+                      {Boolean(data.features) &&
+                        data.features.map(
+                          (item) =>
+                            item.vehicle_type_id ===
+                              data.vehicle.vehicle_type && (
+                              <div className="col-md-6" key={item.id}>
+                                <FormControlLabel
+                                  control={
+                                    <Checkbox
+                                      checked={
+                                        !!data.vehicle.vehicle_features[
+                                          item.value
+                                        ]
+                                      }
+                                      onChange={() => handleCheckFeatures(item)}
+                                      color="primary"
+                                    />
+                                  }
+                                  label={item.label}
+                                />
+                              </div>
+                            )
+                        )}
                     </div>
                   </div>
                 </>
@@ -688,22 +701,23 @@ const VehiclesManage = ({ match }) => {
                 <div className="form-group">
                   <label className="label-custom">Estado Financeiro</label>
                   <div className="row">
-                    {data.financial.map((item) => (
-                      <div className="col-md-6" key={item.id}>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={
-                                !!data.vehicle.vehicle_financial[item.value]
-                              }
-                              onChange={() => handleCheckFinancial(item)}
-                              color="primary"
-                            />
-                          }
-                          label={item.label}
-                        />
-                      </div>
-                    ))}
+                    {Boolean(data.financial) &&
+                      data.financial.map((item) => (
+                        <div className="col-md-6" key={item.id}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={
+                                  !!data.vehicle.vehicle_financial[item.value]
+                                }
+                                onChange={() => handleCheckFinancial(item)}
+                                color="primary"
+                              />
+                            }
+                            label={item.label}
+                          />
+                        </div>
+                      ))}
                   </div>
                 </div>
 
@@ -776,39 +790,40 @@ const VehiclesManage = ({ match }) => {
                 )}
 
                 <SortableList axis="xy" onSortEnd={onSortEnd}>
-                  {data.vehicle.vehicle_photos.map((item, index) => (
-                    <div className="col-6 col-md-4" key={item.id}>
-                      <div className="box-image d-flex justify-content-center align-items-center mt-3">
-                        {isDeleted === item.id ? (
-                          <CircularProgress size={30} color="secondary" />
-                        ) : (
-                          <>
-                            <span
-                              id={item.id}
-                              onClick={handleConfirmDelete}
-                              className="d-flex justify-content-center align-items-center img-action"
-                            >
-                              <div className="app-icon d-flex ">
-                                <FaTrash color="#FFF" size="1.2em" />
-                              </div>
-                            </span>
-                            <SortableItem
-                              key={`item-${item.id}`}
-                              index={index}
-                              value={item}
-                            />
-                            {Boolean(confirmEl) && (
-                              <Confirm
-                                open={item.id === parseInt(confirmEl.id)}
-                                onConfirm={() => handleDeletePhoto(item.id)}
-                                onClose={() => setConfirmEl(null)}
+                  {Boolean(data.vehicle.vehicle_photos) &&
+                    data.vehicle.vehicle_photos.map((item, index) => (
+                      <div className="col-6 col-md-4" key={item.id}>
+                        <div className="box-image d-flex justify-content-center align-items-center mt-3">
+                          {isDeleted === item.id ? (
+                            <CircularProgress size={30} color="secondary" />
+                          ) : (
+                            <>
+                              <span
+                                id={item.id}
+                                onClick={handleConfirmDelete}
+                                className="d-flex justify-content-center align-items-center img-action"
+                              >
+                                <div className="app-icon d-flex ">
+                                  <FaTrash color="#FFF" size="1.2em" />
+                                </div>
+                              </span>
+                              <SortableItem
+                                key={`item-${item.id}`}
+                                index={index}
+                                value={item}
                               />
-                            )}
-                          </>
-                        )}
+                              {Boolean(confirmEl) && (
+                                <Confirm
+                                  open={item.id === parseInt(confirmEl.id)}
+                                  onConfirm={() => handleDeletePhoto(item.id)}
+                                  onClose={() => setConfirmEl(null)}
+                                />
+                              )}
+                            </>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
 
                   <div className="col-6 col-md-4">
                     <div className="box-image box-upload d-flex justify-content-center align-items-center mt-3">

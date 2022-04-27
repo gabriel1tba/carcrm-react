@@ -111,6 +111,11 @@ svg {
   min-height: 135px;
 }
 
+.vehicle-cover {
+  width: 250px;
+  height: 250px;
+}
+
 @media (max-width: 576px) {
   .vehicle-img {
     min-width: 100px !important;

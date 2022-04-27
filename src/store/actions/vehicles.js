@@ -1,4 +1,5 @@
-import { apiAuth, apiUpload } from '../../services/api';
+import axios from 'axios';
+import { vehicles } from '../../mocks/vehicles';
 
 import { showLoading } from './loading';
 import { showNotify } from './notify';
@@ -38,15 +39,10 @@ export const indexResponse = (payload, isLoadMore) => ({
 });
 
 export const index = (query, isLoadMore) => async (dispatch) => {
-  try {
-    const response = await apiAuth.get(
-      `/vehicles?${new URLSearchParams(query)}`
-    );
+  console.log(query);
 
-    return (
-      typeof response !== 'undefined' &&
-      dispatch(indexResponse(response.data, isLoadMore))
-    );
+  try {
+    dispatch(indexResponse(vehicles.data, isLoadMore));
   } catch (error) {
     console.log(error);
   }
@@ -54,23 +50,17 @@ export const index = (query, isLoadMore) => async (dispatch) => {
 
 export const store = () => async (dispatch) => {
   try {
-    const response = await apiAuth.post('/vehicles');
-
-    return (
-      typeof response !== 'undefined' && dispatch(indexResponse(response.data))
-    );
+    dispatch(indexResponse(vehicles.data));
   } catch (error) {
     console.log(error);
   }
 };
 
 export const show = (id) => async (dispatch) => {
-  try {
-    const response = await apiAuth.get(`/vehicles/${id}`);
+  console.log(id);
 
-    return (
-      typeof response !== 'undefined' && dispatch(indexResponse(response.data))
-    );
+  try {
+    dispatch(indexResponse(vehicles.data));
   } catch (error) {
     console.log(error);
   }
@@ -83,30 +73,19 @@ export const updateResponse = (payload) => ({
 });
 
 export const update = (data) => async (dispatch) => {
+  console.log(data);
+
   dispatch(
     showLoading({
       open: true,
     })
   );
 
-  const response = await apiAuth.put(`/vehicles/${data.id}`, data);
-
   dispatch(
     showLoading({
       open: false,
     })
   );
-
-  if (typeof response !== 'undefined') {
-    if (response.data.error) {
-      dispatch(success(false));
-      dispatch(error(response.data.error));
-    }
-
-    if (response.data.status === 200) {
-      dispatch(success(true));
-    }
-  }
 };
 
 export const destroyResponse = (payload) => ({
@@ -115,16 +94,14 @@ export const destroyResponse = (payload) => ({
 });
 
 export const destroy = (id) => async (dispatch) => {
-  const response = await apiAuth.delete(`/vehicles/${id}`);
+  console.log(id);
 
-  if (typeof response !== 'undefined') {
-    if (response.data.status === 200) {
-      dispatch(destroyResponse(id));
-    }
-  }
+  dispatch(destroyResponse(id));
 };
 
 export const brand = (vehicle_type) => async (dispatch) => {
+  console.log(vehicle_type);
+
   dispatch(
     showLoading({
       open: true,
@@ -132,11 +109,7 @@ export const brand = (vehicle_type) => async (dispatch) => {
   );
 
   try {
-    const response = await apiAuth.get(`/vehicles/${vehicle_type}/brand`);
-
-    return (
-      typeof response !== 'undefined' && dispatch(indexResponse(response.data))
-    );
+    dispatch(indexResponse(vehicles.data));
   } catch (error) {
     console.log(error);
   } finally {
@@ -149,6 +122,8 @@ export const brand = (vehicle_type) => async (dispatch) => {
 };
 
 export const model = (vehicle_type, vehicle_brand) => async (dispatch) => {
+  console.log({ vehicle_type, vehicle_brand });
+
   dispatch(
     showLoading({
       open: true,
@@ -156,13 +131,7 @@ export const model = (vehicle_type, vehicle_brand) => async (dispatch) => {
   );
 
   try {
-    const response = await apiAuth.get(
-      `/vehicles/${vehicle_type}/${vehicle_brand}/model`
-    );
-
-    return (
-      typeof response !== 'undefined' && dispatch(indexResponse(response.data))
-    );
+    dispatch(indexResponse(vehicles.data));
   } catch (error) {
     console.log(error);
   } finally {
@@ -175,6 +144,8 @@ export const model = (vehicle_type, vehicle_brand) => async (dispatch) => {
 };
 
 export const version = (vehicle_brand, vehicle_model) => async (dispatch) => {
+  console.log({ vehicle_model, vehicle_brand });
+
   dispatch(
     showLoading({
       open: true,
@@ -182,13 +153,7 @@ export const version = (vehicle_brand, vehicle_model) => async (dispatch) => {
   );
 
   try {
-    const response = await apiAuth.get(
-      `/vehicles/${vehicle_brand}/${vehicle_model}/version`
-    );
-
-    return (
-      typeof response !== 'undefined' && dispatch(indexResponse(response.data))
-    );
+    dispatch(indexResponse(vehicles.data));
   } catch (error) {
     console.log(error);
   } finally {
@@ -200,14 +165,25 @@ export const version = (vehicle_brand, vehicle_model) => async (dispatch) => {
   }
 };
 
+// CEP
 export const cep = (zipCode) => async (dispatch) => {
+  console.log(zipCode);
+
   try {
     if (zipCode.length > 8) {
-      const response = await apiAuth.post('webservice/cep', {
-        cep: zipCode,
-      });
+      const { data } = await axios.get(
+        `https://viacep.com.br/ws/${zipCode}/json`
+      );
 
-      return typeof response !== 'undefined' && dispatch(change(response.data));
+      const formatedData = {
+        zipCode: data.cep,
+        uf: data.uf,
+        city: data.localidade,
+        neighborhood: data.bairro,
+        street: data.logradouro,
+      };
+
+      return dispatch(change(formatedData));
     }
   } catch (error) {
     console.log(error);
@@ -220,26 +196,12 @@ export const uploadPhotoResponse = (payload) => ({
 });
 
 export const uploadPhoto = (data) => async (dispatch) => {
+  console.log(data);
+
   dispatch(indexResponse({ upload_photo: true }));
 
   try {
-    const response = await apiUpload.post('upload/vehicle ', data);
-
-    if (typeof response !== 'undefined') {
-      if (response.data.error) {
-        dispatch(
-          showNotify({
-            open: true,
-            msg: response.data.error,
-            class: 'error',
-          })
-        );
-      }
-
-      if (response.data.id) {
-        dispatch(uploadPhotoResponse(response.data));
-      }
-    }
+    dispatch(uploadPhotoResponse(vehicles.data));
   } catch (error) {
     console.log(error);
   } finally {
@@ -253,24 +215,10 @@ export const deletePhotoResponse = (payload) => ({
 });
 
 export const deletePhoto = (id) => async (dispatch) => {
+  console.log(id);
+
   try {
-    const response = await apiAuth.delete(`upload/vehicle/${id}`);
-
-    if (typeof response !== 'undefined') {
-      if (response.data.error) {
-        dispatch(
-          showNotify({
-            open: true,
-            msg: response.data.error,
-            class: 'error',
-          })
-        );
-      }
-
-      if (response.data.success) {
-        dispatch(deletePhotoResponse(id));
-      }
-    }
+    dispatch(deletePhotoResponse(id));
   } catch (error) {
     console.log(error);
   }
@@ -285,17 +233,13 @@ export const reorderPhoto = (pos, data) => async (dispatch) => {
   dispatch(reorderPhotoResponse(data));
 
   try {
-    const response = await apiAuth.put(`upload/vehicle/null`, pos);
-
-    if (typeof response !== 'undefined') {
-      dispatch(
-        showNotify({
-          open: true,
-          msg: response.data.success,
-          class: 'success',
-        })
-      );
-    }
+    dispatch(
+      showNotify({
+        open: true,
+        msg: 'Imagem reordenada com sucesso!',
+        class: 'success',
+      })
+    );
   } catch (error) {
     console.log(error);
   }
