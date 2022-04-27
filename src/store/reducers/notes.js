@@ -1,8 +1,10 @@
+import { notes } from '../../mocks/notes';
+
 import { actionTypes } from '../actions/notes';
 
 const initialState = {
   notes: {
-    data: [],
+    data: notes.data,
   },
   note: {},
 };

@@ -1,6 +1,4 @@
-import { apiAuth } from '../../services/api';
-
-import { showNotify } from './notify';
+import { notes } from '../../mocks/notes';
 
 export const actionTypes = {
   INDEX: 'NOTE_INDEX',
@@ -23,12 +21,10 @@ export const indexResponse = (payload, isLoadMore) => ({
 });
 
 export const index = (query, isLoadMore) => async (dispatch) => {
-  try {
-    const response = await apiAuth.get('/notes?' + new URLSearchParams(query));
+  console.log(query);
 
-    if (typeof response !== 'undefined') {
-      return dispatch(indexResponse(response.data, isLoadMore));
-    }
+  try {
+    dispatch(indexResponse(notes.data, isLoadMore));
   } catch (error) {
     console.log(error);
   }
@@ -42,11 +38,7 @@ export const storeResponse = (payload) => ({
 
 export const store = (data) => async (dispatch) => {
   try {
-    const response = await apiAuth.post('/notes', data);
-
-    if (typeof response !== 'undefined') {
-      return dispatch(storeResponse(response.data));
-    }
+    dispatch(storeResponse(data));
   } catch (error) {
     console.log(error);
   }
@@ -60,23 +52,7 @@ export const updateResponse = (payload) => ({
 
 export const update = (data) => async (dispatch) => {
   try {
-    const response = await apiAuth.put(`/notes/${data.id}`, data);
-
-    if (typeof response !== 'undefined') {
-      if (response.data.status === 200) {
-        dispatch(updateResponse(data));
-      }
-
-      if (response.data.error) {
-        dispatch(
-          showNotify({
-            open: true,
-            msg: response.data.error,
-            class: 'error',
-          })
-        );
-      }
-    }
+    dispatch(updateResponse(data));
   } catch (error) {
     console.log(error);
   }
@@ -90,11 +66,7 @@ export const destroyResponse = (payload) => ({
 
 export const destroy = (id) => async (dispatch) => {
   try {
-    const response = await apiAuth.delete(`/notes/${id}`);
-
-    if (typeof response !== 'undefined') {
-      dispatch(destroyResponse(id));
-    }
+    dispatch(destroyResponse(id));
   } catch (error) {
     console.log(error);
   }

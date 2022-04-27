@@ -1,4 +1,4 @@
-import { api } from '../../services/api';
+import { token } from '../../mocks/auth';
 
 import { showLoading } from './loading';
 import { showNotify } from './notify';
@@ -47,7 +47,6 @@ export const register = (data) => async (dispatch) => {
   );
 
   try {
-    const response = await api.post('register', data);
     dispatch(
       showLoading({
         open: false,
@@ -55,17 +54,15 @@ export const register = (data) => async (dispatch) => {
     );
 
     if (typeof register !== 'undefined') {
-      if (response.data.access_token) {
-        dispatch(
-          showNotify({
-            open: true,
-            class: 'success',
-            msg: 'Usuário cadastrado com sucesso',
-          })
-        );
+      dispatch(
+        showNotify({
+          open: true,
+          class: 'success',
+          msg: 'Usuário cadastrado com sucesso',
+        })
+      );
 
-        dispatch(setUserToken(response.data.access_token));
-      }
+      dispatch(setUserToken(token.access_token));
     }
   } catch (error) {
     dispatch(

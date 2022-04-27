@@ -106,7 +106,7 @@ export default function Notes({ uid, type, props }) {
   const handleDispatchIndex = useCallback(
     async (loadMore) => {
       try {
-        await dispatch(index(query, loadMore));
+        dispatch(index(query, loadMore));
 
         setIsLoading(false);
         setLoadMore(false);
