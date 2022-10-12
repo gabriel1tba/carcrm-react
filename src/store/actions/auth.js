@@ -43,6 +43,10 @@ export const login = (credentials) => (dispatch) => {
 
   try {
     dispatch(setUserToken(token.access_token));
+
+    setTimeout(() => {
+      dispatch(showLoading({ open: false }));
+    }, 1000);
   } catch (error) {
     dispatch(showLoading({ open: false }));
 

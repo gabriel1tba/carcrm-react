@@ -1,12 +1,11 @@
 import { Button, Divider, Typography } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { format } from 'date-fns';
 import { pt } from 'date-fns/locale';
 import { zonedTimeToUtc } from 'date-fns-tz';
 import { MdCheck } from 'react-icons/md';
 
 const Account = () => {
-  const dispatch = useDispatch();
   const app = useSelector((state) => state.appReducer.app);
 
   return (
