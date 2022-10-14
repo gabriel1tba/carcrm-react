@@ -6,7 +6,7 @@
 
 Front end da aplicação Car CRM, que é um sistema para revenda de veículos, onde ao criar a conta, o usuário vai ter acesso a uma loja, podendo cadastrar clientes e veículos.
 
-![alt text](https://i.imgur.com/Ridbu9F.gif)
+![alt text](https://i.imgur.com/0blHUCR.gif)
 
 ## 💻 Tecnologias utilizadas
 
